@@ -1,0 +1,47 @@
+<!--
+  - MSBuild task reference
+    https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-task-reference
+
+  - MSBuild reserved and well-known properties
+    https://learn.microsoft.com/en-us/visualstudio/msbuild/msbuild-reserved-and-well-known-properties
+
+  - Common MSBuild project properties
+    https://learn.microsoft.com/en-us/visualstudio/msbuild/common-msbuild-project-properties
+-->
+
+<Project DefaultTargets="Build">
+
+  <PropertyGroup>
+    <ProjectName>PwshVirt\PwshVirt.csproj</ProjectName>
+    <BuildPath>$(MSBuildProjectDirectory)\Release\Build</BuildPath>
+    <PublishPath>$(MSBuildProjectDirectory)\Release\Publish</PublishPath>
+    <ArtifactsPath>$(MSBuildProjectDirectory)\artifacts</ArtifactsPath>
+    <PublishParam>
+      Configuration=Release;
+      OutputPath=$(BuildPath)\;
+      PublishDir=$(PublishPath)\;
+      SelfContained=false;
+    </PublishParam>
+  </PropertyGroup>
+
+  <Target Name="Prepare">
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\Release" />
+    <RemoveDir Directories="$(ArtifactsPath)" />
+  </Target>
+
+  <Target Name="BuildBinary">
+    <MSBuild Projects="$(ProjectName)" Targets="Restore" />
+    <MSBuild Projects="$(ProjectName)" Targets="Publish" Properties="$(PublishParam)" />
+  </Target>
+
+  <Target Name="BuildArtifact">
+    <MakeDir Directories="$(ArtifactsPath)\" />
+    <ZipDirectory
+      SourceDirectory="$(PublishPath)"
+      DestinationFile="$(ArtifactsPath)\PwshVirt.zip"
+      Overwrite="true" />
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="Prepare;BuildBinary;BuildArtifact" />
+
+</Project>
