@@ -13,19 +13,19 @@
 
   <PropertyGroup>
     <ProjectName>PwshVirt\PwshVirt.csproj</ProjectName>
-    <BuildPath>$(MSBuildProjectDirectory)\Release\Build</BuildPath>
-    <PublishPath>$(MSBuildProjectDirectory)\Release\Publish</PublishPath>
-    <ArtifactsPath>$(MSBuildProjectDirectory)\artifacts</ArtifactsPath>
+    <ModulePath>$(MSBuildProjectDirectory)\Release\Publish\</ModulePath>
+    <ArtifactsPath>$(MSBuildProjectDirectory)\artifacts\</ArtifactsPath>
     <PublishParam>
       Configuration=Release;
-      OutputPath=$(BuildPath)\;
-      PublishDir=$(PublishPath)\;
+      SolutionDir=$(MSBuildProjectDirectory)\;
+      PublishDir=$(ModulePath);
+      PsModuleDir=$(ModulePath);
       SelfContained=false;
     </PublishParam>
   </PropertyGroup>
 
   <Target Name="Prepare">
-    <RemoveDir Directories="$(MSBuildProjectDirectory)\Release" />
+    <RemoveDir Directories="$(MSBuildProjectDirectory)\Release\" />
     <RemoveDir Directories="$(ArtifactsPath)" />
   </Target>
 
@@ -35,10 +35,10 @@
   </Target>
 
   <Target Name="BuildArtifact">
-    <MakeDir Directories="$(ArtifactsPath)\" />
+    <MakeDir Directories="$(ArtifactsPath)" />
     <ZipDirectory
-      SourceDirectory="$(PublishPath)"
-      DestinationFile="$(ArtifactsPath)\PwshVirt.zip"
+      SourceDirectory="$(ModulePath)"
+      DestinationFile="$(ArtifactsPath)PwshVirt.zip"
       Overwrite="true" />
   </Target>
 

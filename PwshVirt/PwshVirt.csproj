@@ -43,4 +43,13 @@
     <None Include="..\README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
+  <Target Name="UpdateHelp" AfterTargets="Publish">
+    <PropertyGroup Condition="'$(PsModuleDir)' == ''">
+      <PsModuleDir>$(ProjectDir)$(PublishDir)</PsModuleDir>
+    </PropertyGroup>
+    <Exec Command="pwsh -c &quot;import-module '$(PsModuleDir)PwshVirt.psd1' ; Update-MarkdownHelp '$(SolutionDir)docs\en-US' ; Update-MarkdownHelp '$(SolutionDir)docs\ja-JP'&quot;" />
+    <Exec Command="pwsh -c &quot;New-ExternalHelp '$(SolutionDir)docs\en-US' -Output '$(PsModuleDir)en-US'&quot;" />
+    <Exec Command="pwsh -c &quot;New-ExternalHelp '$(SolutionDir)docs\ja-JP' -Output '$(PsModuleDir)ja-JP'&quot;" />
+  </Target>
+
 </Project>

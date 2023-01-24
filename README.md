@@ -25,3 +25,7 @@ Get-VirtDomain
 # disconnect from Libvirt server.
 Disconnect-VirtServer
 ```
+
+## Help
+
+see [docs](./docs) directory.

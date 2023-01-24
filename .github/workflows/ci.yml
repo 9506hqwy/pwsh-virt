@@ -12,7 +12,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Prepare
+    - name: Install platyPS
+      shell: pwsh
+      run: |
+        Set-PSRepository PSGallery -InstallationPolicy Trusted
+        Install-Module -Name platyPS -Scope CurrentUser
+    - name: Prepare Dependencies
       run: |
         LOCALPKG=`mktemp -d`
         wget -P "${LOCALPKG}" https://github.com/9506hqwy/xdr-net/releases/download/0.4.0/Xdr.0.4.0.nupkg
@@ -20,3 +25,5 @@ jobs:
         dotnet nuget add source --name local "${LOCALPKG}"
     - name: Build
       run: dotnet build pwsh-virt.sln
+    - name: Publish
+      run: dotnet publish pwsh-virt.sln
