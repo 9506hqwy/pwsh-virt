@@ -25,6 +25,7 @@
         'Get-VirtStorageVol',
         'Import-VirtStorageVol',
         'Start-VirtDomain',
+        'Start-VirtNetworkInterface',
         'Start-VirtStoragePool',
         'Stop-VirtDomain',
         'Stop-VirtStoragePool',
