@@ -26,6 +26,7 @@
         'Start-VirtDomain',
         'Start-VirtStoragePool',
         'Stop-VirtDomain',
+        'Stop-VirtStoragePool',
         'Watch-VirtStoragePool'
     )
 
