@@ -28,6 +28,7 @@
         'Start-VirtNetworkInterface',
         'Start-VirtStoragePool',
         'Stop-VirtDomain',
+        'Stop-VirtNetworkInterface',
         'Stop-VirtStoragePool',
         'Watch-VirtStoragePool'
     )
