@@ -20,6 +20,7 @@
         'Disconnect-VirtServer',
         'Export-VirtStorageVol',
         'Get-VirtDomain',
+        'Get-VirtNetworkInterface',
         'Get-VirtStoragePool',
         'Get-VirtStorageVol',
         'Import-VirtStorageVol',
