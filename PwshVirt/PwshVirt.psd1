@@ -24,6 +24,7 @@
         'Get-VirtStorageVol',
         'Import-VirtStorageVol',
         'Start-VirtDomain',
+        'Start-VirtStoragePool',
         'Stop-VirtDomain',
         'Watch-VirtStoragePool'
     )
