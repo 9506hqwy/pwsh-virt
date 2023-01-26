@@ -4,6 +4,8 @@ internal static class VerbsVirt
 {
     internal const string Domain = "VirtDomain";
 
+    internal const string DomainDescriptor = "VirtDomainDescriptor";
+
     internal const string NetworkInterface = "VirtNetworkInterface";
 
     internal const string Server = "VirtServer";
