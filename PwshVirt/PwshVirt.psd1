@@ -22,6 +22,7 @@
         'Export-VirtStorageVol',
         'Get-VirtDomain',
         'Get-VirtDomainDescriptor',
+        'Get-VirtNetwork',
         'Get-VirtNetworkInterface',
         'Get-VirtStoragePool',
         'Get-VirtStorageVol',
