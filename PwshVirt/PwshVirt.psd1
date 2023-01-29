@@ -29,6 +29,7 @@
         'Get-VirtStorageVolDescriptor',
         'Import-VirtStorageVol',
         'Start-VirtDomain',
+        'Start-VirtNetwork',
         'Start-VirtNetworkInterface',
         'Start-VirtStoragePool',
         'Stop-VirtDomain',
