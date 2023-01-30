@@ -33,6 +33,7 @@
         'Start-VirtNetworkInterface',
         'Start-VirtStoragePool',
         'Stop-VirtDomain',
+        'Stop-VirtNetwork',
         'Stop-VirtNetworkInterface',
         'Stop-VirtStoragePool',
         'Watch-VirtStoragePool'
