@@ -14,6 +14,8 @@ internal static class VerbsVirt
 
     internal const string StoragePool = "VirtStoragePool";
 
+    internal const string StoragePoolDescriptor = "VirtStoragePoolDescriptor";
+
     internal const string StorageVol = "VirtStorageVol";
 
     internal const string StorageVolDescriptor = "VirtStorageVolDescriptor";

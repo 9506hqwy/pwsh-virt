@@ -25,6 +25,7 @@
         'Get-VirtNetwork',
         'Get-VirtNetworkInterface',
         'Get-VirtStoragePool',
+        'Get-VirtStoragePoolDescriptor',
         'Get-VirtStorageVol',
         'Get-VirtStorageVolDescriptor',
         'Import-VirtStorageVol',
