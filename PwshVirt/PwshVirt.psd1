@@ -23,6 +23,7 @@
         'Get-VirtDomain',
         'Get-VirtDomainDescriptor',
         'Get-VirtNetwork',
+        'Get-VirtNetworkDescriptor',
         'Get-VirtNetworkInterface',
         'Get-VirtStoragePool',
         'Get-VirtStoragePoolDescriptor',

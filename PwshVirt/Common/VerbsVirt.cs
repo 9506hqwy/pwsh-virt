@@ -8,6 +8,8 @@ internal static class VerbsVirt
 
     internal const string Network = "VirtNetwork";
 
+    internal const string NetworkDescriptor = "VirtNetworkDescriptor";
+
     internal const string NetworkInterface = "VirtNetworkInterface";
 
     internal const string Server = "VirtServer";
