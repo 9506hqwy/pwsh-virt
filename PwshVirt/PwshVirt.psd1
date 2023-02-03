@@ -16,6 +16,7 @@
     RequiredAssemblies = @('LibvirtRemote.dll', 'Xdr.dll')
 
     CmdletsToExport = @(
+        'Clear-VirtStorageVol',
         'Connect-VirtServer',
         'Copy-VirtStorageVol',
         'Disconnect-VirtServer',
