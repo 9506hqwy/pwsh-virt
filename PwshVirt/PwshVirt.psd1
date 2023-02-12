@@ -1,7 +1,7 @@
 ﻿@{
     RootModule = 'PwshVirt.dll'
 
-    ModuleVersion = '0.2.0.0'
+    ModuleVersion = '0.3.0.0'
 
     CompatiblePSEditions = @('Core', 'Desktop')
 
