@@ -33,6 +33,7 @@
         'Get-VirtStorageVolDescriptor',
         'Import-VirtStorageVol',
         'New-VirtStorageVol',
+        'Remove-VirtStorageVol',
         'Start-VirtDomain',
         'Start-VirtNetwork',
         'Start-VirtNetworkInterface',
