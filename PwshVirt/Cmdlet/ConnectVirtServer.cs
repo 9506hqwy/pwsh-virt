@@ -120,6 +120,8 @@ public class ConnectVirtServer : PwshVirtCmdlet
     private async Task<TcpConnection> GetTcp()
     {
         var tcp = new TcpClient();
+        tcp.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+
         await tcp.ConnectAsync(this.GetServer(), this.GetPort());
         return new TcpConnection(tcp);
     }
@@ -136,6 +138,8 @@ public class ConnectVirtServer : PwshVirtCmdlet
         var pfxPath = this.PfxPath?.FullName ?? queryFfxPath;
 
         var tcp = new TcpClient();
+        tcp.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+
         await tcp.ConnectAsync(this.GetServer(), this.GetPort());
         return new TlsConnection(tcp, this.GetServer(), noVerify, pfxPath);
     }
