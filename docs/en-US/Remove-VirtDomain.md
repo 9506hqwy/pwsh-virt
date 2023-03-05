@@ -1,0 +1,152 @@
+---
+external help file: PwshVirt.dll-Help.xml
+Module Name: PwshVirt
+online version:
+schema: 2.0.0
+---
+
+# Remove-VirtDomain
+
+## SYNOPSIS
+Delete domain.
+
+## SYNTAX
+
+```
+Remove-VirtDomain [-Domain <Domain>] [-Server <Connection>] [-WithCheckpointMetadata] [-WithManagedSave]
+ [-WithNvram] [-WithSnapshotMetadata] [-WithTpm] [<CommonParameters>]
+```
+
+## DESCRIPTION
+Delete domain.
+
+## EXAMPLES
+
+### Example 1
+```powershell
+PS C:\> # delete $dom.
+PS C:\> Remove-VirtDomain -Domain $dom
+```
+
+## PARAMETERS
+
+### -Domain
+Specify domain.
+
+```yaml
+Type: Domain
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Server
+Specify session.
+If omitted, use $DefaultVirtServer.
+
+```yaml
+Type: Connection
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WithCheckpointMetadata
+Specify whether deleting checkpoint metadata.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WithManagedSave
+Specify whether deleting saved domain.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WithNvram
+Specify whether deleting NVRAM.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WithSnapshotMetadata
+Specify whether deleting snapshot metadata.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WithTpm
+Specify whether deleting TPM.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+### PwshVirt.Domain
+
+## OUTPUTS
+
+### PwshVirt.Domain
+
+## NOTES
+
+## RELATED LINKS
