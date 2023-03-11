@@ -46,6 +46,7 @@
         'Stop-VirtNetwork',
         'Stop-VirtNetworkInterface',
         'Stop-VirtStoragePool',
+        'Suspend-VirtDomain',
         'Watch-VirtStoragePool'
     )
 
