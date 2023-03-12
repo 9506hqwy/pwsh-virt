@@ -7,14 +7,18 @@ public class Domain : VirtObject
     internal Domain(
         Connection conn,
         RemoteNonnullDomain dom,
-        int state)
+        int state,
+        bool hasManagedSave)
         : base(conn)
     {
         this.Self = dom;
         this.state = state;
+        this.HasManagedSave = hasManagedSave;
     }
 
     public int? Id => this.Self.Id > 0 ? this.Self.Id : null;
+
+    public bool HasManagedSave { get; }
 
     public string Name => this.Self.Name;
 

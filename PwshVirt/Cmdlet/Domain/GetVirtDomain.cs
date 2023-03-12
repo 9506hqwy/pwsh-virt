@@ -8,8 +8,6 @@ public class GetVirtDomain : PwshVirtCmdlet
 
     private const string KeyName = "Name";
 
-    private const uint NotUsed = 0;
-
     [Parameter(ParameterSetName = KeyName)]
     public string? Name { get; set; }
 
@@ -44,8 +42,7 @@ public class GetVirtDomain : PwshVirtCmdlet
         {
             foreach (var dom in doms)
             {
-                (var state, var _) = await conn.Client.DomainGetStateAsync(dom, NotUsed, this.Cancellation!.Token);
-                var model = new Domain(conn, dom, state);
+                var model = await DomainUtility.GetDomain(conn, dom.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
                 models.Add(model);
             }
         }
@@ -55,11 +52,7 @@ public class GetVirtDomain : PwshVirtCmdlet
 
     private async Task GetByName(Connection conn, string name)
     {
-        var dom = await conn.Client.DomainLookupByNameAsync(name, this.Cancellation!.Token);
-
-        (var state, var _) = await conn.Client.DomainGetStateAsync(dom, NotUsed, this.Cancellation!.Token);
-
-        var model = new Domain(conn, dom, state);
+        var model = await DomainUtility.GetDomain(conn, name, (int)DomainState.Last, 0, this.Cancellation!.Token);
 
         this.SetResult(model);
     }

@@ -16,11 +16,9 @@ public class StopVirtDomain : PwshVirtCmdlet
 
         await conn.Client.DomainDestroyAsync(this.Domain!.Self, this.Cancellation!.Token);
 
-        var state = await DomainUtility.WaitForState(conn, this.Domain, DomainState.Shutoff, this.Cancellation!.Token);
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, DomainState.Shutoff, this.Cancellation!.Token);
 
-        var dom = await conn.Client.DomainLookupByNameAsync(this.Domain.Name, this.Cancellation!.Token);
-
-        var model = new Domain(conn, dom, (int)state);
+        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
 
         this.SetResult(model);
     }
