@@ -12,8 +12,15 @@ Stop domain.
 
 ## SYNTAX
 
+### PowerOff (Default)
 ```
 Stop-VirtDomain -Domain <Domain> [-Server <Connection>] [<CommonParameters>]
+```
+
+### Hibernate
+```
+Stop-VirtDomain [-BypassCache] -Domain <Domain> [-Hibernate] [-Paused] [-Running] [-Server <Connection>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,6 +36,21 @@ PS C:\> Get-VirtDomain -Name 'DomainName' | Stop-VirtDomain
 
 ## PARAMETERS
 
+### -BypassCache
+Specify whether avoid filesystem cache if writing domain state to file.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Hibernate
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Domain
 Specify domain.
 
@@ -41,6 +63,51 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Hibernate
+Specify whether writing domain state to file.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Hibernate
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Paused
+Pause domain when resume domain state from file.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Hibernate
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Running
+Start domain when resume domain state from file.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Hibernate
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

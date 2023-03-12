@@ -4,9 +4,9 @@ using System.Collections.Concurrent;
 
 public abstract class PwshVirtCmdlet : PSCmdlet
 {
-    private ConcurrentQueue<Tuple<object, bool>?>? results;
+    private ConcurrentQueue<Message?>? messages;
 
-    private ManualResetEventSlim? hasResult;
+    private ManualResetEventSlim? hasMessage;
 
     private bool workIsCompleted;
 
@@ -44,6 +44,24 @@ public abstract class PwshVirtCmdlet : PSCmdlet
         return value;
     }
 
+    internal void SetProgress(
+        string activity,
+        int percentComplete)
+    {
+        this.SetProgress(0, activity, "Processing", percentComplete, percentComplete >= 100);
+    }
+
+    internal void SetProgress(
+        int activityId,
+        string activity,
+        string statusDescription,
+        int percentComplete,
+        bool isCompleted)
+    {
+        var progress = new Progress(activityId, activity, statusDescription, percentComplete, isCompleted);
+        this.SetMessage(progress);
+    }
+
     internal void SetResult(object sendToPipeline)
     {
         this.SetResult(sendToPipeline, false);
@@ -51,11 +69,7 @@ public abstract class PwshVirtCmdlet : PSCmdlet
 
     internal void SetResult(object sendToPipeline, bool enumerateCollection)
     {
-        lock (this.results!)
-        {
-            this.results.Enqueue(new Tuple<object, bool>(sendToPipeline, enumerateCollection));
-            this.hasResult!.Set();
-        }
+        this.SetMessage(new Result(sendToPipeline, enumerateCollection));
     }
 
     internal void SetVariable(string name, object value)
@@ -79,15 +93,15 @@ public abstract class PwshVirtCmdlet : PSCmdlet
 
     protected override void BeginProcessing()
     {
-        this.results = new ConcurrentQueue<Tuple<object, bool>?>();
-        this.hasResult = new ManualResetEventSlim();
+        this.messages = new ConcurrentQueue<Message?>();
+        this.hasMessage = new ManualResetEventSlim();
     }
 
     protected override void EndProcessing()
     {
-        this.results = null;
-        this.hasResult!.Dispose();
-        this.hasResult = null;
+        this.messages = null;
+        this.hasMessage!.Dispose();
+        this.hasMessage = null;
     }
 
     protected override sealed void ProcessRecord()
@@ -99,15 +113,29 @@ public abstract class PwshVirtCmdlet : PSCmdlet
 
             while (!this.workIsCompleted)
             {
-                this.hasResult!.Wait();
-                var result = this.GetResult();
-                if (result is null)
+                this.hasMessage!.Wait();
+                var msg = this.GetMessage();
+                if (msg is null)
                 {
                     break;
                 }
 
-                (var sendToPipeline, var enumerateCollection) = result;
-                this.WriteObject(sendToPipeline, enumerateCollection);
+                switch (msg)
+                {
+                    case Progress p:
+                        var record = new ProgressRecord(p.ActivityId, p.Activity, p.StatusDescription)
+                        {
+                            PercentComplete = p.PercentComplete,
+                            RecordType = p.IsCompleted ? ProgressRecordType.Completed : ProgressRecordType.Processing,
+                        };
+                        this.WriteProgress(record);
+                        break;
+                    case Result r:
+                        this.WriteObject(r.SendToPipeline, r.EnumerateCollection);
+                        break;
+                    default:
+                        throw new InvalidProgramException();
+                }
             }
 
             job.Wait();
@@ -154,32 +182,41 @@ public abstract class PwshVirtCmdlet : PSCmdlet
         Console.CancelKeyPress -= this.CancelByKey;
     }
 
-    private Tuple<object, bool>? GetResult()
+    private Message? GetMessage()
     {
-        lock (this.results!)
+        lock (this.messages!)
         {
-            this.results.TryDequeue(out var result);
+            this.messages.TryDequeue(out var result);
 
             if (result is null)
             {
                 return null;
             }
-            else if (this.results!.IsEmpty)
+            else if (this.messages!.IsEmpty)
             {
-                this.hasResult!.Reset();
+                this.hasMessage!.Reset();
             }
 
             return result;
         }
     }
 
+    private void SetMessage(Message message)
+    {
+        lock (this.messages!)
+        {
+            this.messages.Enqueue(message);
+            this.hasMessage!.Set();
+        }
+    }
+
     private void SetWorkCompleted()
     {
-        lock (this.results!)
+        lock (this.messages!)
         {
             this.workIsCompleted = true;
-            this.results.Enqueue(null);
-            this.hasResult!.Set();
+            this.messages.Enqueue(null);
+            this.hasMessage!.Set();
             this.Cancellation!.Dispose();
         }
 
@@ -190,7 +227,7 @@ public abstract class PwshVirtCmdlet : PSCmdlet
     {
         this.workIsCompleted = false;
         this.Cancellation = new CancellationTokenSource();
-        this.hasResult!.Reset();
+        this.hasMessage!.Reset();
         this.DisableConsoleCancelKey();
     }
 }

@@ -12,8 +12,15 @@ schema: 2.0.0
 
 ## SYNTAX
 
+### PowerOff (Default)
 ```
 Stop-VirtDomain -Domain <Domain> [-Server <Connection>] [<CommonParameters>]
+```
+
+### Hibernate
+```
+Stop-VirtDomain [-BypassCache] -Domain <Domain> [-Hibernate] [-Paused] [-Running] [-Server <Connection>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,6 +36,21 @@ PS C:\> Get-VirtDomain -Name 'DomainName' | Stop-VirtDomain
 
 ## PARAMETERS
 
+### -BypassCache
+ドメインの状態をファイルに出力するときにファイルシステムキャッシュを回避します。
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Hibernate
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Domain
 ドメインを指定します。
 
@@ -41,6 +63,51 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Hibernate
+ドメインの状態をファイルに出力します。
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Hibernate
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Paused
+ドメインの状態を復元するときに一時停止状態にします。
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Hibernate
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Running
+ドメインの状態を復元するときに起動状態にします。
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Hibernate
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
