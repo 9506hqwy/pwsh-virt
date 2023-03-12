@@ -38,6 +38,7 @@
         'Remove-VirtNetworkInterface',
         'Remove-VirtStoragePool',
         'Remove-VirtStorageVol',
+        'Resume-VirtDomain',
         'Start-VirtDomain',
         'Start-VirtNetwork',
         'Start-VirtNetworkInterface',
