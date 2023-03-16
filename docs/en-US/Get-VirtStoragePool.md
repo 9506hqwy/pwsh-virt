@@ -22,6 +22,11 @@ Get-VirtStoragePool [-Server <Connection>] [<CommonParameters>]
 Get-VirtStoragePool [-Name <String>] [-Server <Connection>] [<CommonParameters>]
 ```
 
+### Vol
+```
+Get-VirtStoragePool [-Server <Connection>] [-Vol <StorageVol>] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 Get storage pool.
 
@@ -63,6 +68,21 @@ If omitted, use $DefaultVirtServer.
 ```yaml
 Type: Connection
 Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Vol
+Specify storage volume.
+
+```yaml
+Type: StorageVol
+Parameter Sets: Vol
 Aliases:
 
 Required: False

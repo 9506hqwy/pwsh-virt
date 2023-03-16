@@ -22,6 +22,11 @@ Get-VirtStoragePool [-Server <Connection>] [<CommonParameters>]
 Get-VirtStoragePool [-Name <String>] [-Server <Connection>] [<CommonParameters>]
 ```
 
+### Vol
+```
+Get-VirtStoragePool [-Server <Connection>] [-Vol <StorageVol>] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 ストレージプールを取得します。
 
@@ -63,6 +68,21 @@ Accept wildcard characters: False
 ```yaml
 Type: Connection
 Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Vol
+ストレージボリュームを指定します。
+
+```yaml
+Type: StorageVol
+Parameter Sets: Vol
 Aliases:
 
 Required: False

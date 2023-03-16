@@ -8,12 +8,18 @@ public class GetVirtStoragePool : PwshVirtCmdlet
 
     private const string KeyName = "Name";
 
+    private const string KeyVol = "Vol";
+
     [Parameter(ParameterSetName = KeyName)]
     public string? Name { get; set; }
 
     [Parameter(ParameterSetName = KeyAll)]
     [Parameter(ParameterSetName = KeyName)]
+    [Parameter(ParameterSetName = KeyVol)]
     public Connection? Server { get; set; }
+
+    [Parameter(ParameterSetName = KeyVol)]
+    public StorageVol? Vol { get; set; }
 
     internal async override Task Execute()
     {
@@ -26,6 +32,9 @@ public class GetVirtStoragePool : PwshVirtCmdlet
                 break;
             case KeyName:
                 await this.GetByName(conn, this.Name!);
+                break;
+            case KeyVol:
+                await this.GetByVolume(conn, this.Vol!);
                 break;
             default:
                 throw new InvalidProgramException();
@@ -42,8 +51,7 @@ public class GetVirtStoragePool : PwshVirtCmdlet
         {
             foreach (var pool in pools)
             {
-                (var state, var _, var _, var _) = await conn.Client.StoragePoolGetInfoAsync(pool, this.Cancellation!.Token);
-                var model = new StoragePool(conn, pool, state);
+                var model = await StoragePoolUtility.GetPool(conn, pool, this.Cancellation!.Token);
                 models.Add(model);
             }
         }
@@ -55,9 +63,16 @@ public class GetVirtStoragePool : PwshVirtCmdlet
     {
         var pool = await conn.Client.StoragePoolLookupByNameAsync(name, this.Cancellation!.Token);
 
-        (var state, var _, var _, var _) = await conn.Client.StoragePoolGetInfoAsync(pool, this.Cancellation!.Token);
+        var model = await StoragePoolUtility.GetPool(conn, pool, this.Cancellation!.Token);
 
-        var model = new StoragePool(conn, pool, state);
+        this.SetResult(model);
+    }
+
+    private async Task GetByVolume(Connection conn, StorageVol volume)
+    {
+        var pool = await conn.Client.StoragePoolLookupByVolumeAsync(volume.Self, this.Cancellation!.Token);
+
+        var model = await StoragePoolUtility.GetPool(conn, pool, this.Cancellation!.Token);
 
         this.SetResult(model);
     }
