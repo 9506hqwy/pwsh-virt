@@ -34,6 +34,7 @@
         'Import-VirtStorageVol',
         'New-VirtHardDisk',
         'New-VirtNetworkAdapter',
+        'New-VirtStoragePool',
         'New-VirtStorageVol',
         'Remove-VirtDomain',
         'Remove-VirtNetwork',
