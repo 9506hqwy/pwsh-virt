@@ -46,6 +46,7 @@
         'Start-VirtNetwork',
         'Start-VirtNetworkInterface',
         'Start-VirtStoragePool',
+        'Set-VirtDomain',
         'Stop-VirtDomain',
         'Stop-VirtNetwork',
         'Stop-VirtNetworkInterface',
