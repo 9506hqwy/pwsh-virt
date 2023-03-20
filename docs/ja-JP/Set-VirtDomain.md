@@ -13,7 +13,8 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Set-VirtDomain -Domain <Domain> [-NumCpu <UInt32>] [-Server <Connection>] [<CommonParameters>]
+Set-VirtDomain -Domain <Domain> [-Memory <String>] [-NumCpu <UInt32>] [-Server <Connection>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,6 +26,12 @@ Set-VirtDomain -Domain <Domain> [-NumCpu <UInt32>] [-Server <Connection>] [<Comm
 ```powershell
 PS C:\> # 指定した名前のドメインの CPU 数を変更します。
 PS C:\> Get-VirtDomain -Name 'DomainName' | Set-VirtDomain -NumCpu 2
+```
+
+### Example 2
+```powershell
+PS C:\> # 指定した名前のドメインのメモリ容量を変更します。
+PS C:\> Get-VirtDomain -Name 'DomainName' | Set-VirtDomain -Memory 4G
 ```
 
 ## PARAMETERS
@@ -41,6 +48,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Memory
+メモリの容量を指定します。
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

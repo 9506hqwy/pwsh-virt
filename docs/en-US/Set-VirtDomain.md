@@ -13,7 +13,8 @@ Modify configuration of domain.
 ## SYNTAX
 
 ```
-Set-VirtDomain -Domain <Domain> [-NumCpu <UInt32>] [-Server <Connection>] [<CommonParameters>]
+Set-VirtDomain -Domain <Domain> [-Memory <String>] [-NumCpu <UInt32>] [-Server <Connection>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,6 +26,12 @@ Modify configuration of domain.
 ```powershell
 PS C:\> # modify number of CPU of domain by specified name.
 PS C:\> Get-VirtDomain -Name 'DomainName' | Set-VirtDomain -NumCpu 2
+```
+
+### Example 2
+```powershell
+PS C:\> # modify capacity of Memory of domain by specified name.
+PS C:\> Get-VirtDomain -Name 'DomainName' | Set-VirtDomain -Memory 4G
 ```
 
 ## PARAMETERS
@@ -41,6 +48,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Memory
+Specify capacity of Memory.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
