@@ -4,7 +4,7 @@
 [Cmdlet(VerbsCommon.Remove, VerbsVirt.Network)]
 public class RemoveVirtNetwork : PwshVirtCmdlet
 {
-    [Parameter(ValueFromPipeline = true)]
+    [Parameter(Mandatory = true, ValueFromPipeline = true)]
     public Network? Network { get; set; }
 
     [Parameter]

@@ -19,12 +19,12 @@ Get-VirtStoragePool [-Server <Connection>] [<CommonParameters>]
 
 ### Name
 ```
-Get-VirtStoragePool [-Name <String>] [-Server <Connection>] [<CommonParameters>]
+Get-VirtStoragePool -Name <String> [-Server <Connection>] [<CommonParameters>]
 ```
 
 ### Vol
 ```
-Get-VirtStoragePool [-Server <Connection>] [-Vol <StorageVol>] [<CommonParameters>]
+Get-VirtStoragePool [-Server <Connection>] -Vol <StorageVol> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,7 +54,7 @@ Type: String
 Parameter Sets: Name
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -85,7 +85,7 @@ Type: StorageVol
 Parameter Sets: Vol
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

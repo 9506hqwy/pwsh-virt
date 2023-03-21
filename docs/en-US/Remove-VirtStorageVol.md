@@ -13,7 +13,7 @@ Delete storage volume.
 ## SYNTAX
 
 ```
-Remove-VirtStorageVol [-Vol <StorageVol>] [-Server <Connection>] [-WithSnapshot] [<CommonParameters>]
+Remove-VirtStorageVol -Vol <StorageVol> [-Server <Connection>] [-WithSnapshot] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -53,7 +53,7 @@ Type: StorageVol
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)

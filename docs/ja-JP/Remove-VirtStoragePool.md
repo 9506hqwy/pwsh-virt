@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Remove-VirtStoragePool [-Pool <StoragePool>] [-Server <Connection>] [<CommonParameters>]
+Remove-VirtStoragePool -Pool <StoragePool> [-Server <Connection>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,7 +37,7 @@ Type: StoragePool
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)

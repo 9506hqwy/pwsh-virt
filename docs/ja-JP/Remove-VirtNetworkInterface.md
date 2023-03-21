@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Remove-VirtNetworkInterface [-Interface <NetworkInterface>] [-Server <Connection>] [<CommonParameters>]
+Remove-VirtNetworkInterface -Interface <NetworkInterface> [-Server <Connection>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,7 +37,7 @@ Type: NetworkInterface
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)

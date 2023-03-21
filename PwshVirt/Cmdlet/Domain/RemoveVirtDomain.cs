@@ -4,7 +4,7 @@
 [Cmdlet(VerbsCommon.Remove, VerbsVirt.Domain)]
 public class RemoveVirtDomain : PwshVirtCmdlet
 {
-    [Parameter(ValueFromPipeline = true)]
+    [Parameter(Mandatory = true, ValueFromPipeline = true)]
     public Domain? Domain { get; set; }
 
     [Parameter]

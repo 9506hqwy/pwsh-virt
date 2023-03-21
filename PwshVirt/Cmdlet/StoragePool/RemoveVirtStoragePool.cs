@@ -4,7 +4,7 @@
 [Cmdlet(VerbsCommon.Remove, VerbsVirt.StoragePool)]
 public class RemoveVirtStoragePool : PwshVirtCmdlet
 {
-    [Parameter(ValueFromPipeline = true)]
+    [Parameter(Mandatory = true, ValueFromPipeline = true)]
     public StoragePool? Pool { get; set; }
 
     [Parameter]

@@ -14,12 +14,12 @@ Get storage volume.
 
 ### Pool (Default)
 ```
-Get-VirtStorageVol [-Pool <StoragePool>] [-Server <Connection>] [<CommonParameters>]
+Get-VirtStorageVol -Pool <StoragePool> [-Server <Connection>] [<CommonParameters>]
 ```
 
 ### Key
 ```
-Get-VirtStorageVol [-Key <String>] [-Server <Connection>] [<CommonParameters>]
+Get-VirtStorageVol -Key <String> [-Server <Connection>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,7 +49,7 @@ Type: String
 Parameter Sets: Key
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -64,7 +64,7 @@ Type: StoragePool
 Parameter Sets: Pool
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)

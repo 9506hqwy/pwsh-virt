@@ -8,7 +8,7 @@ public class GetVirtDomain : PwshVirtCmdlet
 
     private const string KeyName = "Name";
 
-    [Parameter(ParameterSetName = KeyName)]
+    [Parameter(Mandatory = true, ParameterSetName = KeyName)]
     public string? Name { get; set; }
 
     [Parameter(ParameterSetName = KeyAll)]

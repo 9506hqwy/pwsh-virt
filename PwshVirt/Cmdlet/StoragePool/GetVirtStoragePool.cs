@@ -10,7 +10,7 @@ public class GetVirtStoragePool : PwshVirtCmdlet
 
     private const string KeyVol = "Vol";
 
-    [Parameter(ParameterSetName = KeyName)]
+    [Parameter(Mandatory = true, ParameterSetName = KeyName)]
     public string? Name { get; set; }
 
     [Parameter(ParameterSetName = KeyAll)]
@@ -18,7 +18,7 @@ public class GetVirtStoragePool : PwshVirtCmdlet
     [Parameter(ParameterSetName = KeyVol)]
     public Connection? Server { get; set; }
 
-    [Parameter(ParameterSetName = KeyVol)]
+    [Parameter(Mandatory = true, ParameterSetName = KeyVol)]
     public StorageVol? Vol { get; set; }
 
     internal async override Task Execute()

@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Remove-VirtDomain [-Domain <Domain>] [-Server <Connection>] [-WithCheckpointMetadata] [-WithManagedSave]
+Remove-VirtDomain -Domain <Domain> [-Server <Connection>] [-WithCheckpointMetadata] [-WithManagedSave]
  [-WithNvram] [-WithSnapshotMetadata] [-WithTpm] [<CommonParameters>]
 ```
 
@@ -38,7 +38,7 @@ Type: Domain
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)

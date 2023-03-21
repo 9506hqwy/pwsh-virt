@@ -19,7 +19,7 @@ Get-VirtNetworkInterface [-Server <Connection>] [<CommonParameters>]
 
 ### Name
 ```
-Get-VirtNetworkInterface [-Name <String>] [-Server <Connection>] [<CommonParameters>]
+Get-VirtNetworkInterface -Name <String> [-Server <Connection>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,7 +49,7 @@ Type: String
 Parameter Sets: Name
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

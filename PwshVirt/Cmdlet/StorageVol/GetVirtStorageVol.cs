@@ -10,10 +10,10 @@ public class GetVirtStorageVol : PwshVirtCmdlet
 
     private const uint NotUsed = 0;
 
-    [Parameter(ParameterSetName = KeyKey)]
+    [Parameter(Mandatory = true, ParameterSetName = KeyKey)]
     public string? Key { get; set; }
 
-    [Parameter(ParameterSetName = KeyPool, ValueFromPipeline = true)]
+    [Parameter(Mandatory = true, ParameterSetName = KeyPool, ValueFromPipeline = true)]
     public StoragePool? Pool { get; set; }
 
     [Parameter(ParameterSetName = KeyKey)]
