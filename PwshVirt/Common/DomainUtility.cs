@@ -4,6 +4,23 @@ internal static class DomainUtility
 {
     private const uint NotUsed = 0;
 
+    internal static async Task AttachDevice(
+        Connection conn,
+        Domain dom,
+        string device,
+        CancellationToken cancellationToken)
+    {
+        // config
+        await conn.Client.DomainAttachDeviceFlagsAsync(dom.Self, device, 0x02, cancellationToken);
+
+        var isActive = await conn.Client.DomainIsActiveAsync(dom.Self, cancellationToken);
+        if (isActive != 0)
+        {
+            // active
+            await conn.Client.DomainAttachDeviceFlagsAsync(dom.Self, device, 0x01, cancellationToken);
+        }
+    }
+
     internal static async Task<Domain> GetDomain(
         Connection conn,
         string name,

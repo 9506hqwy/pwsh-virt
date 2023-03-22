@@ -13,8 +13,8 @@ Add hard disk to domain.
 ## SYNTAX
 
 ```
-New-VirtHardDisk [-Config] -DeviceFile <String> -Domain <Domain> [-Driver <String>]
- [-DriverType <DriverFormat>] -Vol <StorageVol> [-Live] [-Server <Connection>] [<CommonParameters>]
+New-VirtHardDisk -DeviceFile <String> -Domain <Domain> [-Driver <String>] [-DriverType <DriverFormat>]
+ -Vol <StorageVol> [-Server <Connection>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,21 +29,6 @@ PS C:\> New-VirtNetworkAdapter -Domain $dom －Vol $vol -DeviceFile 'vda'
 ```
 
 ## PARAMETERS
-
-### -Config
-Specify whether affect next boot.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -DeviceFile
 Specify device file.
@@ -98,21 +83,6 @@ Type: DriverFormat
 Parameter Sets: (All)
 Aliases:
 Accepted values: Raw, Dir, Bochs, Cloop, Dmg, Iso, Vpc, Vdi, Fat, Vhd, Ploop, Luks, Cow, Qcow, Qcow2, Qed, Vmdk, Aio
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Live
-Specify whether affect during running.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
 
 Required: False
 Position: Named

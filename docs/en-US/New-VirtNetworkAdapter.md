@@ -13,8 +13,8 @@ Add network adapter to domain.
 ## SYNTAX
 
 ```
-New-VirtNetworkAdapter [-Config] -Domain <Domain> [-Live] [-MacAddress <PhysicalAddress>] [-Model <String>]
- -NetworkName <String> [-Server <Connection>] -Type <NetworkAdapterType> [<CommonParameters>]
+New-VirtNetworkAdapter -Domain <Domain> [-MacAddress <PhysicalAddress>] [-Model <String>] -NetworkName <String>
+ [-Server <Connection>] -Type <NetworkAdapterType> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,21 +30,6 @@ PS C:\> New-VirtNetworkAdapter -Domain $dom -Type Network -NetworkName 'default'
 
 ## PARAMETERS
 
-### -Config
-Specify whether affect next boot.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Domain
 Specify domain.
 
@@ -57,21 +42,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -Live
-Specify whether affect during running.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

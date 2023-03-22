@@ -13,8 +13,8 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-New-VirtHardDisk [-Config] -DeviceFile <String> -Domain <Domain> [-Driver <String>]
- [-DriverType <DriverFormat>] -Vol <StorageVol> [-Live] [-Server <Connection>] [<CommonParameters>]
+New-VirtHardDisk -DeviceFile <String> -Domain <Domain> [-Driver <String>] [-DriverType <DriverFormat>]
+ -Vol <StorageVol> [-Server <Connection>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,21 +29,6 @@ PS C:\> New-VirtNetworkAdapter -Domain $dom －Vol $vol -DeviceFile 'vda'
 ```
 
 ## PARAMETERS
-
-### -Config
-次回起動時に反映するかどうかを指定します。
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -DeviceFile
 デバイスファイルを指定します。
@@ -98,21 +83,6 @@ Type: DriverFormat
 Parameter Sets: (All)
 Aliases:
 Accepted values: Raw, Dir, Bochs, Cloop, Dmg, Iso, Vpc, Vdi, Fat, Vhd, Ploop, Luks, Cow, Qcow, Qcow2, Qed, Vmdk, Aio
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Live
-起動中に反映するかどうかを指定します。
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
 
 Required: False
 Position: Named

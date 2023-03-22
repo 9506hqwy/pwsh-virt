@@ -6,9 +6,6 @@ using Libvirt.Model;
 [Cmdlet(VerbsCommon.New, VerbsVirt.HardDisk)]
 public class NewVirtHardDisk : PwshVirtCmdlet
 {
-    [Parameter]
-    public SwitchParameter Config { get; set; }
-
     [Parameter(Mandatory = true)]
     public string? DeviceFile { get; set; }
 
@@ -23,9 +20,6 @@ public class NewVirtHardDisk : PwshVirtCmdlet
 
     [Parameter(Mandatory = true)]
     public StorageVol? Vol { get; set; }
-
-    [Parameter]
-    public SwitchParameter Live { get; set; }
 
     [Parameter]
     public Connection? Server { get; set; }
@@ -61,23 +55,11 @@ public class NewVirtHardDisk : PwshVirtCmdlet
             disk.Driver.TypeSpecified = true;
         }
 
-        uint flags = 0;
-
-        if (this.Live.IsPresent && this.Live.ToBool())
-        {
-            flags |= 0x01;
-        }
-
-        if (this.Config.IsPresent && this.Config.ToBool())
-        {
-            flags |= 0x02;
-        }
-
         var xml = Serializer.Serialize(disk);
 
-        await conn.Client.DomainAttachDeviceFlagsAsync(this.Domain!.Self, xml, flags, this.Cancellation!.Token);
+        await DomainUtility.AttachDevice(conn, this.Domain!, xml, this.Cancellation!.Token);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
 
         this.SetResult(model);
     }

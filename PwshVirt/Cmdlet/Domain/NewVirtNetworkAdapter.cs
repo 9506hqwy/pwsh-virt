@@ -7,14 +7,8 @@ using System.Net.NetworkInformation;
 [Cmdlet(VerbsCommon.New, VerbsVirt.NetworkAdapter)]
 public class NewVirtNetworkAdapter : PwshVirtCmdlet
 {
-    [Parameter]
-    public SwitchParameter Config { get; set; }
-
     [Parameter(Mandatory = true, ValueFromPipeline = true)]
     public Domain? Domain { get; set; }
-
-    [Parameter]
-    public SwitchParameter Live { get; set; }
 
     [Parameter]
     public PhysicalAddress? MacAddress { get; set; }
@@ -70,23 +64,11 @@ public class NewVirtNetworkAdapter : PwshVirtCmdlet
             };
         }
 
-        uint flags = 0;
-
-        if (this.Live.IsPresent && this.Live.ToBool())
-        {
-            flags |= 0x01;
-        }
-
-        if (this.Config.IsPresent && this.Config.ToBool())
-        {
-            flags |= 0x02;
-        }
-
         var xml = Serializer.Serialize(adapter);
 
-        await conn.Client.DomainAttachDeviceFlagsAsync(this.Domain!.Self, xml, flags, this.Cancellation!.Token);
+        await DomainUtility.AttachDevice(conn, this.Domain!, xml, this.Cancellation!.Token);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
 
         this.SetResult(model);
     }

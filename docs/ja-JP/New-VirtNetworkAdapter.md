@@ -13,8 +13,8 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-New-VirtNetworkAdapter [-Config] -Domain <Domain> [-Live] [-MacAddress <PhysicalAddress>] [-Model <String>]
- -NetworkName <String> [-Server <Connection>] -Type <NetworkAdapterType> [<CommonParameters>]
+New-VirtNetworkAdapter -Domain <Domain> [-MacAddress <PhysicalAddress>] [-Model <String>] -NetworkName <String>
+ [-Server <Connection>] -Type <NetworkAdapterType> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,21 +30,6 @@ PS C:\> New-VirtNetworkAdapter -Domain $dom -Type Network -NetworkName 'default'
 
 ## PARAMETERS
 
-### -Config
-次回起動時に反映するかどうかを指定します。
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Domain
 ドメインを指定します。
 
@@ -57,21 +42,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -Live
-起動中に反映するかどうかを指定します。
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
