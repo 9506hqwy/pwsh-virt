@@ -12,9 +12,16 @@ schema: 2.0.0
 
 ## SYNTAX
 
+### Network (Default)
 ```
 New-VirtNetworkAdapter -Domain <Domain> [-MacAddress <PhysicalAddress>] [-Model <String>] -NetworkName <String>
- [-Server <Connection>] -Type <NetworkAdapterType> [<CommonParameters>]
+ [-Server <Connection>] [<CommonParameters>]
+```
+
+### Bridge
+```
+New-VirtNetworkAdapter -BridgeName <String> -Domain <Domain> [-MacAddress <PhysicalAddress>] [-Model <String>]
+ [-Server <Connection>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,6 +36,21 @@ PS C:\> New-VirtNetworkAdapter -Domain $dom -Type Network -NetworkName 'default'
 ```
 
 ## PARAMETERS
+
+### -BridgeName
+接続先ブリッジを指定します。
+
+```yaml
+Type: String
+Parameter Sets: Bridge
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -Domain
 ドメインを指定します。
@@ -80,7 +102,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Network
 Aliases:
 
 Required: True
@@ -100,22 +122,6 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Type
-接続先ネットワークの種別を指定します。
-
-```yaml
-Type: NetworkAdapterType
-Parameter Sets: (All)
-Aliases:
-Accepted values: Network, Bridge
-
-Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

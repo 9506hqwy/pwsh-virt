@@ -4,26 +4,34 @@ using Libvirt.Model;
 using System.Net.NetworkInformation;
 
 [OutputType(typeof(Domain))]
-[Cmdlet(VerbsCommon.New, VerbsVirt.NetworkAdapter)]
+[Cmdlet(VerbsCommon.New, VerbsVirt.NetworkAdapter, DefaultParameterSetName = KeyNetwork)]
 public class NewVirtNetworkAdapter : PwshVirtCmdlet
 {
-    [Parameter(Mandatory = true, ValueFromPipeline = true)]
+    private const string KeyBridge = "Bridge";
+
+    private const string KeyNetwork = "Network";
+
+    [Parameter(Mandatory = true, ParameterSetName = KeyBridge)]
+    public string? BridgeName { get; set; }
+
+    [Parameter(Mandatory = true, ParameterSetName = KeyBridge, ValueFromPipeline = true)]
+    [Parameter(Mandatory = true, ParameterSetName = KeyNetwork, ValueFromPipeline = true)]
     public Domain? Domain { get; set; }
 
-    [Parameter]
+    [Parameter(ParameterSetName = KeyBridge)]
+    [Parameter(ParameterSetName = KeyNetwork)]
     public PhysicalAddress? MacAddress { get; set; }
 
-    [Parameter]
+    [Parameter(ParameterSetName = KeyBridge)]
+    [Parameter(ParameterSetName = KeyNetwork)]
     public string? Model { get; set; }
 
-    [Parameter(Mandatory = true)]
+    [Parameter(Mandatory = true, ParameterSetName = KeyNetwork)]
     public string? NetworkName { get; set; }
 
-    [Parameter]
+    [Parameter(ParameterSetName = KeyBridge)]
+    [Parameter(ParameterSetName = KeyNetwork)]
     public Connection? Server { get; set; }
-
-    [Parameter(Mandatory = true)]
-    public NetworkAdapterType? Type { get; set; }
 
     internal async override Task Execute()
     {
@@ -31,17 +39,17 @@ public class NewVirtNetworkAdapter : PwshVirtCmdlet
 
         var adapter = new DomainInterface
         {
-            Type = this.Type.ToString().ToLowerInvariant(),
+            Type = this.ParameterSetName.ToLowerInvariant(),
             Source = new DomainInterfaceSource(),
         };
 
-        switch (this.Type)
+        switch (this.ParameterSetName)
         {
-            case NetworkAdapterType.Network:
-                adapter.Source.Network = this.NetworkName;
+            case KeyBridge:
+                adapter.Source.Bridge = this.BridgeName;
                 break;
-            case NetworkAdapterType.Bridge:
-                adapter.Source.Bridge = this.NetworkName;
+            case KeyNetwork:
+                adapter.Source.Network = this.NetworkName;
                 break;
             default:
                 throw new InvalidProgramException();
