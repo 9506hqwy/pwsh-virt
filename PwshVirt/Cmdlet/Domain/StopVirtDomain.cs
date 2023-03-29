@@ -8,11 +8,14 @@ public class StopVirtDomain : PwshVirtCmdlet
 
     private const string KeyPowerOff = "PowerOff";
 
+    private const string KeyShutdown = "Shutdown";
+
     [Parameter(ParameterSetName = KeyHibernate)]
     public SwitchParameter BypassCache { get; set; }
 
     [Parameter(Mandatory = true, ParameterSetName = KeyHibernate, ValueFromPipeline = true)]
     [Parameter(Mandatory = true, ParameterSetName = KeyPowerOff, ValueFromPipeline = true)]
+    [Parameter(Mandatory = true, ParameterSetName = KeyShutdown, ValueFromPipeline = true)]
     public Domain? Domain { get; set; }
 
     [Parameter(Mandatory = true, ParameterSetName = KeyHibernate)]
@@ -26,7 +29,11 @@ public class StopVirtDomain : PwshVirtCmdlet
 
     [Parameter(ParameterSetName = KeyHibernate)]
     [Parameter(ParameterSetName = KeyPowerOff)]
+    [Parameter(ParameterSetName = KeyShutdown)]
     public Connection? Server { get; set; }
+
+    [Parameter(Mandatory = true, ParameterSetName = KeyShutdown)]
+    public SwitchParameter Shutdown { get; set; }
 
     internal async override Task Execute()
     {
@@ -39,6 +46,9 @@ public class StopVirtDomain : PwshVirtCmdlet
                 break;
             case KeyPowerOff:
                 await this.Destroy(conn);
+                break;
+            case KeyShutdown:
+                await this.ShutdownGuest(conn);
                 break;
             default:
                 throw new InvalidProgramException();
@@ -77,13 +87,33 @@ public class StopVirtDomain : PwshVirtCmdlet
 
         var task = conn.Client.DomainManagedSaveAsync(this.Domain!.Self, flags, this.Cancellation!.Token);
 
-        this.SetProgress(KeyHibernate, 0);
+        await this.WaitForTaskCompleted(conn, task, KeyHibernate);
+
+        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
+
+        this.SetResult(model);
+    }
+
+    private async Task ShutdownGuest(Connection conn)
+    {
+        await conn.Client.DomainShutdownAsync(this.Domain!.Self, this.Cancellation!.Token);
+
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, DomainState.Shutoff, this.Cancellation!.Token);
+
+        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
+
+        this.SetResult(model);
+    }
+
+    private async Task WaitForTaskCompleted(Connection conn, Task task, string taskName)
+    {
+        this.SetProgress(taskName, 0);
 
         try
         {
             while (!task.IsCompleted)
             {
-                var info = await conn.Client.DomainGetJobInfoAsync(this.Domain.Self, this.Cancellation.Token);
+                var info = await conn.Client.DomainGetJobInfoAsync(this.Domain!.Self, this.Cancellation!.Token);
 
                 var percentRemain = info.DataTotal == 0 ? 100 : (int)(info.DataRemaining * 100 / info.DataTotal);
                 percentRemain =
@@ -93,7 +123,7 @@ public class StopVirtDomain : PwshVirtCmdlet
                     100 :
                     percentRemain;
 
-                this.SetProgress(KeyHibernate, 100 - percentRemain);
+                this.SetProgress(taskName, 100 - percentRemain);
 
                 await Task.Delay(500);
             }
@@ -103,12 +133,8 @@ public class StopVirtDomain : PwshVirtCmdlet
             // VIR_ERR_OPERATION_INVALID  = 55
         }
 
-        this.SetProgress(KeyHibernate, 100);
+        this.SetProgress(taskName, 100);
 
         await task;
-
-        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
-
-        this.SetResult(model);
     }
 }

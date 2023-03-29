@@ -23,6 +23,11 @@ Stop-VirtDomain [-BypassCache] -Domain <Domain> [-Hibernate] [-Paused] [-Running
  [<CommonParameters>]
 ```
 
+### Shutdown
+```
+Stop-VirtDomain -Domain <Domain> [-Server <Connection>] [-Shutdown] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 Stop domain.
 
@@ -32,6 +37,12 @@ Stop domain.
 ```powershell
 PS C:\> # stop domain by specified name.
 PS C:\> Get-VirtDomain -Name 'DomainName' | Stop-VirtDomain
+```
+
+### Example 2
+```powershell
+PS C:\> # shutdown domain by specified name.
+PS C:\> Get-VirtDomain -Name 'DomainName' | Stop-VirtDomain -Shutdown
 ```
 
 ## PARAMETERS
@@ -121,6 +132,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Shutdown
+Shutdown guest OS.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Shutdown
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

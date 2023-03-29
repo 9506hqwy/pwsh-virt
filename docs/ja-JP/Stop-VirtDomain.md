@@ -23,6 +23,11 @@ Stop-VirtDomain [-BypassCache] -Domain <Domain> [-Hibernate] [-Paused] [-Running
  [<CommonParameters>]
 ```
 
+### Shutdown
+```
+Stop-VirtDomain -Domain <Domain> [-Server <Connection>] [-Shutdown] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 ドメインを停止します。
 
@@ -32,6 +37,12 @@ Stop-VirtDomain [-BypassCache] -Domain <Domain> [-Hibernate] [-Paused] [-Running
 ```powershell
 PS C:\> # 指定した名前のドメインを停止します。
 PS C:\> Get-VirtDomain -Name 'DomainName' | Stop-VirtDomain
+```
+
+### Example 2
+```powershell
+PS C:\> # 指定した名前のドメインをシャットダウンします。
+PS C:\> Get-VirtDomain -Name 'DomainName' | Stop-VirtDomain -Shutdown
 ```
 
 ## PARAMETERS
@@ -121,6 +132,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Shutdown
+ゲスト OS をシャットダウンします。
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Shutdown
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
