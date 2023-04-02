@@ -13,7 +13,7 @@
 
     Description = 'PowerShell Cmdlet for Libvirt'
 
-    RequiredAssemblies = @('LibvirtModel.dll', 'LibvirtRemote.dll', 'Xdr.dll')
+    RequiredAssemblies = @('LibvirtModel.dll', 'LibvirtRemote.dll', 'Newtonsoft.Json.dll', 'Xdr.dll')
 
     CmdletsToExport = @(
         'Clear-VirtStorageVol',
@@ -32,6 +32,7 @@
         'Get-VirtStorageVol',
         'Get-VirtStorageVolDescriptor',
         'Import-VirtStorageVol',
+        'Invoke-VirtDomainScript',
         'New-VirtHardDisk',
         'New-VirtNetworkAdapter',
         'New-VirtStoragePool',
