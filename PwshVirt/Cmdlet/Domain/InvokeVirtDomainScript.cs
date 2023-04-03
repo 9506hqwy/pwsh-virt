@@ -1,8 +1,5 @@
 ﻿namespace PwshVirt;
 
-using Newtonsoft.Json;
-using System.Text;
-
 [OutputType(typeof(string))]
 [Cmdlet(VerbsLifecycle.Invoke, VerbsVirt.DomainScript)]
 public class InvokeVirtDomainScript : PwshVirtCmdlet
@@ -39,26 +36,18 @@ public class InvokeVirtDomainScript : PwshVirtCmdlet
             Arguments = new GuestExecStatusInput(pid),
         };
 
-        var settings = new JsonSerializerSettings
-        {
-            NullValueHandling = NullValueHandling.Ignore,
-        };
-
-        var cmd = JsonConvert.SerializeObject(input, settings);
+        var cmd = input.ToJson();
 
         var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
 
-        var status = JsonConvert.DeserializeObject<AgentCommandOutput<GuestExecStatusOutput>>(output.Value);
+        var status = AgentCommandOutput<GuestExecStatusOutput>.ConvertFrom(output.Value);
 
         if (status!.Return!.Exitcode != 0)
         {
-            var errBytes = Convert.FromBase64String(status.Return.ErrData!);
-            var err = Encoding.UTF8.GetString(errBytes);
-            throw new PwshVirtException(err, ErrorCategory.InvalidOperation);
+            throw new PwshVirtException(status.Return.ErrString!, ErrorCategory.InvalidOperation);
         }
 
-        var outputBytes = Convert.FromBase64String(status.Return.OutData!);
-        return Encoding.UTF8.GetString(outputBytes);
+        return status.Return.OutString!;
     }
 
     private async Task<int> InvokeCmd(Connection conn)
@@ -72,98 +61,12 @@ public class InvokeVirtDomainScript : PwshVirtCmdlet
             },
         };
 
-        var settings = new JsonSerializerSettings
-        {
-            NullValueHandling = NullValueHandling.Ignore,
-        };
-
-        var cmd = JsonConvert.SerializeObject(input, settings);
+        var cmd = input.ToJson();
 
         var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
 
-        var pid = JsonConvert.DeserializeObject<AgentCommandOutput<GuestExecOutput>>(output.Value);
+        var pid = AgentCommandOutput<GuestExecOutput>.ConvertFrom(output.Value);
 
         return pid!.Return!.Pid!.Value;
-    }
-
-    private class AgentCommandInput
-    {
-        internal AgentCommandInput(string execute)
-        {
-            this.Execute = execute;
-        }
-
-        [JsonProperty("execute")]
-        public string Execute { get; set; }
-
-        [JsonProperty("arguments")]
-        public object? Arguments { get; set; }
-    }
-
-    private class AgentCommandOutput<T>
-    {
-        [JsonProperty("return")]
-        public T? Return { get; set; }
-    }
-
-    private class GuestExecInput
-    {
-        internal GuestExecInput(string path)
-        {
-            this.Path = path;
-        }
-
-        [JsonProperty("path")]
-        public string Path { get; set; }
-
-        [JsonProperty("arg")]
-        public string[]? Arg { get; set; }
-
-        [JsonProperty("input-data")]
-        public string? InputData { get; set; }
-
-        [JsonProperty("capture-output")]
-        public bool CaptureOutput { get; set; }
-    }
-
-    private class GuestExecOutput
-    {
-        [JsonProperty("pid")]
-        public int? Pid { get; set; }
-    }
-
-    private class GuestExecStatusInput
-    {
-        internal GuestExecStatusInput(int pid)
-        {
-            this.Pid = pid;
-        }
-
-        [JsonProperty("pid")]
-        public int Pid { get; set; }
-    }
-
-    private class GuestExecStatusOutput
-    {
-        [JsonProperty("exited")]
-        public bool Exited { get; set; }
-
-        [JsonProperty("exitcode")]
-        public int? Exitcode { get; set; }
-
-        [JsonProperty("signal")]
-        public int? Signal { get; set; }
-
-        [JsonProperty("out-data")]
-        public string? OutData { get; set; }
-
-        [JsonProperty("err-data")]
-        public string? ErrData { get; set; }
-
-        [JsonProperty("out-truncated")]
-        public bool? OutTruncated { get; set; }
-
-        [JsonProperty("err-truncated")]
-        public bool? ErrTruncated { get; set; }
     }
 }
