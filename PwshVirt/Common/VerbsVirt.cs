@@ -6,6 +6,8 @@ internal static class VerbsVirt
 
     internal const string DomainDescriptor = "VirtDomainDescriptor";
 
+    internal const string DomainGuestFile = "VirtDomainGuestFile";
+
     internal const string DomainScript = "VirtDomainScript";
 
     internal const string HardDisk = "VirtHardDisk";

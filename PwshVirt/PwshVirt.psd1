@@ -18,6 +18,7 @@
     CmdletsToExport = @(
         'Clear-VirtStorageVol',
         'Connect-VirtServer',
+        'Copy-VirtDomainGuestFile',
         'Copy-VirtStorageVol',
         'Disconnect-VirtServer',
         'Export-VirtStorageVol',
