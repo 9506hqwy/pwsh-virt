@@ -19,13 +19,13 @@ New-VirtStoragePool -Name <String> -Path <String> [-Server <Connection>] [<Commo
 
 ### Netfs
 ```
-New-VirtStoragePool -Address <String> [-ExportType <PoolSourcefmtnetfsType>] -ExportPath <String>
- -Name <String> -Path <String> [-Server <Connection>] [<CommonParameters>]
+New-VirtStoragePool -Address <String> [-ExportType <PoolSourceFormatType>] -ExportPath <String> -Name <String>
+ -Path <String> [-Server <Connection>] [<CommonParameters>]
 ```
 
 ### Disk
 ```
-New-VirtStoragePool [-DeviceFormat <PoolSourcefmtdiskType>] -DevicePath <String> -Name <String> -Path <String>
+New-VirtStoragePool [-DeviceFormat <PoolSourceFormatType>] -DevicePath <String> -Name <String> -Path <String>
  [-Server <Connection>] [<CommonParameters>]
 ```
 
@@ -66,10 +66,10 @@ Accept wildcard characters: False
 Specify format of device.
 
 ```yaml
-Type: PoolSourcefmtdiskType
+Type: PoolSourceFormatType
 Parameter Sets: Disk
 Aliases:
-Accepted values: Unknown, Dos, Dvh, Gpt, Mac, Bsd, Pc98, Sun, Lvm2
+Accepted values: Auto, Bsd, Cifs, Dos, Dvh, Ext2, Ext3, Ext4, Gfs, Gfs2, Glusterfs, Gpt, HfsPlus, Iso9660, Lvm2, Mac, Nfs, Ocfs2, Pc98, Sun, Udf, Ufs, Unknown, Vfat, Vmfs, Xfs
 
 Required: False
 Position: Named
@@ -112,10 +112,10 @@ Accept wildcard characters: False
 Specify path type of remote host.
 
 ```yaml
-Type: PoolSourcefmtnetfsType
+Type: PoolSourceFormatType
 Parameter Sets: Netfs
 Aliases:
-Accepted values: Auto, Nfs, Cifs, Glusterfs
+Accepted values: Auto, Bsd, Cifs, Dos, Dvh, Ext2, Ext3, Ext4, Gfs, Gfs2, Glusterfs, Gpt, HfsPlus, Iso9660, Lvm2, Mac, Nfs, Ocfs2, Pc98, Sun, Udf, Ufs, Unknown, Vfat, Vmfs, Xfs
 
 Required: False
 Position: Named

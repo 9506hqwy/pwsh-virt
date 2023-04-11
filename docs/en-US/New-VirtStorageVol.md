@@ -13,8 +13,8 @@ Create storage volume.
 ## SYNTAX
 
 ```
-New-VirtStorageVol [-Allocation <String>] [-BackingVol <StorageVol>] [-BackingVolFormat <VolFormatType>]
- -Capacity <String> [-Format <VolFormatType>] -Name <String> -Pool <StoragePool> [-PreallocMetadata]
+New-VirtStorageVol [-Allocation <String>] [-BackingVol <StorageVol>] [-BackingVolFormat <VolTargetFormatType>]
+ -Capacity <String> [-Format <VolTargetFormatType>] -Name <String> -Pool <StoragePool> [-PreallocMetadata]
  [-Server <Connection>] [<CommonParameters>]
 ```
 
@@ -65,10 +65,10 @@ Accept wildcard characters: False
 Specify format of backing storage volume.
 
 ```yaml
-Type: VolFormatType
+Type: VolTargetFormatType
 Parameter Sets: (All)
 Aliases:
-Accepted values: Unknown, Raw, Dir, Bochs, Cloop, Dmg, Iso, Vpc, Vdi, Fat, Vhd, Ploop, Luks, Cow, Qcow, Qcow2, Qed, Vmdk, None, Auto, Ext2, Ext3, Ext4, Ufs, Iso9660, Udf, Gfs, Gfs2, Vfat, HfsPlus, Xfs, Ocfs2, Vmfs, Linux, Fat16, Fat32, LinuxSwap, LinuxLvm, LinuxRaid, Extended
+Accepted values: Auto, Bochs, Cloop, Cow, Dir, Dmg, Ext2, Ext3, Ext4, Extended, Fat, Fat16, Fat32, Gfs, Gfs2, HfsPlus, Iso, Iso9660, Linux, LinuxLvm, LinuxRaid, LinuxSwap, Luks, None, Ocfs2, Ploop, Qcow, Qcow2, Qed, Raw, Udf, Ufs, Unknown, Vdi, Vfat, Vhd, Vmdk, Vmfs, Vpc, Xfs
 
 Required: False
 Position: Named
@@ -96,10 +96,10 @@ Accept wildcard characters: False
 Specify format of storage volume.
 
 ```yaml
-Type: VolFormatType
+Type: VolTargetFormatType
 Parameter Sets: (All)
 Aliases:
-Accepted values: Unknown, Raw, Dir, Bochs, Cloop, Dmg, Iso, Vpc, Vdi, Fat, Vhd, Ploop, Luks, Cow, Qcow, Qcow2, Qed, Vmdk, None, Auto, Ext2, Ext3, Ext4, Ufs, Iso9660, Udf, Gfs, Gfs2, Vfat, HfsPlus, Xfs, Ocfs2, Vmfs, Linux, Fat16, Fat32, LinuxSwap, LinuxLvm, LinuxRaid, Extended
+Accepted values: Auto, Bochs, Cloop, Cow, Dir, Dmg, Ext2, Ext3, Ext4, Extended, Fat, Fat16, Fat32, Gfs, Gfs2, HfsPlus, Iso, Iso9660, Linux, LinuxLvm, LinuxRaid, LinuxSwap, Luks, None, Ocfs2, Ploop, Qcow, Qcow2, Qed, Raw, Udf, Ufs, Unknown, Vdi, Vfat, Vhd, Vmdk, Vmfs, Vpc, Xfs
 
 Required: False
 Position: Named

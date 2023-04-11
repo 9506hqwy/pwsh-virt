@@ -13,13 +13,13 @@ public class NewVirtStorageVol : PwshVirtCmdlet
     public StorageVol? BackingVol { get; set; }
 
     [Parameter]
-    public VolFormatType? BackingVolFormat { get; set; }
+    public VolTargetFormatType? BackingVolFormat { get; set; }
 
     [Parameter(Mandatory = true)]
     public string? Capacity { get; set; }
 
     [Parameter]
-    public VolFormatType? Format { get; set; }
+    public VolTargetFormatType? Format { get; set; }
 
     [Parameter(Mandatory = true)]
     public string? Name { get; set; }
@@ -50,7 +50,7 @@ public class NewVirtStorageVol : PwshVirtCmdlet
         var schema = new Vol
         {
             Name = this.Name!,
-            Capacity = new VolSizingCapacity
+            Capacity = new VolCapacity
             {
                 Value = this.GetCapacity(),
             },
@@ -59,7 +59,7 @@ public class NewVirtStorageVol : PwshVirtCmdlet
 
         if (this.Allocation is not null)
         {
-            schema.Allocation = new VolSizingAllocation
+            schema.Allocation = new VolAllocation
             {
                 Value = this.GetAllocation(),
             };
@@ -67,7 +67,7 @@ public class NewVirtStorageVol : PwshVirtCmdlet
 
         if (this.Format.HasValue)
         {
-            schema.Target.Format = new VolFormat
+            schema.Target.Format = new VolTargetFormat
             {
                 Type = this.Format.Value,
             };
@@ -83,7 +83,7 @@ public class NewVirtStorageVol : PwshVirtCmdlet
 
         if (this.BackingVolFormat.HasValue && schema.BackingStore is not null)
         {
-            schema.BackingStore.Format = new VolFormat
+            schema.BackingStore.Format = new VolTargetFormat
             {
                 Type = this.BackingVolFormat.Value,
             };

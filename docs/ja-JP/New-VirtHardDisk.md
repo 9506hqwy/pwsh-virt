@@ -13,8 +13,8 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-New-VirtHardDisk -DeviceFile <String> -Domain <Domain> [-Driver <String>] [-DriverType <DriverFormat>]
- -Vol <StorageVol> [-Server <Connection>] [<CommonParameters>]
+New-VirtHardDisk -DeviceFile <String> -Domain <Domain> [-Driver <String>]
+ [-DriverType <DomainDevicesDiskDiskDriverType>] -Vol <StorageVol> [-Server <Connection>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -79,10 +79,10 @@ Accept wildcard characters: False
 ドライバの種別を指定します。
 
 ```yaml
-Type: DriverFormat
+Type: DomainDevicesDiskDiskDriverType
 Parameter Sets: (All)
 Aliases:
-Accepted values: Raw, Dir, Bochs, Cloop, Dmg, Iso, Vpc, Vdi, Fat, Vhd, Ploop, Luks, Cow, Qcow, Qcow2, Qed, Vmdk, Aio
+Accepted values: Aio, Bochs, Cloop, Cow, Dir, Dmg, Fat, Iso, Luks, Ploop, Qcow, Qcow2, Qed, Raw, Vdi, Vhd, Vmdk, Vpc
 
 Required: False
 Position: Named

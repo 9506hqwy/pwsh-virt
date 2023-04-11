@@ -20,13 +20,13 @@ public class NewVirtStoragePool : PwshVirtCmdlet
     public string? Address { get; set; }
 
     [Parameter(ParameterSetName = KeyDisk)]
-    public PoolSourcefmtdiskType DeviceFormat { get; set; } = PoolSourcefmtdiskType.Dos;
+    public PoolSourceFormatType DeviceFormat { get; set; } = PoolSourceFormatType.Dos;
 
     [Parameter(Mandatory = true, ParameterSetName = KeyDisk)]
     public string? DevicePath { get; set; }
 
     [Parameter(ParameterSetName = KeyNetfs)]
-    public PoolSourcefmtnetfsType? ExportType { get; set; }
+    public PoolSourceFormatType? ExportType { get; set; }
 
     [Parameter(Mandatory = true, ParameterSetName = KeyNetfs)]
     public string? ExportPath { get; set; }
@@ -83,9 +83,9 @@ public class NewVirtStoragePool : PwshVirtCmdlet
 
     private string NewPoolDir()
     {
-        var pool = new Pooldir
+        var pool = new Pool
         {
-            Type = "dir",
+            Type = PoolType.Dir,
             Name = this.Name,
             Target = new PoolTarget
             {
@@ -98,17 +98,20 @@ public class NewVirtStoragePool : PwshVirtCmdlet
 
     private string NewPoolDisk()
     {
-        var pool = new Pooldisk
+        var pool = new Pool
         {
-            Type = "disk",
+            Type = PoolType.Disk,
             Name = this.Name,
-            Source = new PoolSourcedisk
+            Source = new PoolSource
             {
-                Device = new PoolSourceinfodev
+                Device = new[]
                 {
-                    Path = this.DevicePath,
+                    new PoolSourceDevice
+                    {
+                        Path = this.DevicePath,
+                    },
                 },
-                Format = new PoolSourcefmtdisk
+                Format = new PoolSourceFormat
                 {
                     Type = this.DeviceFormat,
                 },
@@ -124,19 +127,19 @@ public class NewVirtStoragePool : PwshVirtCmdlet
 
     private string NewPoolLogical()
     {
-        var pool = new Poollogical
+        var pool = new Pool
         {
-            Type = "logical",
+            Type = PoolType.Logical,
             Name = this.Name,
-            Source = new PoolSourcelogical
+            Source = new PoolSource
             {
                 Name = new[] { this.VgName },
-                Format = new PoolSourcefmtlogical
+                Format = new PoolSourceFormat
                 {
-                    Type = PoolSourcefmtlogicalType.Lvm2,
+                    Type = PoolSourceFormatType.Lvm2,
                 },
             },
-            Target = new PoolTargetlogical
+            Target = new PoolTarget
             {
                 Path = $"/dev/{this.VgName}",
             },
@@ -147,27 +150,26 @@ public class NewVirtStoragePool : PwshVirtCmdlet
 
     private string NewPoolNetfs()
     {
-        var pool = new Poolnetfs
+        var pool = new Pool
         {
-            Type = "netfs",
+            Type = PoolType.Netfs,
             Name = this.Name,
-            Source = new PoolSourcenetfs
+            Source = new PoolSource
             {
                 Host = new[]
                 {
-                    new PoolSourceinfohost
+                    new PoolSourceiscsiHost
                     {
                         Name = this.Address,
                     },
                 },
-                Dir = new PoolSourceinfodir
+                Dir = new PoolSourceDir
                 {
                     Path = this.ExportPath,
                 },
-                Format = new PoolSourcefmtnetfs
+                Format = new PoolSourceFormat
                 {
-                    Type = this.ExportType ?? PoolSourcefmtnetfsType.Auto,
-                    TypeSpecified = this.ExportType.HasValue,
+                    Type = this.ExportType ?? PoolSourceFormatType.Auto,
                 },
             },
             Target = new PoolTarget
