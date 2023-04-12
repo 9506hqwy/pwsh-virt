@@ -45,6 +45,7 @@
         'Remove-VirtStorageVol',
         'Restart-VirtDomain',
         'Resume-VirtDomain',
+        'Save-VirtDomainScreenShot',
         'Start-VirtDomain',
         'Start-VirtNetwork',
         'Start-VirtNetworkInterface',
