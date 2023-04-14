@@ -39,6 +39,7 @@
         'New-VirtStoragePool',
         'New-VirtStorageVol',
         'Remove-VirtDomain',
+        'Remove-VirtHardDisk',
         'Remove-VirtNetwork',
         'Remove-VirtNetworkAdapter',
         'Remove-VirtNetworkInterface',
