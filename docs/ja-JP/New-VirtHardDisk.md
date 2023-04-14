@@ -25,7 +25,7 @@ New-VirtHardDisk -DeviceFile <String> -Domain <Domain> [-Driver <String>]
 ### Example 1
 ```powershell
 PS C:\> # 指定したドメインにハードディスクを追加します。
-PS C:\> New-VirtNetworkAdapter -Domain $dom －Vol $vol -DeviceFile 'vda'
+PS C:\> New-VirtHardDisk -Domain $dom －Vol $vol -DeviceFile 'vda'
 ```
 
 ## PARAMETERS
