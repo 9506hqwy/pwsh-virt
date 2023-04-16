@@ -1,0 +1,24 @@
+<!--
+  - MSBuild reference
+    https://wixtoolset.org/docs/tools/msbuild/
+-->
+
+<Project Sdk="WixToolset.Sdk/4.0.0">
+
+  <PropertyGroup>
+    <InstallerPlatform>x64</InstallerPlatform>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>9506hqwy</Authors>
+    <Description>PowerShell Cmdlet for Libvirt</Description>
+    <PackageVersion>0.3.0</PackageVersion>
+    <DefineConstants>
+      Manufacturer=$(Authors);
+      Name=$(Description);
+      SourcePath=$(OutputPath)Publish\;
+      Version=$(PackageVersion);
+    </DefineConstants>
+  </PropertyGroup>
+
+</Project>

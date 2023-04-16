@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  - WiX Toolset Schema reference
+    https://wixtoolset.org/docs/schema
+-->
+
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package
+    Codepage="!(loc.Codepage)"
+    Compressed="yes"
+    InstallerVersion="500"
+    Language="!(loc.Language)"
+    Manufacturer="$(var.Manufacturer)"
+    Name="$(var.Name)"
+    ProductCode="*"
+    Scope="perMachine"
+    ShortNames="no"
+    UpgradeCode="ABB717A5-4F43-482A-9702-67A2955F17A0"
+    Version="$(var.Version)">
+
+    <Feature Id="Complete">
+      <ComponentGroupRef Id="Modules" />
+      <ComponentGroupRef Id="HelpEnUS" />
+      <ComponentGroupRef Id="HelpJaJP" />
+    </Feature>
+
+    <MajorUpgrade DowngradeErrorMessage="!(loc.ErrDowngrade)" IgnoreLanguage="yes" />
+
+    <Media Cabinet="PwshVirt.cab" EmbedCab="yes" Id="1" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Name="WindowsPowerShell">
+        <Directory Name="Modules">
+          <Directory Name="PwshVirt" Id="Modules">
+            <Directory Name="en-US" Id="HelpEnUS" />
+            <Directory Name="ja-JP" Id="HelpJaJP" />
+          </Directory>
+        </Directory>
+      </Directory>
+    </StandardDirectory>
+
+  </Package>
+
+  <Fragment>
+    <ComponentGroup Id="Modules" Directory ="Modules">
+      <Component Guid="1390A204-1832-47B0-ACFF-9176F4BF947B">
+        <File Id="LibvirtModel.dll" KeyPath="yes" Source="$(var.SourcePath)LibvirtModel.dll" Vital="yes" />
+      </Component>
+      <Component Guid="35261156-4A93-4952-84EC-4D87BECF2B39">
+        <File Id="LibvirtRemote.dll" KeyPath="yes" Source="$(var.SourcePath)LibvirtRemote.dll" Vital="yes" />
+      </Component>
+      <Component Guid="6D8C27EA-6886-4D94-94D5-3E6464076630">
+        <File Id="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.SourcePath)Newtonsoft.Json.dll" Vital="yes" />
+      </Component>
+      <Component Guid="5C312EFC-9855-4F95-A652-636414DDA284">
+        <File Id="PwshVirt.deps.json" KeyPath="yes" Source="$(var.SourcePath)PwshVirt.deps.json" Vital="yes" />
+      </Component>
+      <Component Guid="AA886757-4511-4831-93DD-D3E12EEF2363">
+        <File Id="PwshVirt.dll" KeyPath="yes" Source="$(var.SourcePath)PwshVirt.dll" Vital="yes" />
+      </Component>
+      <Component Guid="C4AA905E-EAEB-4883-8B60-FDFB295D25EC">
+        <File Id="PwshVirt.pdb" KeyPath="yes" Source="$(var.SourcePath)PwshVirt.pdb" Vital="yes" />
+      </Component>
+      <Component Guid="FFD4EBAE-6ABD-4758-B999-DB87B1D4088E">
+        <File Id="PwshVirt.psd1" KeyPath="yes" Source="$(var.SourcePath)PwshVirt.psd1" Vital="yes" />
+      </Component>
+      <Component Guid="1F40B5C2-AA64-4FD6-9D0B-E72B070DE47D">
+        <File Id="Xdr.dll" KeyPath="yes" Source="$(var.SourcePath)Xdr.dll" Vital="yes" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="HelpEnUS" Directory="HelpEnUS">
+      <Component Guid="D2B7FFC4-3A96-4E4C-85A1-68B13FFB5201">
+        <File Id="en_US_PwshVirt.dll_Help.xml" KeyPath="yes" Source="$(var.SourcePath)en-US\PwshVirt.dll-Help.xml" Vital="yes" />
+      </Component>
+    </ComponentGroup>
+    <ComponentGroup Id="HelpJaJP" Directory="HelpJaJP">
+      <Component Guid="56FAB627-AA2D-47C1-A3E0-38AC6F6CFE80">
+        <File Id="ja_JP_PwshVirt.dll_Help.xml" KeyPath="yes" Source="$(var.SourcePath)ja-JP\PwshVirt.dll-Help.xml" Vital="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+</Wix>

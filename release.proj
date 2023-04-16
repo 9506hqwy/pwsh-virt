@@ -13,6 +13,7 @@
 
   <PropertyGroup>
     <ProjectName>PwshVirt\PwshVirt.csproj</ProjectName>
+    <InstallerName>Installer\PwshVirt.wixproj</InstallerName>
     <ModulePath>$(MSBuildProjectDirectory)\Release\Publish\</ModulePath>
     <ArtifactsPath>$(MSBuildProjectDirectory)\artifacts\</ArtifactsPath>
     <PublishParam>
@@ -22,6 +23,10 @@
       PsModuleDir=$(ModulePath);
       SelfContained=false;
     </PublishParam>
+    <MsiParam>
+      Configuration=Release;
+      OutputPath=$(MSBuildProjectDirectory)\Release\;
+    </MsiParam>
   </PropertyGroup>
 
   <Target Name="Prepare">
@@ -42,6 +47,12 @@
       Overwrite="true" />
   </Target>
 
-  <Target Name="Build" DependsOnTargets="Prepare;BuildBinary;BuildArtifact" />
+  <Target Name="BuildMsi" Condition=" '$(OS)' == 'Windows_NT' ">
+    <MSBuild Projects="$(InstallerName)" Targets="Build" Properties="$(MsiParam)" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\Release\en-US\PwshVirt.msi" DestinationFiles="$(ArtifactsPath)\PwshVirt_en-US.msi" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\Release\ja-JP\PwshVirt.msi" DestinationFiles="$(ArtifactsPath)\PwshVirt_ja-JP.msi" />
+  </Target>
+
+  <Target Name="Build" DependsOnTargets="Prepare;BuildBinary;BuildArtifact;BuildMsi" />
 
 </Project>

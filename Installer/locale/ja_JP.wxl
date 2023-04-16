@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<WixLocalization
+  xmlns="http://wixtoolset.org/schemas/v4/wxl"
+  Codepage="932"
+  Culture="ja-JP"
+  Language="1041">
+  <String Id="Codepage" Value="932" />
+  <String Id="ErrDowngrade" Value="[ProductName] の新しいバージョンが既にインストールされています。" />
+  <String Id="Language" Value="1041" />
+</WixLocalization >
