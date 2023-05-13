@@ -13,8 +13,8 @@ Add hard disk to domain.
 ## SYNTAX
 
 ```
-New-VirtHardDisk -DeviceFile <String> -Domain <Domain> [-Driver <String>]
- [-DriverType <DomainDevicesDiskDiskDriverType>] -Vol <StorageVol> [-Server <Connection>] [<CommonParameters>]
+New-VirtHardDisk -DeviceFile <String> -Domain <Domain> [-Driver <String>] [-DriverType <DomainDiskDriverType>]
+ -Vol <StorageVol> [-Server <Connection>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -79,7 +79,7 @@ Accept wildcard characters: False
 Specify driver type.
 
 ```yaml
-Type: DomainDevicesDiskDiskDriverType
+Type: DomainDiskDriverType
 Parameter Sets: (All)
 Aliases:
 Accepted values: Aio, Bochs, Cloop, Cow, Dir, Dmg, Fat, Iso, Luks, Ploop, Qcow, Qcow2, Qed, Raw, Vdi, Vhd, Vmdk, Vpc

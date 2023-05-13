@@ -158,7 +158,7 @@ public class NewVirtStoragePool : PwshVirtCmdlet
             {
                 Host = new[]
                 {
-                    new PoolSourceiscsiHost
+                    new PoolSourcenetfsHost
                     {
                         Name = this.Address,
                     },

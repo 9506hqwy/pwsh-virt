@@ -37,19 +37,19 @@ public class NewVirtNetworkAdapter : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        var adapter = new DomainDevicesInterface
+        var adapter = new DomainInterface
         {
-            Source = new DomainDevicesInterfaceSource(),
+            Source = new DomainInterfaceSource(),
         };
 
         switch (this.ParameterSetName)
         {
             case KeyBridge:
-                adapter.Type = DomainDevicesInterfaceType.Bridge;
+                adapter.Type = DomainInterfaceType.Bridge;
                 adapter.Source.Bridge = this.BridgeName;
                 break;
             case KeyNetwork:
-                adapter.Type = DomainDevicesInterfaceType.Network;
+                adapter.Type = DomainInterfaceType.Network;
                 adapter.Source.Network = this.NetworkName;
                 break;
             default:
@@ -59,7 +59,7 @@ public class NewVirtNetworkAdapter : PwshVirtCmdlet
         if (this.MacAddress is not null)
         {
             var macHexBytes = this.MacAddress.GetAddressBytes().Select(b => b.ToString("X2"));
-            adapter.Mac = new DomainDevicesInterfaceMac
+            adapter.Mac = new DomainInterfaceMac
             {
                 Address = string.Join(":", macHexBytes),
             };
@@ -67,7 +67,7 @@ public class NewVirtNetworkAdapter : PwshVirtCmdlet
 
         if (this.Model is not null)
         {
-            adapter.Model = new DomainDevicesInterfaceModel
+            adapter.Model = new DomainInterfaceModel
             {
                 Type = this.Model,
             };
