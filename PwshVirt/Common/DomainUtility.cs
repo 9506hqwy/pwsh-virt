@@ -42,6 +42,23 @@ internal static class DomainUtility
         return new Domain(conn, dom, state, hasManagedSave == 1);
     }
 
+    internal static async Task UpdateDevice(
+        Connection conn,
+        Domain dom,
+        string device,
+        CancellationToken cancellationToken)
+    {
+        // config
+        await conn.Client.DomainUpdateDeviceFlagsAsync(dom.Self, device, 0x02, cancellationToken);
+
+        var isActive = await conn.Client.DomainIsActiveAsync(dom.Self, cancellationToken);
+        if (isActive != 0)
+        {
+            // active
+            await conn.Client.DomainUpdateDeviceFlagsAsync(dom.Self, device, 0x01, cancellationToken);
+        }
+    }
+
     internal static async Task<Tuple<int, int>> WaitForState(
         Connection conn,
         Domain dom,

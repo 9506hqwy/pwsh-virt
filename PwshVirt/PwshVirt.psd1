@@ -54,6 +54,7 @@
         'Start-VirtNetwork',
         'Start-VirtNetworkInterface',
         'Start-VirtStoragePool',
+        'Set-VirtCdDrive',
         'Set-VirtDomain',
         'Stop-VirtDomain',
         'Stop-VirtNetwork',
