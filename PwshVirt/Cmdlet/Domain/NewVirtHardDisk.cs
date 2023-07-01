@@ -31,7 +31,9 @@ public class NewVirtHardDisk : PwshVirtCmdlet
         var disk = new DomainDisk
         {
             Type = DomainDiskType.File,
+            TypeSpecified = true,
             Device = DomainDiskDevice.Disk,
+            DeviceSpecified = true,
             Source = new DomainDiskSource
             {
                 File = this.Vol!.Key,
