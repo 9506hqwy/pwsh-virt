@@ -23,6 +23,7 @@
         'Copy-VirtStorageVol',
         'Disconnect-VirtServer',
         'Export-VirtStorageVol',
+        'Get-VirtCdDrive',
         'Get-VirtDomain',
         'Get-VirtDomainDescriptor',
         'Get-VirtNetwork',

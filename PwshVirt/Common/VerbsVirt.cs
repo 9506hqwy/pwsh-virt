@@ -2,6 +2,8 @@
 
 internal static class VerbsVirt
 {
+    internal const string CdDrive = "VirtCdDrive";
+
     internal const string Domain = "VirtDomain";
 
     internal const string DomainDescriptor = "VirtDomainDescriptor";
