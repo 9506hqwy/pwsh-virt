@@ -25,7 +25,7 @@ Add hard disk to domain.
 ### Example 1
 ```powershell
 PS C:\> # add hard disk to specified domain.
-PS C:\> New-VirtHardDisk -Domain $dom －Vol $vol -DeviceFile 'vda'
+PS C:\> New-VirtHardDisk -Domain $dom -Vol $vol -DeviceFile 'vda'
 ```
 
 ## PARAMETERS
