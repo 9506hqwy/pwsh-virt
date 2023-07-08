@@ -147,6 +147,23 @@ internal static class DomainCapabilitiesExtension
         return ret.Count != 0 ? ret.ToArray() : null;
     }
 
+    internal static Guestcpu? GetGuestCpuDefault(this DomainCapabilities self)
+    {
+        var model = self.Cpu.Mode.FirstOrDefault(m => m.Name == DomainCapabilitiesCpuModeName.HostPassthrough);
+        if (model is not null && model.Supported == DomainCapabilitiesCpuModeSupported.Yes)
+        {
+            return new Guestcpu
+            {
+                Mode = GuestcpuCpuMode.HostPassthrough,
+                ModeSpecified = true,
+                Check = GuestcpuCpuCheck.None,
+                CheckSpecified = true,
+            };
+        }
+
+        return null;
+    }
+
     internal static DomainInput[]? GetInputDefault(this DomainCapabilities self)
     {
         var ret = new List<DomainInput>();

@@ -55,14 +55,7 @@ internal static class CapabilitiesGuestcapsExtension
                 },
             },
             Clock = domCaps.GetClockDefault(),
-            Cpu = new Guestcpu
-            {
-                // TODO: customize mode.
-                Mode = GuestcpuCpuMode.HostPassthrough,
-                ModeSpecified = true,
-                Check = GuestcpuCpuCheck.None,
-                CheckSpecified = true,
-            },
+            Cpu = domCaps.GetGuestCpuDefault(),
             Features = self.GetFeaturesDefualt(),
             Pm = self.GetPmDefault(),
             Devices = devices,
