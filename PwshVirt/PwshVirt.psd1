@@ -37,6 +37,7 @@
         'Import-VirtStorageVol',
         'Invoke-VirtDomainScript',
         'New-VirtCdDrive',
+        'New-VirtDomain',
         'New-VirtHardDisk',
         'New-VirtNetworkAdapter',
         'New-VirtStoragePool',
