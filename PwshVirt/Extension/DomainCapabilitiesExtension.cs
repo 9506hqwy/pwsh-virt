@@ -6,7 +6,7 @@ internal static class DomainCapabilitiesExtension
 {
     internal static DomainChannel[] GetChannelDefualt(this DomainCapabilities self)
     {
-        return new[]
+        var ret = new List<DomainChannel>()
         {
             new DomainChannel
             {
@@ -24,7 +24,11 @@ internal static class DomainCapabilitiesExtension
                     },
                 },
             },
-            new DomainChannel
+        };
+
+        if (self.SupportSpice())
+        {
+            ret.Add(new DomainChannel
             {
                 Type = QemucdevSrcTypeChoice.Spicevmc,
                 Target = new DomainChannelTarget
@@ -32,8 +36,10 @@ internal static class DomainCapabilitiesExtension
                     Type = DomainChannelTargetType.Virtio,
                     Name = "com.redhat.spice.0",
                 },
-            },
-        };
+            });
+        }
+
+        return ret.ToArray();
     }
 
     internal static DomainClock GetClockDefault(this DomainCapabilities self)
@@ -226,6 +232,11 @@ internal static class DomainCapabilitiesExtension
             return null;
         }
 
+        if (!self.SupportSpice())
+        {
+            return null;
+        }
+
         return new[]
         {
             new DomainRedirdev
@@ -334,6 +345,14 @@ internal static class DomainCapabilitiesExtension
     internal static bool IsMachineVirt(this DomainCapabilities self)
     {
         return self.Machine.Contains("virt");
+    }
+
+    internal static bool SupportSpice(this DomainCapabilities self)
+    {
+        return self.Devices?.Graphics?.Enum?
+            .First(e => e.Name == "type")
+            .Value
+            .Any(v => v == "spice") ?? false;
     }
 
     internal static bool SupportUefi(this DomainCapabilities self)
