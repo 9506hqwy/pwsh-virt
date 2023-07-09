@@ -101,12 +101,12 @@ internal static class CapabilitiesGuestcapsExtension
         {
             SuspendToDisk = new DomainPmSuspendToDisk
             {
-                Enabled = VirYesNo.Yes,
+                Enabled = VirYesNo.No,
                 EnabledSpecified = true,
             },
             SuspendToMem = new DomainPmSuspendToMem
             {
-                Enabled = VirYesNo.Yes,
+                Enabled = VirYesNo.No,
                 EnabledSpecified = true,
             },
         };
