@@ -1,5 +1,8 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirDomainMemoryModFlags;
+using static Libvirt.Header.VirDomainVcpuFlags;
+
 [OutputType(typeof(Domain))]
 [Cmdlet(VerbsCommon.Set, VerbsVirt.Domain)]
 public class SetVirtDomain : PwshVirtCmdlet
@@ -30,7 +33,7 @@ public class SetVirtDomain : PwshVirtCmdlet
             await this.SetCpu(conn, this.NumCpu.Value);
         }
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, -1, 0, this.Cancellation!.Token);
 
         this.SetResult(model);
     }
@@ -43,32 +46,34 @@ public class SetVirtDomain : PwshVirtCmdlet
     private async Task SetCpu(Connection conn, uint numCpu)
     {
         // change maximum number.
-        await conn.Client.DomainSetVcpusFlagsAsync(this.Domain!.Self, numCpu, 0x02 | 0x04, this.Cancellation!.Token);
+        var flags = VirDomainVcpuConfig | VirDomainVcpuMaximum;
+        await conn.Client.DomainSetVcpusFlagsAsync(this.Domain!.Self, numCpu, (uint)flags, this.Cancellation!.Token);
 
         // change current number (config).
-        await conn.Client.DomainSetVcpusFlagsAsync(this.Domain.Self, numCpu, 0x02, this.Cancellation.Token);
+        await conn.Client.DomainSetVcpusFlagsAsync(this.Domain.Self, numCpu, (uint)VirDomainVcpuConfig, this.Cancellation.Token);
 
         var isActive = await conn.Client.DomainIsActiveAsync(this.Domain.Self, this.Cancellation.Token);
         if (isActive != 0)
         {
             // change current number (active).
-            await conn.Client.DomainSetVcpusFlagsAsync(this.Domain.Self, numCpu, 0x01, this.Cancellation.Token);
+            await conn.Client.DomainSetVcpusFlagsAsync(this.Domain.Self, numCpu, (uint)VirDomainVcpuLive, this.Cancellation.Token);
         }
     }
 
     private async Task SetMemory(Connection conn, ulong capacityKB)
     {
         // change maximum number.
-        await conn.Client.DomainSetMemoryFlagsAsync(this.Domain!.Self, capacityKB, 0x02 | 0x04, this.Cancellation!.Token);
+        var flags = VirDomainMemConfig | VirDomainMemMaximum;
+        await conn.Client.DomainSetMemoryFlagsAsync(this.Domain!.Self, capacityKB, (uint)flags, this.Cancellation!.Token);
 
         // change current number (config).
-        await conn.Client.DomainSetMemoryFlagsAsync(this.Domain.Self, capacityKB, 0x02, this.Cancellation.Token);
+        await conn.Client.DomainSetMemoryFlagsAsync(this.Domain.Self, capacityKB, (uint)VirDomainMemConfig, this.Cancellation.Token);
 
         var isActive = await conn.Client.DomainIsActiveAsync(this.Domain.Self, this.Cancellation.Token);
         if (isActive != 0)
         {
             // change current number (active).
-            await conn.Client.DomainSetMemoryFlagsAsync(this.Domain.Self, capacityKB, 0x01, this.Cancellation.Token);
+            await conn.Client.DomainSetMemoryFlagsAsync(this.Domain.Self, capacityKB, (uint)VirDomainMemLive, this.Cancellation.Token);
         }
     }
 }

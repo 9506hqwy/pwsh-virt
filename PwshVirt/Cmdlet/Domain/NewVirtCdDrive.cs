@@ -1,6 +1,7 @@
 ﻿namespace PwshVirt;
 
 using Libvirt.Model;
+using static Libvirt.Header.VirDomainXmlflags;
 
 [OutputType(typeof(CdDrive))]
 [Cmdlet(VerbsCommon.New, VerbsVirt.CdDrive)]
@@ -41,10 +42,9 @@ public class NewVirtCdDrive : PwshVirtCmdlet
 
         await DomainUtility.AttachDevice(conn, this.Domain!, xml, this.Cancellation!.Token);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, (int)DomainState.Last, 0, this.Cancellation.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, -1, 0, this.Cancellation.Token);
 
-        uint flag = 2;
-        var domainXml = await conn.Client.DomainGetXmlDescAsync(this.Domain.Self, flag, this.Cancellation.Token);
+        var domainXml = await conn.Client.DomainGetXmlDescAsync(this.Domain.Self, (uint)VirDomainXmlInactive, this.Cancellation.Token);
 
         var domainModel = Serializer.Deserialize<Libvirt.Model.Domain>(domainXml);
 

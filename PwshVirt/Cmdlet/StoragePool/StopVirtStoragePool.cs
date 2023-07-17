@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirStoragePoolState;
+
 [OutputType(typeof(StoragePool))]
 [Cmdlet(VerbsLifecycle.Stop, VerbsVirt.StoragePool)]
 public class StopVirtStoragePool : PwshVirtCmdlet
@@ -16,7 +18,7 @@ public class StopVirtStoragePool : PwshVirtCmdlet
 
         await conn.Client.StoragePoolDestroyAsync(this.Pool!.Self, this.Cancellation!.Token);
 
-        var state = await StoragePoolUtility.WaitForState(conn, this.Pool, StoragePoolState.Inactive, this.Cancellation!.Token);
+        var state = await StoragePoolUtility.WaitForState(conn, this.Pool, VirStoragePoolInactive, this.Cancellation!.Token);
 
         var pool = await conn.Client.StoragePoolLookupByNameAsync(this.Pool.Name, this.Cancellation!.Token);
 

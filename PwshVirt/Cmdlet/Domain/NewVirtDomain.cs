@@ -1,6 +1,7 @@
 ﻿namespace PwshVirt;
 
 using Libvirt.Model;
+using static Libvirt.Header.VirDomainDefineFlags;
 
 [OutputType(typeof(Domain))]
 [Cmdlet(VerbsCommon.New, VerbsVirt.Domain)]
@@ -34,9 +35,9 @@ public class NewVirtDomain : PwshVirtCmdlet
 
         var domainXml = Serializer.Serialize(domain);
 
-        var dom = await conn.Client.DomainDefineXmlFlagsAsync(domainXml, 0x01, this.Cancellation!.Token);
+        var dom = await conn.Client.DomainDefineXmlFlagsAsync(domainXml, (uint)VirDomainDefineValidate, this.Cancellation!.Token);
 
-        var model = await DomainUtility.GetDomain(conn, dom.Name, (int)DomainState.Last, 0, this.Cancellation.Token);
+        var model = await DomainUtility.GetDomain(conn, dom.Name, -1, 0, this.Cancellation.Token);
 
         this.SetResult(model);
     }

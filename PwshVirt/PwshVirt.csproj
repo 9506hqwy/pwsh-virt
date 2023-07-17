@@ -26,6 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="LibvirtHeader" Version="0.1.0" />
     <PackageReference Include="LibvirtModel" Version="0.4.0" />
     <PackageReference Include="LibvirtRemote" Version="0.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

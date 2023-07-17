@@ -1,5 +1,8 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirDomainRebootFlagValues;
+using static Libvirt.Header.VirDomainState;
+
 [OutputType(typeof(Domain))]
 [Cmdlet(VerbsLifecycle.Restart, VerbsVirt.Domain, DefaultParameterSetName = KeyReset)]
 public class RestartVirtDomain : PwshVirtCmdlet
@@ -40,9 +43,9 @@ public class RestartVirtDomain : PwshVirtCmdlet
 
     private async Task RebootGuest(Connection conn)
     {
-        await conn.Client.DomainRebootAsync(this.Domain!.Self, 0x00, this.Cancellation!.Token);
+        await conn.Client.DomainRebootAsync(this.Domain!.Self, (uint)VirDomainRebootDefault, this.Cancellation!.Token);
 
-        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, DomainState.Running, this.Cancellation!.Token);
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainRunning, this.Cancellation!.Token);
 
         var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
 
@@ -53,7 +56,7 @@ public class RestartVirtDomain : PwshVirtCmdlet
     {
         await conn.Client.DomainResetAsync(this.Domain!.Self, NotUsed, this.Cancellation!.Token);
 
-        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, DomainState.Running, this.Cancellation!.Token);
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainRunning, this.Cancellation!.Token);
 
         var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
 

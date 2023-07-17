@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirDomainState;
+
 [OutputType(typeof(Domain))]
 [Cmdlet(VerbsLifecycle.Suspend, VerbsVirt.Domain)]
 public class SuspendVirtDomain : PwshVirtCmdlet
@@ -16,7 +18,7 @@ public class SuspendVirtDomain : PwshVirtCmdlet
 
         await conn.Client.DomainSuspendAsync(this.Domain!.Self, this.Cancellation!.Token);
 
-        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, DomainState.Paused, this.Cancellation!.Token);
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainPaused, this.Cancellation!.Token);
 
         var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
 

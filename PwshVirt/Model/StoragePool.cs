@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using Libvirt.Header;
+
 public class StoragePool : VirtObject
 {
     private readonly byte state;
@@ -16,7 +18,7 @@ public class StoragePool : VirtObject
 
     public string Name => this.Self.Name;
 
-    public StoragePoolState Status => (StoragePoolState)Enum.ToObject(typeof(StoragePoolState), this.state);
+    public VirStoragePoolState Status => (VirStoragePoolState)Enum.ToObject(typeof(VirStoragePoolState), this.state);
 
     public Guid Uuid => new (this.Self.Uuid);
 

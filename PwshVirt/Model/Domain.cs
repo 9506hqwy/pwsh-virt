@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using Libvirt.Header;
+
 public class Domain : VirtObject
 {
     private readonly int state;
@@ -22,7 +24,7 @@ public class Domain : VirtObject
 
     public string Name => this.Self.Name;
 
-    public DomainState Status => (DomainState)Enum.ToObject(typeof(DomainState), this.state);
+    public VirDomainState Status => (VirDomainState)Enum.ToObject(typeof(VirDomainState), this.state);
 
     public Guid Uuid => new (this.Self.Uuid);
 

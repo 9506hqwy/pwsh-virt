@@ -1,9 +1,15 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirDomainState;
+using static Libvirt.Header.VirDomainXmlflags;
+using static Libvirt.Header.VirStorageVolDeleteFlags;
+
 [OutputType(typeof(Domain))]
 [Cmdlet(VerbsCommon.Copy, VerbsVirt.Domain)]
 public class CopyVirtDomain : PwshVirtCmdlet
 {
+    private const uint NotUsed = 0;
+
     private List<RemoteNonnullStorageVol> clonedVols = new List<RemoteNonnullStorageVol>();
 
     [Parameter(Mandatory = true)]
@@ -19,13 +25,13 @@ public class CopyVirtDomain : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        var srcDom = await DomainUtility.GetDomain(conn, this.Source!.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
-        if (srcDom.Status != DomainState.Shutoff)
+        var srcDom = await DomainUtility.GetDomain(conn, this.Source!.Name, -1, 0, this.Cancellation!.Token);
+        if (srcDom.Status != VirDomainShutoff)
         {
             throw new PwshVirtException(ErrorCategory.InvalidOperation);
         }
 
-        var srcXml = await conn.Client.DomainGetXmlDescAsync(this.Source.Self, 0x02, this.Cancellation.Token);
+        var srcXml = await conn.Client.DomainGetXmlDescAsync(this.Source.Self, (uint)VirDomainXmlInactive, this.Cancellation.Token);
 
         var newModel = Serializer.Deserialize<Libvirt.Model.Domain>(srcXml);
 
@@ -39,7 +45,7 @@ public class CopyVirtDomain : PwshVirtCmdlet
 
             var newDom = await conn.Client.DomainDefineXmlAsync(newXml, this.Cancellation!.Token);
 
-            var model = await DomainUtility.GetDomain(conn, newDom.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
+            var model = await DomainUtility.GetDomain(conn, newDom.Name, -1, 0, this.Cancellation!.Token);
 
             this.SetResult(model);
         }
@@ -54,7 +60,7 @@ public class CopyVirtDomain : PwshVirtCmdlet
     private async Task<RemoteNonnullStorageVol> CopyDisk(Connection conn, Libvirt.Model.DomainDisk disk, string srcDomName)
     {
         var srcVol = await conn.Client.StorageVolLookupByKeyAsync(disk.Source.File, this.Cancellation!.Token);
-        var srcXml = await conn.Client.StorageVolGetXmlDescAsync(srcVol, 0, this.Cancellation!.Token);
+        var srcXml = await conn.Client.StorageVolGetXmlDescAsync(srcVol, NotUsed, this.Cancellation!.Token);
         var srcPool = await conn.Client.StoragePoolLookupByVolumeAsync(srcVol, this.Cancellation.Token);
 
         var model = Serializer.Deserialize<Libvirt.Model.Vol>(srcXml);
@@ -90,7 +96,7 @@ public class CopyVirtDomain : PwshVirtCmdlet
 
     private async Task DeleteDisk(Connection conn, RemoteNonnullStorageVol vol)
     {
-        await conn.Client.StorageVolDeleteAsync(vol, 0, this.Cancellation!.Token);
+        await conn.Client.StorageVolDeleteAsync(vol, (uint)VirStorageVolDeleteNormal, this.Cancellation!.Token);
     }
 
     private async Task DeleteDisks(Connection conn)

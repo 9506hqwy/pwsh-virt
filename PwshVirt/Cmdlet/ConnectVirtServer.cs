@@ -6,6 +6,8 @@ using System.Net.Sockets;
 [Cmdlet(VerbsCommunications.Connect, VerbsVirt.Server)]
 public class ConnectVirtServer : PwshVirtCmdlet
 {
+    private const uint NotUsed = 0;
+
     private const string DefaultDriver = "qemu";
 
     private const int DefaultTcpPort = 16509;
@@ -51,7 +53,7 @@ public class ConnectVirtServer : PwshVirtCmdlet
     {
         var conn = await this.GetConnection();
 
-        await conn.Client.ConnectOpenAsync(new Xdr.XdrOption<string>(this.GetName()), 0, this.Cancellation!.Token);
+        await conn.Client.ConnectOpenAsync(new Xdr.XdrOption<string>(this.GetName()), NotUsed, this.Cancellation!.Token);
 
         if (!this.NotDefault)
         {

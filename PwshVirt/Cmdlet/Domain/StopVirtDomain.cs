@@ -1,5 +1,8 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirDomainSaveRestoreFlags;
+using static Libvirt.Header.VirDomainState;
+
 [OutputType(typeof(Domain))]
 [Cmdlet(VerbsLifecycle.Stop, VerbsVirt.Domain, DefaultParameterSetName = KeyPowerOff)]
 public class StopVirtDomain : PwshVirtCmdlet
@@ -59,7 +62,7 @@ public class StopVirtDomain : PwshVirtCmdlet
     {
         await conn.Client.DomainDestroyAsync(this.Domain!.Self, this.Cancellation!.Token);
 
-        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, DomainState.Shutoff, this.Cancellation!.Token);
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainShutoff, this.Cancellation!.Token);
 
         var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
 
@@ -72,24 +75,24 @@ public class StopVirtDomain : PwshVirtCmdlet
 
         if (this.BypassCache.IsPresent && this.BypassCache.ToBool())
         {
-            flags |= 0x01;
+            flags |= (uint)VirDomainSaveBypassCache;
         }
 
         if (this.Running.IsPresent && this.Running.ToBool())
         {
-            flags |= 0x02;
+            flags |= (uint)VirDomainSaveRunning;
         }
 
         if (this.Paused.IsPresent && this.Paused.ToBool())
         {
-            flags |= 0x04;
+            flags |= (uint)VirDomainSavePaused;
         }
 
         var task = conn.Client.DomainManagedSaveAsync(this.Domain!.Self, flags, this.Cancellation!.Token);
 
         await this.WaitForTaskCompleted(conn, task, KeyHibernate);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, -1, 0, this.Cancellation!.Token);
 
         this.SetResult(model);
     }
@@ -98,7 +101,7 @@ public class StopVirtDomain : PwshVirtCmdlet
     {
         await conn.Client.DomainShutdownAsync(this.Domain!.Self, this.Cancellation!.Token);
 
-        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, DomainState.Shutoff, this.Cancellation!.Token);
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainShutoff, this.Cancellation!.Token);
 
         var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
 

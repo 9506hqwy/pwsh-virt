@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirDomainXmlflags;
+
 [OutputType(typeof(CdDrive))]
 [Cmdlet(VerbsCommon.Get, VerbsVirt.CdDrive)]
 public class GetVirtCdDrive : PwshVirtCmdlet
@@ -14,8 +16,7 @@ public class GetVirtCdDrive : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        uint flag = 2;
-        var xml = await conn.Client.DomainGetXmlDescAsync(this.Domain!.Self, flag, this.Cancellation!.Token);
+        var xml = await conn.Client.DomainGetXmlDescAsync(this.Domain!.Self, (uint)VirDomainXmlInactive, this.Cancellation!.Token);
 
         var model = Serializer.Deserialize<Libvirt.Model.Domain>(xml);
 

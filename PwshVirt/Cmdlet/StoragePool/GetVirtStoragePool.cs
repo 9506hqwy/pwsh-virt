@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirConnectListAllStoragePoolsFlags;
+
 [OutputType(typeof(StoragePool))]
 [Cmdlet(VerbsCommon.Get, VerbsVirt.StoragePool, DefaultParameterSetName = KeyAll)]
 public class GetVirtStoragePool : PwshVirtCmdlet
@@ -43,7 +45,8 @@ public class GetVirtStoragePool : PwshVirtCmdlet
 
     private async Task GetAll(Connection conn)
     {
-        (var pools, var num) = await conn.Client.ConnectListAllStoragePoolsAsync(1, 1 | 2, this.Cancellation!.Token);
+        var flags = VirConnectListStoragePoolsInactive | VirConnectListStoragePoolsActive;
+        (var pools, var num) = await conn.Client.ConnectListAllStoragePoolsAsync(1, (uint)flags, this.Cancellation!.Token);
 
         var models = new List<StoragePool>();
 

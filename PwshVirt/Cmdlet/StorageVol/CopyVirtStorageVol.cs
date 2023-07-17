@@ -2,6 +2,7 @@
 
 using System.Xml.Linq;
 using System.Xml.XPath;
+using static Libvirt.Header.VirStorageVolCreateFlags;
 
 [OutputType(typeof(StorageVol))]
 [Cmdlet(VerbsCommon.Copy, VerbsVirt.StorageVol)]
@@ -50,12 +51,12 @@ public class CopyVirtStorageVol : PwshVirtCmdlet
 
         if (this.PreallocMetadata.IsPresent && this.PreallocMetadata.ToBool())
         {
-            flags |= 1;
+            flags |= (uint)VirStorageVolCreatePreallocMetadata;
         }
 
         if (this.RefLink.IsPresent && this.RefLink.ToBool())
         {
-            flags |= 2;
+            flags |= (uint)VirStorageVolCreateReflink;
         }
 
         var newVol = await conn.Client.StorageVolCreateXmlFromAsync(pool, newXml, this.Source.Self, flags, this.Cancellation.Token);

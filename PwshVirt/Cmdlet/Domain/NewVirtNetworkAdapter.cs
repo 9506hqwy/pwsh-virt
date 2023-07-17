@@ -77,7 +77,7 @@ public class NewVirtNetworkAdapter : PwshVirtCmdlet
 
         await DomainUtility.AttachDevice(conn, this.Domain!, xml, this.Cancellation!.Token);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, (int)DomainState.Last, 0, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, -1, 0, this.Cancellation!.Token);
 
         this.SetResult(model);
     }

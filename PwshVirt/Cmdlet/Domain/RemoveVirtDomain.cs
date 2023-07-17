@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirDomainUndefineFlagsValues;
+
 [OutputType(typeof(Domain))]
 [Cmdlet(VerbsCommon.Remove, VerbsVirt.Domain)]
 public class RemoveVirtDomain : PwshVirtCmdlet
@@ -33,27 +35,27 @@ public class RemoveVirtDomain : PwshVirtCmdlet
 
         if (this.WithManagedSave.IsPresent && this.WithManagedSave.ToBool())
         {
-            flags |= 0x01;
+            flags |= (uint)VirDomainUndefineManagedSave;
         }
 
         if (this.WithSnapshotMetadata.IsPresent && this.WithSnapshotMetadata.ToBool())
         {
-            flags |= 0x02;
+            flags |= (uint)VirDomainUndefineSnapshotsMetadata;
         }
 
         if (this.WithNvram.IsPresent && this.WithNvram.ToBool())
         {
-            flags |= 0x04;
+            flags |= (uint)VirDomainUndefineNvram;
         }
 
         if (this.WithCheckpointMetadata.IsPresent && this.WithCheckpointMetadata.ToBool())
         {
-            flags |= 0x10;
+            flags |= (uint)VirDomainUndefineCheckpointsMetadata;
         }
 
         if (this.WithTpm.IsPresent && this.WithTpm.ToBool())
         {
-            flags |= 0x20;
+            flags |= (uint)VirDomainUndefineTpm;
         }
 
         await conn.Client.DomainUndefineFlagsAsync(this.Domain!.Self, flags, this.Cancellation!.Token);

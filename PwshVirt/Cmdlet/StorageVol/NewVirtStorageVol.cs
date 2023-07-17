@@ -1,6 +1,7 @@
 ﻿namespace PwshVirt;
 
 using Libvirt.Model;
+using static Libvirt.Header.VirStorageVolCreateFlags;
 
 [OutputType(typeof(StorageVol))]
 [Cmdlet(VerbsCommon.New, VerbsVirt.StorageVol)]
@@ -94,7 +95,7 @@ public class NewVirtStorageVol : PwshVirtCmdlet
         uint flgas = 0;
         if (this.PreallocMetadata.IsPresent && this.PreallocMetadata.ToBool())
         {
-            flgas |= 1;
+            flgas |= (uint)VirStorageVolCreatePreallocMetadata;
         }
 
         var vol = await conn.Client.StorageVolCreateXmlAsync(this.Pool!.Self, xml, flgas, this.Cancellation!.Token);

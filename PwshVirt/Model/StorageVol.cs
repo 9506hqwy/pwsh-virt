@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using Libvirt.Header;
+
 public class StorageVol : VirtObject
 {
     private readonly byte type;
@@ -20,7 +22,7 @@ public class StorageVol : VirtObject
 
     public string Pool => this.Self.Pool;
 
-    public StorageVolType Type => (StorageVolType)Enum.ToObject(typeof(StorageVolType), this.type);
+    public VirStorageVolType Type => (VirStorageVolType)Enum.ToObject(typeof(VirStorageVolType), this.type);
 
     internal RemoteNonnullStorageVol Self { get; }
 }

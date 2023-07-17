@@ -43,6 +43,9 @@
 
   <Fragment>
     <ComponentGroup Id="Modules" Directory ="Modules">
+      <Component Guid="C0576F76-51AB-437A-8CA3-B6537D9AEFB4">
+        <File Id="LibvirtHeader.dll" KeyPath="yes" Source="$(var.SourcePath)LibvirtHeader.dll" Vital="yes" />
+      </Component>
       <Component Guid="1390A204-1832-47B0-ACFF-9176F4BF947B">
         <File Id="LibvirtModel.dll" KeyPath="yes" Source="$(var.SourcePath)LibvirtModel.dll" Vital="yes" />
       </Component>

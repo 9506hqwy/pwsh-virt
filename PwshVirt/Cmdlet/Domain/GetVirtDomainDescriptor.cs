@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirDomainXmlflags;
+
 [OutputType(typeof(string))]
 [Cmdlet(VerbsCommon.Get, VerbsVirt.DomainDescriptor)]
 public class GetVirtDomainDescriptor : PwshVirtCmdlet
@@ -30,22 +32,22 @@ public class GetVirtDomainDescriptor : PwshVirtCmdlet
 
         if (this.Secure.IsPresent && this.Secure.ToBool())
         {
-            flag |= 1;
+            flag |= (uint)VirDomainXmlSecure;
         }
 
         if (this.Inactive.IsPresent && this.Inactive.ToBool())
         {
-            flag |= 2;
+            flag |= (uint)VirDomainXmlInactive;
         }
 
         if (this.UpdateCpu.IsPresent && this.UpdateCpu.ToBool())
         {
-            flag |= 4;
+            flag |= (uint)VirDomainXmlUpdateCpu;
         }
 
         if (this.Migratable.IsPresent && this.Migratable.ToBool())
         {
-            flag |= 8;
+            flag |= (uint)VirDomainXmlMigratable;
         }
 
         var xml = await conn.Client.DomainGetXmlDescAsync(this.Domain!.Self, flag, this.Cancellation!.Token);

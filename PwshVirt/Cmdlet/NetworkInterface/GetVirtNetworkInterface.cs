@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirConnectListAllInterfacesFlags;
+
 [OutputType(typeof(NetworkInterface))]
 [Cmdlet(VerbsCommon.Get, VerbsVirt.NetworkInterface, DefaultParameterSetName = KeyAll)]
 public class GetVirtNetworkInterface : PwshVirtCmdlet
@@ -34,7 +36,8 @@ public class GetVirtNetworkInterface : PwshVirtCmdlet
 
     private async Task GetAll(Connection conn)
     {
-        (var ifaces, var num) = await conn.Client.ConnectListAllInterfacesAsync(1, 1 | 2, this.Cancellation!.Token);
+        var flags = VirConnectListInterfacesInactive | VirConnectListInterfacesActive;
+        (var ifaces, var num) = await conn.Client.ConnectListAllInterfacesAsync(1, (uint)flags, this.Cancellation!.Token);
 
         var models = new List<NetworkInterface>();
 

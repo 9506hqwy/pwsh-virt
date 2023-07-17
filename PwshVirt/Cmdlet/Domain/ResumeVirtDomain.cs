@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirDomainState;
+
 [OutputType(typeof(Domain))]
 [Cmdlet(VerbsLifecycle.Resume, VerbsVirt.Domain)]
 public class ResumeVirtDomain : PwshVirtCmdlet
@@ -16,7 +18,7 @@ public class ResumeVirtDomain : PwshVirtCmdlet
 
         await conn.Client.DomainResumeAsync(this.Domain!.Self, this.Cancellation!.Token);
 
-        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, DomainState.Running, this.Cancellation!.Token);
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainRunning, this.Cancellation!.Token);
 
         var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
 

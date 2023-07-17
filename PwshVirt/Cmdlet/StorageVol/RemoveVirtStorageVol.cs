@@ -1,5 +1,7 @@
 ﻿namespace PwshVirt;
 
+using static Libvirt.Header.VirStorageVolDeleteFlags;
+
 [OutputType(typeof(StorageVol))]
 [Cmdlet(VerbsCommon.Remove, VerbsVirt.StorageVol)]
 public class RemoveVirtStorageVol : PwshVirtCmdlet
@@ -17,13 +19,13 @@ public class RemoveVirtStorageVol : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        uint flag = 0;
+        var flag = VirStorageVolDeleteNormal;
         if (this.WithSnapshot.IsPresent && this.WithSnapshot.ToBool())
         {
-            flag |= 2;
+            flag |= VirStorageVolDeleteWithSnapshots;
         }
 
-        await conn.Client.StorageVolDeleteAsync(this.Vol!.Self, flag, this.Cancellation!.Token);
+        await conn.Client.StorageVolDeleteAsync(this.Vol!.Self, (uint)flag, this.Cancellation!.Token);
 
         this.SetResult(this.Vol);
     }
