@@ -87,7 +87,7 @@ public class CopyVirtDomain : PwshVirtCmdlet
             return;
         }
 
-        foreach (var disk in disks)
+        foreach (var disk in disks.Where(d => d.Device == Libvirt.Model.DomainDiskDevice.Disk))
         {
             var vol = await this.CopyDisk(conn, disk, srcDomName);
             this.clonedVols.Add(vol);
