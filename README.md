@@ -7,9 +7,29 @@ This module provides to communicate Libvirt server for PowerShell v5.1 or later.
 1. Download module archive from [release page](https://github.com/9506hqwy/pwsh-virt/releases).
 
 2. If need, remove Zone.Identifier from archive.
+   ```powershell
+   Unblock-File PwshVirt.zip
+   ```
 
 3. Extract archive to [PSModulePath](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_psmodulepath).
    The module's folder name is 'PwshVirt'.
+
+## Server Configuration
+
+This module connects to Libvirt server with TCP or TLS.
+
+Configure Libvirt server in */etc/libvirt/libvirtd.conf*
+
+* TCP
+  ```
+  listen_tcp = 1
+  auth_tcp=none
+  ```
+
+* TLS
+  ```
+  listen_tls = 1
+  ```
 
 ## Usage
 
