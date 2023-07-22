@@ -58,7 +58,9 @@ public class NewVirtStoragePool : PwshVirtCmdlet
         try
         {
             await conn.Client.StoragePoolLookupByNameAsync(this.Name, this.Cancellation!.Token);
-            throw new PwshVirtException(ErrorCategory.InvalidArgument);
+            throw new PwshVirtException(
+                string.Format(Resource.ERR_AlreadyExistStoragePool, this.Name),
+                ErrorCategory.InvalidArgument);
         }
         catch (VirtException e) when (e.Error.Code == 49)
         {

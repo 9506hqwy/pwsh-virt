@@ -39,7 +39,9 @@ public class SetVirtCdDrive : PwshVirtCmdlet
             .FirstOrDefault(d => d.Target.Dev == this.Drive.TargetDev);
         if (drive is null)
         {
-            throw new PwshVirtException(ErrorCategory.InvalidOperation);
+            throw new PwshVirtException(
+                string.Format(Resource.ERR_NotFoundDomainDevice, this.Drive.TargetDev),
+                ErrorCategory.InvalidOperation);
         }
 
         switch (this.ParameterSetName)

@@ -32,7 +32,9 @@ internal static class Utility
         var m = Regex.Match(value, @"^(\d+)([^\d]*)$");
         if (!m.Success)
         {
-            throw new PwshVirtException(ErrorCategory.InvalidArgument);
+            throw new PwshVirtException(
+                string.Format(Resource.ERR_InvalidFormat, value),
+                ErrorCategory.InvalidArgument);
         }
 
         var num = ulong.Parse(m.Groups[1].Value);
@@ -48,7 +50,9 @@ internal static class Utility
             _ when scale.EndsWith("ib") && scale.Length == 3 => 1024,
             _ when scale.EndsWith("b") && scale.Length == 2 => 1000,
             _ when scale.Length == 1 => 1024,
-            _ => throw new PwshVirtException(ErrorCategory.InvalidArgument),
+            _ => throw new PwshVirtException(
+                string.Format(Resource.ERR_InvalidFormat, value),
+                ErrorCategory.InvalidArgument),
         };
 
         switch (scale[0])
@@ -72,7 +76,9 @@ internal static class Utility
                 num *= b;
                 break;
             default:
-                throw new PwshVirtException(ErrorCategory.InvalidArgument);
+                throw new PwshVirtException(
+                    string.Format(Resource.ERR_InvalidFormat, value),
+                    ErrorCategory.InvalidArgument);
         }
 
         return num;

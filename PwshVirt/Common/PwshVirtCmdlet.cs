@@ -38,7 +38,7 @@ public abstract class PwshVirtCmdlet : PSCmdlet
 
         if (value is null)
         {
-            throw new PwshVirtException(ErrorCategory.InvalidOperation);
+            throw new PwshVirtException(Resource.ERR_ShouldConnectVirtServer, ErrorCategory.InvalidOperation);
         }
 
         return value;

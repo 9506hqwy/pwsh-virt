@@ -41,7 +41,9 @@ public class NewVirtStorageVol : PwshVirtCmdlet
         try
         {
             await conn.Client.StorageVolLookupByNameAsync(this.Pool!.Self, this.Name, this.Cancellation!.Token);
-            throw new PwshVirtException(ErrorCategory.InvalidArgument);
+            throw new PwshVirtException(
+                string.Format(Resource.ERR_AlreadyExistStorageVol, this.Name),
+                ErrorCategory.InvalidArgument);
         }
         catch (VirtException e) when (e.Error.Code == 50)
         {

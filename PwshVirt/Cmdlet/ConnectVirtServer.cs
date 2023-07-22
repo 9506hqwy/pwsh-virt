@@ -69,7 +69,7 @@ public class ConnectVirtServer : PwshVirtCmdlet
         {
             "tcp" => await this.GetTcp(),
             "tls" => await this.GetTls(),
-            _ => throw new PwshVirtException(ErrorCategory.InvalidArgument),
+            _ => throw new InvalidProgramException(),
         };
     }
 

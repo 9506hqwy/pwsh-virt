@@ -80,6 +80,9 @@
       <Component Guid="56FAB627-AA2D-47C1-A3E0-38AC6F6CFE80">
         <File Id="ja_JP_PwshVirt.dll_Help.xml" KeyPath="yes" Source="$(var.SourcePath)ja-JP\PwshVirt.dll-Help.xml" Vital="yes" />
       </Component>
+      <Component Guid="6BCE7F86-E57A-465A-8B85-07F4B606FFBA">
+        <File Id="ja_JP_PwshVirt.resources.dll" KeyPath="yes" Source="$(var.SourcePath)ja-JP\PwshVirt.resources.dll" Vital="yes" />
+      </Component>
     </ComponentGroup>
   </Fragment>
 

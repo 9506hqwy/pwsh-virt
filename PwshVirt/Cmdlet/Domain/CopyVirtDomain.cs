@@ -28,7 +28,9 @@ public class CopyVirtDomain : PwshVirtCmdlet
         var srcDom = await DomainUtility.GetDomain(conn, this.Source!.Name, -1, 0, this.Cancellation!.Token);
         if (srcDom.Status != VirDomainShutoff)
         {
-            throw new PwshVirtException(ErrorCategory.InvalidOperation);
+            throw new PwshVirtException(
+                string.Format(Resource.ERR_ShouldPowerOffDomain, srcDom.Name),
+                ErrorCategory.InvalidOperation);
         }
 
         var srcXml = await conn.Client.DomainGetXmlDescAsync(this.Source.Self, (uint)VirDomainXmlInactive, this.Cancellation.Token);
@@ -66,7 +68,9 @@ public class CopyVirtDomain : PwshVirtCmdlet
         var model = Serializer.Deserialize<Libvirt.Model.Vol>(srcXml);
         if (!model.Name.Contains(srcDomName))
         {
-            throw new PwshVirtException(ErrorCategory.InvalidOperation);
+            throw new PwshVirtException(
+                string.Format(Resource.ERR_CopyVirtDomain_ShouldContainDomainNameInDisk, model.Name),
+                ErrorCategory.InvalidOperation);
         }
 
         model.Name = model.Name.Replace(srcDomName, this.Name);
