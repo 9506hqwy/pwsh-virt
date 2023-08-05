@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    tags: [ '*' ]
+    tags: [ '**' ]
 
 jobs:
   release:
@@ -11,11 +11,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Install platyPS
       shell: pwsh
       run: |
         Set-PSRepository PSGallery -InstallationPolicy Trusted
         Install-Module -Name platyPS -Scope CurrentUser
+
     - name: Prepare Dependencies
       run: |
         LOCALPKG=`mktemp -d`
@@ -24,8 +26,10 @@ jobs:
         wget -P "${LOCALPKG}" https://github.com/9506hqwy/libvirt-remote-net/releases/download/0.2.0/LibvirtRemote.0.2.0.nupkg
         wget -P "${LOCALPKG}" https://github.com/9506hqwy/libvirt-header-net/releases/download/0.1.0/LibvirtHeader.0.1.0.nupkg
         dotnet nuget add source --name local "${LOCALPKG}"
+
     - name: Package
       run: dotnet msbuild release.proj
+
     - name: Create Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
