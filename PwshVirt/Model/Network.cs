@@ -24,7 +24,7 @@ public class Network : VirtObject
 
     public string Name => this.Self.Name;
 
-    public Guid Uuid => new (this.Self.Uuid);
+    public Guid Uuid => new Guid(this.Self.Uuid);
 
     internal RemoteNonnullNetwork Self { get; }
 }
