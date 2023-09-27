@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install platyPS
       shell: pwsh
@@ -28,27 +28,40 @@ jobs:
         wget -P "${LOCALPKG}" https://github.com/9506hqwy/libvirt-header-net/releases/download/0.1.0/LibvirtHeader.0.1.0.nupkg
         dotnet nuget add source --name local "${LOCALPKG}"
 
-    - name: Restore dependencies
+    - name: Restore Dependencies
       run: dotnet restore pwsh-virt.sln
 
-    - name: Build
-      run: dotnet build --no-restore pwsh-virt.sln
+    - name: Build Debug
+      run: dotnet build pwsh-virt.sln --no-restore
 
-    - name: Check format
-      run: dotnet format --no-restore --verify-no-changes pwsh-virt.sln
+    - name: Check Format
+      run: dotnet format pwsh-virt.sln --no-restore --verify-no-changes
 
-    - name: Publish
-      run: dotnet publish --no-build pwsh-virt.sln
+    - name: Run Tests
+      run: dotnet test pwsh-virt.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./artifacts pwsh-virt.sln
-
-    - name: Generate coverage report
+    - name: Generate Coverage Report
       run: |
         dotnet tool install -g dotnet-reportgenerator-globaltool
-        reportgenerator -reports:"./artifacts/*/coverage.cobertura.xml" -targetdir:"./artifacts" -reporttypes:"MarkdownSummaryGithub;TextSummary"
+        reportgenerator -reports:"./coverage/*/coverage.cobertura.xml" -targetdir:"./artifacts" -reporttypes:"MarkdownSummaryGithub;TextSummary"
 
-    - name: Report coverage
+        reportgenerator -reports:"./coverage/*/coverage.cobertura.xml" -targetdir:"./coverage_html" -reporttypes:"Html"
+        tar -C coverage_html -zcf ./artifacts/coverage.tar.gz .
+
+    - name: Report Coverage
       run: |
         cat "./artifacts/Summary.txt"
         cat "./artifacts/SummaryGithub.md" > $GITHUB_STEP_SUMMARY
+
+    - name: Build Release
+      run: dotnet build PwshVirt/PwshVirt.csproj --no-restore -c Release
+
+    - name: Publish Artifacts
+      run: dotnet publish pwsh-virt.sln --no-build
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifacts-${{ runner.os }}-${{ runner.arch }}-${{ github.run_number }}
+        path: artifacts/
+        retention-days: 1

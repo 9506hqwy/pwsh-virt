@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install platyPS
       shell: pwsh
@@ -27,13 +27,12 @@ jobs:
         wget -P "${LOCALPKG}" https://github.com/9506hqwy/libvirt-header-net/releases/download/0.1.0/LibvirtHeader.0.1.0.nupkg
         dotnet nuget add source --name local "${LOCALPKG}"
 
-    - name: Package
+    - name: Create Artifacts
       run: dotnet msbuild release.proj
 
     - name: Create Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        find ./artifacts -type f
         gh config set prompt disabled
         gh release create ${GITHUB_REF_NAME} ./artifacts/*  -t v${GITHUB_REF_NAME} -d
