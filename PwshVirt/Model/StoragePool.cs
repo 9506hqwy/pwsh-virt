@@ -4,12 +4,12 @@ using Libvirt.Header;
 
 public class StoragePool : VirtObject
 {
-    private readonly byte state;
+    private readonly uint state;
 
     internal StoragePool(
         Connection conn,
         RemoteNonnullStoragePool pool,
-        byte state)
+        uint state)
         : base(conn)
     {
         this.Self = pool;

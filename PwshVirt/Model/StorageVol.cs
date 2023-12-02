@@ -4,12 +4,12 @@ using Libvirt.Header;
 
 public class StorageVol : VirtObject
 {
-    private readonly byte type;
+    private readonly int type;
 
     internal StorageVol(
         Connection conn,
         RemoteNonnullStorageVol vol,
-        byte type)
+        int type)
         : base(conn)
     {
         this.Self = vol;
