@@ -133,7 +133,7 @@ internal static class DomainCapabilitiesExtension
                 PortSpecified = true,
                 TlsPort = -1,
                 TlsPortSpecified = true,
-                Autoport = DomainGraphicAutoport.Yes,
+                Autoport = VirYesNo.Yes,
                 AutoportSpecified = true,
                 ListenAttr = "::1",
             });
@@ -156,7 +156,7 @@ internal static class DomainCapabilitiesExtension
     internal static Guestcpu? GetGuestCpuDefault(this DomainCapabilities self)
     {
         var model = self.Cpu.Mode.FirstOrDefault(m => m.Name == DomainCapabilitiesCpuModeName.HostPassthrough);
-        if (model is not null && model.Supported == DomainCapabilitiesCpuModeSupported.Yes)
+        if (model is not null && model.Supported == VirYesNo.Yes)
         {
             return new Guestcpu
             {
