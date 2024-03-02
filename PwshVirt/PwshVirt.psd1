@@ -1,7 +1,7 @@
 ﻿@{
     RootModule = 'PwshVirt.dll'
 
-    ModuleVersion = '0.3.0.0'
+    ModuleVersion = '0.4.0.0'
 
     CompatiblePSEditions = @('Core', 'Desktop')
 
@@ -9,7 +9,7 @@
 
     Author = '9506hqwy'
 
-    Copyright = '(c) 2023 9506hqwy. All rights reserved.'
+    Copyright = '(c) 2024 9506hqwy. All rights reserved.'
 
     Description = 'PowerShell Cmdlet for Libvirt'
 
