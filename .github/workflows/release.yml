@@ -28,7 +28,17 @@ jobs:
         dotnet nuget add source --name local "${LOCALPKG}"
 
     - name: Create Artifacts
-      run: dotnet msbuild release.proj
+      run: |
+        dotnet msbuild release.proj
+
+        dotnet tool install -g docfx
+        docfx doc/docfx.json
+
+        CUR_DIR=$(pwd)
+        REPOSITORY_NAME=${GITHUB_REPOSITORY#${GITHUB_REPOSITORY_OWNER}/}
+        pushd "./doc/_site"
+        tar -zcf "${CUR_DIR}/artifacts/help-${REPOSITORY_NAME}.tar.gz" *
+        popd
 
     - name: Create Release
       env:

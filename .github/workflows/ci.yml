@@ -57,7 +57,17 @@ jobs:
       run: dotnet build PwshVirt/PwshVirt.csproj --no-restore -c Release
 
     - name: Publish Artifacts
-      run: dotnet publish pwsh-virt.sln --no-build
+      run: |
+        dotnet publish pwsh-virt.sln --no-build
+
+        dotnet tool install -g docfx
+        docfx doc/docfx.json
+
+        CUR_DIR=$(pwd)
+        REPOSITORY_NAME=${GITHUB_REPOSITORY#${GITHUB_REPOSITORY_OWNER}/}
+        pushd "./doc/_site"
+        tar -zcf "${CUR_DIR}/artifacts/help-${REPOSITORY_NAME}.tar.gz" *
+        popd
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
