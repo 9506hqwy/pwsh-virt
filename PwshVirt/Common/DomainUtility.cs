@@ -28,14 +28,14 @@ internal static class DomainUtility
         Connection conn,
         string name,
         int state,
-        int stateReason,
+        int _,
         CancellationToken cancellationToken)
     {
         var dom = await conn.Client.DomainLookupByNameAsync(name, cancellationToken);
 
         if (state < 0)
         {
-            (state, stateReason) = await conn.Client.DomainGetStateAsync(dom, NotUsed, cancellationToken);
+            (state, _) = await conn.Client.DomainGetStateAsync(dom, NotUsed, cancellationToken);
         }
 
         var hasManagedSave = (state == (int)VirDomainState.VirDomainShutoff) ?

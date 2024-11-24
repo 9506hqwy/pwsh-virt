@@ -34,13 +34,13 @@ public class NewVirtStorageVol : PwshVirtCmdlet
     [Parameter]
     public Connection? Server { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
-        var conn = this.GetConnection(this.Server, out var _);
+        var conn = this.GetConnection(this.Server, out _);
 
         try
         {
-            await conn.Client.StorageVolLookupByNameAsync(this.Pool!.Self, this.Name, this.Cancellation!.Token);
+            _ = await conn.Client.StorageVolLookupByNameAsync(this.Pool!.Self, this.Name, this.Cancellation!.Token);
             throw new PwshVirtException(
                 string.Format(Resource.ERR_AlreadyExistStorageVol, this.Name),
                 ErrorCategory.InvalidArgument);
@@ -102,7 +102,7 @@ public class NewVirtStorageVol : PwshVirtCmdlet
 
         var vol = await conn.Client.StorageVolCreateXmlAsync(this.Pool!.Self, xml, flgas, this.Cancellation!.Token);
 
-        (var type, var _, var _) = await conn.Client.StorageVolGetInfoAsync(vol, this.Cancellation!.Token);
+        (var type, _, _) = await conn.Client.StorageVolGetInfoAsync(vol, this.Cancellation!.Token);
 
         var model = new StorageVol(conn, vol, type);
 

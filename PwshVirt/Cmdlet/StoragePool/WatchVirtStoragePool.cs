@@ -10,9 +10,9 @@ public class WatchVirtStoragePool : PwshVirtCmdlet
     [Parameter]
     public Connection? Server { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
-        var conn = this.GetConnection(this.Server, out var _);
+        var conn = this.GetConnection(this.Server, out _);
 
         var pool = this.Pool is null ? null : new Xdr.XdrOption<RemoteNonnullStoragePool>(this.Pool.Self);
         var callbackId = await conn.Client.ConnectStoragePoolEventRegisterAnyAsync(0, pool, this.Cancellation!.Token);
@@ -28,7 +28,7 @@ public class WatchVirtStoragePool : PwshVirtCmdlet
         }
         finally
         {
-            conn.Client.DeleteEventStream(callbackId);
+            _ = conn.Client.DeleteEventStream(callbackId);
 
             // use `default` because the token is already canceled.
             await conn.Client.ConnectStoragePoolEventDeregisterAnyAsync(callbackId, default);

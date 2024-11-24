@@ -18,8 +18,8 @@ public class CopyVirtDomainGuestFileTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
 
             dom = this.Invoke<Domain>(psShell).First();
             Assert.IsNotNull(dom);
@@ -29,13 +29,13 @@ public class CopyVirtDomainGuestFileTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Copy-VirtDomainGuestFile")
+            _ = psShell.AddCommand("Copy-VirtDomainGuestFile")
                 .AddParameter("Domain", dom)
                 .AddParameter("Source", "anaconda-ks.cfg")
                 .AddParameter("Destination", "/root/anaconda-ks.cfg2")
                 .AddParameter("GuestToLocal", false);
 
-            this.Invoke<object>(psShell).First();
+            _ = this.Invoke<object>(psShell).First();
         }
     }
 }

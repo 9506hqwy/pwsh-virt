@@ -24,7 +24,7 @@ public class SetVirtCdDrive : PwshVirtCmdlet
     [Parameter(ParameterSetName = KeyInsert)]
     public Connection? Server { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var _);
 
@@ -32,18 +32,13 @@ public class SetVirtCdDrive : PwshVirtCmdlet
 
         var model = Serializer.Deserialize<Libvirt.Model.Domain>(xml);
 
-        var drive = model
+        var drive = (model
             .Devices?
             .Disk?
             .Where(d => d.Device == Libvirt.Model.DomainDiskDevice.Cdrom)
-            .FirstOrDefault(d => d.Target.Dev == this.Drive.TargetDev);
-        if (drive is null)
-        {
-            throw new PwshVirtException(
+            .FirstOrDefault(d => d.Target.Dev == this.Drive.TargetDev)) ?? throw new PwshVirtException(
                 string.Format(Resource.ERR_NotFoundDomainDevice, this.Drive.TargetDev),
                 ErrorCategory.InvalidOperation);
-        }
-
         switch (this.ParameterSetName)
         {
             case KeyEject:

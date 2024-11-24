@@ -26,7 +26,7 @@ public class Domain : VirtObject
 
     public VirDomainState Status => (VirDomainState)Enum.ToObject(typeof(VirDomainState), this.state);
 
-    public Guid Uuid => new Guid(this.Self.Uuid);
+    public Guid Uuid => new(this.Self.Uuid);
 
     internal RemoteNonnullDomain Self { get; }
 }

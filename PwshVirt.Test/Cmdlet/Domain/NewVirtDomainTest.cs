@@ -17,21 +17,21 @@ public class NewVirtDomainTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
 
-            this.Invoke<object>(psShell).First();
+            _ = this.Invoke<object>(psShell).First();
         }
 
         using (var psShell = this.CreateShell())
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("New-VirtDomain")
+            _ = psShell.AddCommand("New-VirtDomain")
                 .AddParameter("Name", Name)
                 .AddParameter("NumCpu", 2)
                 .AddParameter("Memory", "2GiB");
 
-            this.Invoke<object>(psShell).First();
+            _ = this.Invoke<object>(psShell).First();
         }
     }
 }

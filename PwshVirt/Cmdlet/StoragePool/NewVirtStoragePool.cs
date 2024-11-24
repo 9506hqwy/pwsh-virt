@@ -51,13 +51,13 @@ public class NewVirtStoragePool : PwshVirtCmdlet
     [Parameter(Mandatory = true, ParameterSetName = KeyLogical)]
     public string? VgName { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
-        var conn = this.GetConnection(this.Server, out var _);
+        var conn = this.GetConnection(this.Server, out _);
 
         try
         {
-            await conn.Client.StoragePoolLookupByNameAsync(this.Name, this.Cancellation!.Token);
+            _ = await conn.Client.StoragePoolLookupByNameAsync(this.Name, this.Cancellation!.Token);
             throw new PwshVirtException(
                 string.Format(Resource.ERR_AlreadyExistStoragePool, this.Name),
                 ErrorCategory.InvalidArgument);
@@ -106,13 +106,13 @@ public class NewVirtStoragePool : PwshVirtCmdlet
             Name = this.Name,
             Source = new PoolSource
             {
-                Device = new[]
-                {
+                Device =
+                [
                     new PoolSourceDevice
                     {
                         Path = this.DevicePath,
                     },
-                },
+                ],
                 Format = new PoolSourceFormat
                 {
                     Type = this.DeviceFormat,
@@ -135,7 +135,7 @@ public class NewVirtStoragePool : PwshVirtCmdlet
             Name = this.Name,
             Source = new PoolSource
             {
-                Name = new[] { this.VgName },
+                Name = [this.VgName],
                 Format = new PoolSourceFormat
                 {
                     Type = PoolSourceFormatType.Lvm2,
@@ -158,13 +158,13 @@ public class NewVirtStoragePool : PwshVirtCmdlet
             Name = this.Name,
             Source = new PoolSource
             {
-                Host = new[]
-                {
+                Host =
+                [
                     new PoolSourcenetfsHost
                     {
                         Name = this.Address,
                     },
-                },
+                ],
                 Dir = new PoolSourceDir
                 {
                     Path = this.ExportPath,

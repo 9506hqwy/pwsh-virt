@@ -1,5 +1,4 @@
 {
-    "coverage-gutters.showLineCoverage": true,
     "dotnet.defaultSolution": "pwsh-virt.sln",
     "editor.codeLens": false
 }

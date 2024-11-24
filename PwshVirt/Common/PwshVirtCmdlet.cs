@@ -36,12 +36,7 @@ public abstract class PwshVirtCmdlet : PSCmdlet
             isDefault = value is not null;
         }
 
-        if (value is null)
-        {
-            throw new PwshVirtException(Resource.ERR_ShouldConnectVirtServer, ErrorCategory.InvalidOperation);
-        }
-
-        return value;
+        return value is null ? throw new PwshVirtException(Resource.ERR_ShouldConnectVirtServer, ErrorCategory.InvalidOperation) : value;
     }
 
     internal void SetProgress(
@@ -104,7 +99,7 @@ public abstract class PwshVirtCmdlet : PSCmdlet
         this.hasMessage = null;
     }
 
-    protected override sealed void ProcessRecord()
+    protected sealed override void ProcessRecord()
     {
         try
         {
@@ -186,7 +181,7 @@ public abstract class PwshVirtCmdlet : PSCmdlet
     {
         lock (this.messages!)
         {
-            this.messages.TryDequeue(out var result);
+            _ = this.messages.TryDequeue(out var result);
 
             if (result is null)
             {

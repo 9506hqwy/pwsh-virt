@@ -11,18 +11,17 @@ internal static class CapabilitiesGuestcapsExtension
         var devices = new DomainDevices
         {
             Emulator = domCaps.Path,
+            Graphics = domCaps.GetGraphicsDefault(),
+            Video = domCaps.GetVideoDefault(),
+            Input = domCaps.GetInputDefault(),
+            Console = domCaps.GetConsoleDefault(),
+            Controller = domCaps.GetControllerDefault(),
+            Channel = domCaps.GetChannelDefualt(),
+            Rng = domCaps.GetRngDefualt(),
+            Memballoon = domCaps.GetMemballoonDefualt(),
+            Sound = domCaps.GeSoundDefualt(),
+            Redirdev = domCaps.GetRedirdevDefault()
         };
-
-        devices.Graphics = domCaps.GetGraphicsDefault();
-        devices.Video = domCaps.GetVideoDefault();
-        devices.Input = domCaps.GetInputDefault();
-        devices.Console = domCaps.GetConsoleDefault();
-        devices.Controller = domCaps.GetControllerDefault();
-        devices.Channel = domCaps.GetChannelDefualt();
-        devices.Rng = domCaps.GetRngDefualt();
-        devices.Memballoon = domCaps.GetMemballoonDefualt();
-        devices.Sound = domCaps.GeSoundDefualt();
-        devices.Redirdev = domCaps.GetRedirdevDefault();
 
         return new Libvirt.Model.Domain
         {
@@ -38,8 +37,8 @@ internal static class CapabilitiesGuestcapsExtension
                 },
                 FirmwareAttr = DomainOsFirmwareAttr.Efi,
                 FirmwareAttrSpecified = domCaps.SupportUefi(),
-                Boot = new[]
-                {
+                Boot =
+                [
                     new DomainOsbootdev
                     {
                         Dev = DomainOsbootdevDev.Network,
@@ -52,7 +51,7 @@ internal static class CapabilitiesGuestcapsExtension
                     {
                         Dev = DomainOsbootdevDev.Hd,
                     },
-                },
+                ],
             },
             Clock = domCaps.GetClockDefault(),
             Cpu = domCaps.GetGuestCpuDefault(),
@@ -92,34 +91,26 @@ internal static class CapabilitiesGuestcapsExtension
 
     internal static DomainPm? GetPmDefault(this CapabilitiesGuestcaps self)
     {
-        if (!self.IsArchX86())
-        {
-            return null;
-        }
-
-        return new DomainPm
-        {
-            SuspendToDisk = new DomainPmSuspendToDisk
+        return !self.IsArchX86()
+            ? null
+            : new DomainPm
             {
-                Enabled = VirYesNo.No,
-                EnabledSpecified = true,
-            },
-            SuspendToMem = new DomainPmSuspendToMem
-            {
-                Enabled = VirYesNo.No,
-                EnabledSpecified = true,
-            },
-        };
+                SuspendToDisk = new DomainPmSuspendToDisk
+                {
+                    Enabled = VirYesNo.No,
+                    EnabledSpecified = true,
+                },
+                SuspendToMem = new DomainPmSuspendToMem
+                {
+                    Enabled = VirYesNo.No,
+                    EnabledSpecified = true,
+                },
+            };
     }
 
     internal static CapabilitiesDomainType GetRecommendedDomainType(this CapabilitiesGuestcaps self)
     {
-        if (self.Arch.Domain.Any(d => d.Type == CapabilitiesDomainType.Kvm))
-        {
-            return CapabilitiesDomainType.Kvm;
-        }
-
-        return self.Arch.Domain.First().Type;
+        return self.Arch.Domain.Any(d => d.Type == CapabilitiesDomainType.Kvm) ? CapabilitiesDomainType.Kvm : self.Arch.Domain.First().Type;
     }
 
     internal static string GetRecommendedMachine(this CapabilitiesGuestcaps self)
@@ -153,8 +144,8 @@ internal static class CapabilitiesGuestcapsExtension
     internal static bool IsArchArm32(this CapabilitiesGuestcaps self)
     {
         return
-            self.Arch.Name == Archnames.Armv6l ||
-            self.Arch.Name == Archnames.Armv7l;
+            self.Arch.Name is Archnames.Armv6l or
+            Archnames.Armv7l;
     }
 
     internal static bool IsArchArm64(this CapabilitiesGuestcaps self)
@@ -165,7 +156,7 @@ internal static class CapabilitiesGuestcapsExtension
     internal static bool IsArchX86(this CapabilitiesGuestcaps self)
     {
         return
-            self.Arch.Name == Archnames.I686 ||
-            self.Arch.Name == Archnames.X8664;
+            self.Arch.Name is Archnames.I686 or
+            Archnames.X8664;
     }
 }

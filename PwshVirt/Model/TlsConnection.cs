@@ -67,7 +67,7 @@ public class TlsConnection : Connection
         // https://github.com/libvirt/libvirt/blob/v9.0.0/src/rpc/virnetclient.c#L986
         // At this point, the server is verifying _our_ certificate, IP address, etc.
         // If we make the grade, it will send us a '\1' byte.
-        ssl.ReadByte();
+        _ = ssl.ReadByte();
 
         return ssl;
     }

@@ -18,7 +18,7 @@ public class SaveVirtDomainScreenShot : PwshVirtCmdlet
     [Parameter]
     public Connection? Server { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var _);
 
@@ -27,11 +27,9 @@ public class SaveVirtDomainScreenShot : PwshVirtCmdlet
 
         using (virStream)
         {
-            using (var file = File.Open(this.Destination!.FullName, FileMode.Create, FileAccess.Write))
-            {
-                await virStream.CopyToAsync(file, 1 * 1024 * 1024, this.Cancellation!.Token);
-                await file.FlushAsync(this.Cancellation!.Token);
-            }
+            using var file = File.Open(this.Destination!.FullName, FileMode.Create, FileAccess.Write);
+            await virStream.CopyToAsync(file, 1 * 1024 * 1024, this.Cancellation!.Token);
+            await file.FlushAsync(this.Cancellation!.Token);
         }
 
         this.SetResult(this.Destination);

@@ -23,7 +23,7 @@ public class GetVirtStoragePool : PwshVirtCmdlet
     [Parameter(Mandatory = true, ParameterSetName = KeyVol)]
     public StorageVol? Vol { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var _);
 

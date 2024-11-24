@@ -18,8 +18,8 @@ public class ImportVirtStorageVolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            psShell.AddStatement().AddCommand("Get-VirtStoragePool").AddParameter("Name", "default");
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddStatement().AddCommand("Get-VirtStoragePool").AddParameter("Name", "default");
 
             pool = this.Invoke<StoragePool>(psShell).First();
             Assert.IsNotNull(pool);
@@ -30,7 +30,7 @@ public class ImportVirtStorageVolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Get-VirtStorageVol").AddParameter("Pool", pool);
+            _ = psShell.AddCommand("Get-VirtStorageVol").AddParameter("Pool", pool);
 
             vol = this.Invoke<StorageVol>(psShell).First();
             Assert.IsNotNull(vol);
@@ -40,7 +40,7 @@ public class ImportVirtStorageVolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Import-VirtStorageVol")
+            _ = psShell.AddCommand("Import-VirtStorageVol")
                 .AddParameter("Destination", vol)
                 .AddParameter("Path", FilePath);
 

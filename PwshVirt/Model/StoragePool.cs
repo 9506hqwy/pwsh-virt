@@ -20,7 +20,7 @@ public class StoragePool : VirtObject
 
     public VirStoragePoolState Status => (VirStoragePoolState)Enum.ToObject(typeof(VirStoragePoolState), this.state);
 
-    public Guid Uuid => new Guid(this.Self.Uuid);
+    public Guid Uuid => new(this.Self.Uuid);
 
     internal RemoteNonnullStoragePool Self { get; }
 }

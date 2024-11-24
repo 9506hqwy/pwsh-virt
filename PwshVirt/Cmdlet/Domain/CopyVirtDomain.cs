@@ -10,7 +10,7 @@ public class CopyVirtDomain : PwshVirtCmdlet
 {
     private const uint NotUsed = 0;
 
-    private List<RemoteNonnullStorageVol> clonedVols = new List<RemoteNonnullStorageVol>();
+    private readonly List<RemoteNonnullStorageVol> clonedVols = [];
 
     [Parameter(Mandatory = true)]
     public string? Name { get; set; }
@@ -21,7 +21,7 @@ public class CopyVirtDomain : PwshVirtCmdlet
     [Parameter(Mandatory = true, ValueFromPipeline = true)]
     public Domain? Source { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var _);
 

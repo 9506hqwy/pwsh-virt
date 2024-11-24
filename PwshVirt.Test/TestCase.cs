@@ -5,7 +5,7 @@ public class TestCase
     internal PowerShell CreateShell()
     {
         var psShell = PowerShell.Create();
-        psShell.AddCommand("Import-Module").AddParameter("Assembly", typeof(VirtObject).Assembly);
+        _ = psShell.AddCommand("Import-Module").AddParameter("Assembly", typeof(VirtObject).Assembly);
         return psShell.AddStatement();
     }
 
@@ -15,11 +15,6 @@ public class TestCase
             .Where(o => o.BaseObject is not null)
             .Where(o => typeof(T).IsAssignableFrom(o.BaseObject.GetType()))
             .Select(o => (T)o.BaseObject);
-        if (shell.HadErrors)
-        {
-            throw new Exception(shell.Streams.Error.First().Exception.Message);
-        }
-
-        return ret;
+        return shell.HadErrors ? throw new Exception(shell.Streams.Error.First().Exception.Message) : ret;
     }
 }

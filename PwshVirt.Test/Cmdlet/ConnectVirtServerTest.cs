@@ -17,7 +17,7 @@ public class ConnectVirtServerTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
 
             var conn = this.Invoke<Connection>(psShell).First();
             Assert.IsNotNull(conn);
@@ -30,9 +30,9 @@ public class ConnectVirtServerTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Disconnect-VirtServer");
+            _ = psShell.AddCommand("Disconnect-VirtServer");
 
-            this.Invoke<object>(psShell);
+            _ = this.Invoke<object>(psShell);
 
             var conn = (Connection)psShell.Runspace.SessionStateProxy.PSVariable.GetValue("DefaultVirtServer");
             Assert.IsNull(conn);
@@ -50,7 +50,7 @@ public class ConnectVirtServerTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTls);
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTls);
 
             var conn = this.Invoke<Connection>(psShell).First();
             Assert.IsNotNull(conn);
@@ -63,9 +63,9 @@ public class ConnectVirtServerTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Disconnect-VirtServer");
+            _ = psShell.AddCommand("Disconnect-VirtServer");
 
-            this.Invoke<object>(psShell);
+            _ = this.Invoke<object>(psShell);
 
             var conn = (Connection)psShell.Runspace.SessionStateProxy.PSVariable.GetValue("DefaultVirtServer");
             Assert.IsNull(conn);

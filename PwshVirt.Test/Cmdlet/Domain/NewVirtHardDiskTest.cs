@@ -19,8 +19,8 @@ public class NewVirtHardDiskTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
 
             dom = this.Invoke<Domain>(psShell).First();
             Assert.IsNotNull(dom);
@@ -31,7 +31,7 @@ public class NewVirtHardDiskTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddStatement().AddCommand("Get-VirtStorageVol").AddParameter("Key", FilePath);
+            _ = psShell.AddStatement().AddCommand("Get-VirtStorageVol").AddParameter("Key", FilePath);
 
             vol = this.Invoke<StorageVol>(psShell).First();
             Assert.IsNotNull(vol);
@@ -41,13 +41,13 @@ public class NewVirtHardDiskTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("New-VirtHardDisk")
+            _ = psShell.AddCommand("New-VirtHardDisk")
                 .AddParameter("Domain", dom)
                 .AddParameter("Vol", vol)
                 .AddParameter("DeviceFile", "vda")
                 .AddParameter("DriverType", "Qcow2");
 
-            this.Invoke<object>(psShell).First();
+            _ = this.Invoke<object>(psShell).First();
         }
     }
 }

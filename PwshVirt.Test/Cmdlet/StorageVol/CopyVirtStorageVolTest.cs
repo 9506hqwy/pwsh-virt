@@ -19,8 +19,8 @@ public class CopyVirtStorageVolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            psShell.AddStatement().AddCommand("Get-VirtStorageVol").AddParameter("Key", VolKey);
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddStatement().AddCommand("Get-VirtStorageVol").AddParameter("Key", VolKey);
             vol = this.Invoke<StorageVol>(psShell).First();
             Assert.IsNotNull(vol);
         }
@@ -29,7 +29,7 @@ public class CopyVirtStorageVolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Copy-VirtStorageVol")
+            _ = psShell.AddCommand("Copy-VirtStorageVol")
                 .AddParameter("Name", Name)
                 .AddParameter("Source", vol);
 

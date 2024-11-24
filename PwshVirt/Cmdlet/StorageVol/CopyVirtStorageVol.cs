@@ -25,7 +25,7 @@ public class CopyVirtStorageVol : PwshVirtCmdlet
     [Parameter(Mandatory = true, ValueFromPipeline = true)]
     public StorageVol? Source { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var _);
 
@@ -35,12 +35,7 @@ public class CopyVirtStorageVol : PwshVirtCmdlet
 
         var elem = XElement.Load(reader);
 
-        var name = elem.XPathSelectElements("./name").FirstOrDefault();
-        if (name is null)
-        {
-            throw new PwshVirtException(ErrorCategory.InvalidOperation);
-        }
-
+        var name = elem.XPathSelectElements("./name").FirstOrDefault() ?? throw new PwshVirtException(ErrorCategory.InvalidOperation);
         name.Value = this.Name;
 
         var newXml = elem.ToString();

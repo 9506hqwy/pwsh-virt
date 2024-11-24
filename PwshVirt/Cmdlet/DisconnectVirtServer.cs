@@ -6,7 +6,7 @@ public class DisconnectVirtServer : PwshVirtCmdlet
     [Parameter(ValueFromPipeline = true)]
     public Connection? Server { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var isDefault);
 

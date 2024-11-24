@@ -10,7 +10,7 @@ public class StopVirtNetwork : PwshVirtCmdlet
     [Parameter]
     public Connection? Server { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var _);
 

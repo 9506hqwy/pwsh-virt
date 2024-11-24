@@ -18,7 +18,7 @@ public class InvokeVirtDomainScript : PwshVirtCmdlet
     [Parameter]
     public Connection? Server { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var _);
 
@@ -42,12 +42,9 @@ public class InvokeVirtDomainScript : PwshVirtCmdlet
 
         var status = AgentCommandOutput<GuestExecStatusOutput>.ConvertFrom(output.Value);
 
-        if (status!.Return!.Exitcode != 0)
-        {
-            throw new PwshVirtException(status.Return.ErrString!, ErrorCategory.InvalidOperation);
-        }
-
-        return status.Return.OutString!;
+        return status!.Return!.Exitcode != 0
+            ? throw new PwshVirtException(status.Return.ErrString!, ErrorCategory.InvalidOperation)
+            : status.Return.OutString!;
     }
 
     private async Task<int> InvokeCmd(Connection conn)

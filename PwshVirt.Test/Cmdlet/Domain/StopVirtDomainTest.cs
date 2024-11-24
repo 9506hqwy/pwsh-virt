@@ -18,8 +18,8 @@ public class StopVirtDomainTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
 
             dom = this.Invoke<Domain>(psShell).First();
             Assert.IsNotNull(dom);
@@ -29,11 +29,11 @@ public class StopVirtDomainTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Stop-VirtDomain")
+            _ = psShell.AddCommand("Stop-VirtDomain")
                 .AddParameter("Domain", dom)
                 .AddParameter("Hibernate", true);
 
-            this.Invoke<object>(psShell).First();
+            _ = this.Invoke<object>(psShell).First();
         }
     }
 }

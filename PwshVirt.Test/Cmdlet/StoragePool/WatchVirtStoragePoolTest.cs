@@ -17,8 +17,8 @@ public class WatchVirtStoragePoolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            psShell.AddStatement().AddCommand("Get-VirtStoragePool").AddParameter("Name", "default");
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddStatement().AddCommand("Get-VirtStoragePool").AddParameter("Name", "default");
 
             pool = this.Invoke<StoragePool>(psShell).First();
             Assert.IsNotNull(pool);
@@ -28,9 +28,9 @@ public class WatchVirtStoragePoolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Watch-VirtStoragePool").AddParameter("Pool", pool);
+            _ = psShell.AddCommand("Watch-VirtStoragePool").AddParameter("Pool", pool);
 
-            this.Invoke<object>(psShell).First();
+            _ = this.Invoke<object>(psShell).First();
         }
     }
 }

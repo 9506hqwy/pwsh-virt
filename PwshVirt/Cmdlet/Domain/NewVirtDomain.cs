@@ -21,7 +21,7 @@ public class NewVirtDomain : PwshVirtCmdlet
     [Parameter]
     public Connection? Server { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var _);
 
@@ -82,10 +82,10 @@ public class NewVirtDomain : PwshVirtCmdlet
 
     private void SetDomainDisk(Libvirt.Model.Domain domain, DomainCapabilities domCaps)
     {
-        domain.Devices.Disk = new[]
-        {
+        domain.Devices.Disk =
+        [
             domCaps.GetRecommendedCdrom(),
-        };
+        ];
     }
 
     private void SetDomainMemory(Libvirt.Model.Domain domain)

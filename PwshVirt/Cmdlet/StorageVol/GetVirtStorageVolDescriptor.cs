@@ -12,7 +12,7 @@ public class GetVirtStorageVolDescriptor : PwshVirtCmdlet
     [Parameter(Mandatory = true, ValueFromPipeline = true)]
     public StorageVol? Vol { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var _);
 

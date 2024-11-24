@@ -19,8 +19,8 @@ public class NewVirtStorageVolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            psShell.AddStatement().AddCommand("Get-VirtStoragePool").AddParameter("Name", PoolName);
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddStatement().AddCommand("Get-VirtStoragePool").AddParameter("Name", PoolName);
             pool = this.Invoke<StoragePool>(psShell).First();
             Assert.IsNotNull(pool);
         }
@@ -29,7 +29,7 @@ public class NewVirtStorageVolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("New-VirtStorageVol")
+            _ = psShell.AddCommand("New-VirtStorageVol")
                 .AddParameter("Name", Name)
                 .AddParameter("Capacity", "1GiB")
                 .AddParameter("Pool", pool);

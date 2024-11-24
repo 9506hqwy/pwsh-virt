@@ -8,21 +8,20 @@ internal static class DomainCapabilitiesExtension
     {
         var ret = new List<DomainChannel>()
         {
-            new DomainChannel
-            {
+            new() {
                 Type = QemucdevSrcTypeChoice.Unix,
                 Target = new DomainChannelTarget
                 {
                     Type = DomainChannelTargetType.Virtio,
                     Name = "org.qemu.guest_agent.0",
                 },
-                Source = new[]
-                {
+                Source =
+                [
                     new DomainSerialSource
                     {
                         Mode = "bind",
                     },
-                },
+                ],
             },
         };
 
@@ -39,7 +38,7 @@ internal static class DomainCapabilitiesExtension
             });
         }
 
-        return ret.ToArray();
+        return [.. ret];
     }
 
     internal static DomainClock GetClockDefault(this DomainCapabilities self)
@@ -54,8 +53,8 @@ internal static class DomainCapabilitiesExtension
             return clock;
         }
 
-        clock.Timer = new[]
-        {
+        clock.Timer =
+        [
             new DomainTimer
             {
                 Name = DomainTimerName.Rtc,
@@ -74,42 +73,42 @@ internal static class DomainCapabilitiesExtension
                 Present = VirYesNo.No,
                 PresentSpecified = true,
             },
-        };
+        ];
 
         return clock;
     }
 
-    internal static DomainConsole[] GetConsoleDefault(this DomainCapabilities self)
+    internal static DomainConsole[] GetConsoleDefault(this DomainCapabilities _)
     {
-        return new[]
-        {
+        return
+        [
             new DomainConsole
             {
                 Type = QemucdevSrcTypeChoice.Pty,
                 TypeSpecified = true,
             },
-        };
+        ];
     }
 
-    internal static DomainController[] GetControllerDefault(this DomainCapabilities self)
+    internal static DomainController[] GetControllerDefault(this DomainCapabilities _)
     {
-        return new[]
-        {
+        return
+        [
             new DomainController
             {
-              Type = DomainControllerType.Usb,
-              ModelAttr = DomainControllerModelAttr.QemuXhci,
-              ModelAttrSpecified = true,
-              Ports = 15,
-              PortsSpecified = true,
+                Type = DomainControllerType.Usb,
+                ModelAttr = DomainControllerModelAttr.QemuXhci,
+                ModelAttrSpecified = true,
+                Ports = 15,
+                PortsSpecified = true,
             },
             new DomainController
             {
-              Type = DomainControllerType.Scsi,
-              ModelAttr = DomainControllerModelAttr.VirtioScsi,
-              ModelAttrSpecified = true,
+                Type = DomainControllerType.Scsi,
+                ModelAttr = DomainControllerModelAttr.VirtioScsi,
+                ModelAttrSpecified = true,
             },
-        };
+        ];
     }
 
     internal static DomainGraphic[]? GetGraphicsDefault(this DomainCapabilities self)
@@ -150,24 +149,21 @@ internal static class DomainCapabilitiesExtension
             });
         }
 
-        return ret.Count != 0 ? ret.ToArray() : null;
+        return ret.Count != 0 ? [.. ret] : null;
     }
 
     internal static Guestcpu? GetGuestCpuDefault(this DomainCapabilities self)
     {
         var model = self.Cpu.Mode.FirstOrDefault(m => m.Name == DomainCapabilitiesCpuModeName.HostPassthrough);
-        if (model is not null && model.Supported == VirYesNo.Yes)
-        {
-            return new Guestcpu
+        return model is not null && model.Supported == VirYesNo.Yes
+            ? new Guestcpu
             {
                 Mode = GuestcpuCpuMode.HostPassthrough,
                 ModeSpecified = true,
                 Check = GuestcpuCpuCheck.None,
                 CheckSpecified = true,
-            };
-        }
-
-        return null;
+            }
+            : null;
     }
 
     internal static DomainInput[]? GetInputDefault(this DomainCapabilities self)
@@ -194,10 +190,10 @@ internal static class DomainCapabilitiesExtension
             });
         }
 
-        return ret.Count != 0 ? ret.ToArray() : null;
+        return ret.Count != 0 ? [.. ret] : null;
     }
 
-    internal static DomainMemballoon GetMemballoonDefualt(this DomainCapabilities self)
+    internal static DomainMemballoon GetMemballoonDefualt(this DomainCapabilities _)
     {
         return new DomainMemballoon
         {
@@ -227,18 +223,12 @@ internal static class DomainCapabilitiesExtension
 
     internal static DomainRedirdev[]? GetRedirdevDefault(this DomainCapabilities self)
     {
-        if (!self.IsArchX86())
-        {
-            return null;
-        }
-
-        if (!self.SupportSpice())
-        {
-            return null;
-        }
-
-        return new[]
-        {
+        return !self.IsArchX86()
+            ? null
+            : !self.SupportSpice()
+            ? null
+            : (
+        [
             new DomainRedirdev
             {
                 Bus = DomainRedirdevBus.Usb,
@@ -249,13 +239,13 @@ internal static class DomainCapabilitiesExtension
                 Bus = DomainRedirdevBus.Usb,
                 Type = QemucdevSrcTypeChoice.Spicevmc,
             },
-        };
+        ]);
     }
 
-    internal static DomainRng[] GetRngDefualt(this DomainCapabilities self)
+    internal static DomainRng[] GetRngDefualt(this DomainCapabilities _)
     {
-        return new[]
-        {
+        return
+        [
             new DomainRng
             {
                 Model = DomainRngModel.Virtio,
@@ -265,18 +255,18 @@ internal static class DomainCapabilitiesExtension
                     Value = "/dev/urandom",
                 },
             },
-        };
+        ];
     }
 
-    internal static DomainSound[] GeSoundDefualt(this DomainCapabilities self)
+    internal static DomainSound[] GeSoundDefualt(this DomainCapabilities _)
     {
-        return new[]
-        {
+        return
+        [
             new DomainSound
             {
                 Model = DomainSoundModel.Ich9,
             },
-        };
+        ];
     }
 
     internal static DomainVideo[]? GetVideoDefault(this DomainCapabilities self)
@@ -301,8 +291,8 @@ internal static class DomainCapabilitiesExtension
             ret = DomainVideoModelType.Qxl;
         }
 
-        return new[]
-        {
+        return
+        [
             new DomainVideo
             {
                 Model = new DomainVideoModel
@@ -310,7 +300,7 @@ internal static class DomainCapabilitiesExtension
                     Type = ret,
                 },
             },
-        };
+        ];
     }
 
     internal static bool IsArchArm(this DomainCapabilities self)

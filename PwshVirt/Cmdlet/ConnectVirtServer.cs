@@ -49,7 +49,7 @@ public class ConnectVirtServer : PwshVirtCmdlet
     [Parameter]
     public Uri? Uri { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = await this.GetConnection();
 
@@ -136,7 +136,7 @@ public class ConnectVirtServer : PwshVirtCmdlet
             this.Force.ToBool() ||
             (query.TryGetValue("no_verify", out var noVerifyValue) && noVerifyValue == "1");
 
-        query.TryGetValue("pfxpath", out var queryFfxPath);
+        _ = query.TryGetValue("pfxpath", out var queryFfxPath);
         var pfxPath = this.PfxPath?.FullName ?? queryFfxPath;
 
         var tcp = new TcpClient();
@@ -152,21 +152,18 @@ public class ConnectVirtServer : PwshVirtCmdlet
             !string.IsNullOrWhiteSpace(this.Transport) ?
             this.Transport! :
             this.Uri is not null ?
-            this.Uri!.Scheme.Split(new[] { '+' }, 2).Last() :
+            this.Uri!.Scheme.Split(['+'], 2).Last() :
             DefaultTransport;
     }
 
     private IDictionary<string, string> GetQuery()
     {
-        if (this.Uri is null)
-        {
-            return new Dictionary<string, string>();
-        }
-
-        return this.Uri.Query
+        return this.Uri is null
+            ? new Dictionary<string, string>()
+            : (IDictionary<string, string>)this.Uri.Query
             .TrimStart('?')
             .Split('&')
-            .Select(q => q.Split(new[] { '=' }, 2))
+            .Select(q => q.Split(['='], 2))
             .Where(q => q.Length == 2)
             .ToDictionary(q => q[0], q => Uri.UnescapeDataString(q[1]));
     }

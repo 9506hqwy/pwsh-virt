@@ -10,7 +10,7 @@ internal static class Serializer
         var ser = new XmlSerializer(typeof(T));
 
         using var mem = new MemoryStream(Encoding.UTF8.GetBytes(value));
-        mem.Seek(0, SeekOrigin.Begin);
+        _ = mem.Seek(0, SeekOrigin.Begin);
 
         return (T)ser.Deserialize(mem);
     }

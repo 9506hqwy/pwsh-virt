@@ -21,7 +21,7 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
     [Parameter(Mandatory = true)]
     public string? Source { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var _);
 
@@ -60,7 +60,7 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
 
         var cmd = input.ToJson();
 
-        await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
+        _ = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
     }
 
     private async Task CopyToGuest(Connection conn, int handle, string path)
@@ -111,7 +111,7 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
 
         var cmd = input.ToJson();
 
-        await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
+        _ = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
     }
 
     private async Task<int> OpenFile(Connection conn, string path, string mode)

@@ -18,8 +18,8 @@ public class InvokeVirtDomainScriptTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
 
             dom = this.Invoke<Domain>(psShell).First();
             Assert.IsNotNull(dom);
@@ -29,12 +29,12 @@ public class InvokeVirtDomainScriptTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Invoke-VirtDomainScript")
+            _ = psShell.AddCommand("Invoke-VirtDomainScript")
                 .AddParameter("Domain", dom)
                 .AddParameter("Path", "/bin/bash")
                 .AddParameter("Arguments", new[] { "-c", "echo ${PATH}" });
 
-            this.Invoke<object>(psShell).First();
+            _ = this.Invoke<object>(psShell).First();
         }
     }
 }

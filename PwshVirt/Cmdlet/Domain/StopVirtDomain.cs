@@ -38,7 +38,7 @@ public class StopVirtDomain : PwshVirtCmdlet
     [Parameter(Mandatory = true, ParameterSetName = KeyShutdown)]
     public SwitchParameter Shutdown { get; set; }
 
-    internal async override Task Execute()
+    internal override async Task Execute()
     {
         var conn = this.GetConnection(this.Server, out var _);
 

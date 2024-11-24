@@ -19,8 +19,8 @@ public class CopyVirtDomainTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
 
             dom = this.Invoke<Domain>(psShell).First();
             Assert.IsNotNull(dom);
@@ -30,11 +30,11 @@ public class CopyVirtDomainTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Copy-VirtDomain")
+            _ = psShell.AddCommand("Copy-VirtDomain")
                 .AddParameter("Source", dom)
                 .AddParameter("Name", NewName);
 
-            this.Invoke<object>(psShell).First();
+            _ = this.Invoke<object>(psShell).First();
         }
     }
 }

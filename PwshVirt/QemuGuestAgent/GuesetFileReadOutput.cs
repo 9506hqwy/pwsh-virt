@@ -18,11 +18,6 @@ public class GuesetFileReadOutput
 
     private byte[]? GetByte(string? base64)
     {
-        if (base64 == null)
-        {
-            return null;
-        }
-
-        return Convert.FromBase64String(base64);
+        return base64 == null ? null : Convert.FromBase64String(base64);
     }
 }

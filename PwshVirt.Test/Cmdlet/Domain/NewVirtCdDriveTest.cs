@@ -18,8 +18,8 @@ public class NewVirtCdDriveTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
 
             dom = this.Invoke<Domain>(psShell).First();
             Assert.IsNotNull(dom);
@@ -29,11 +29,11 @@ public class NewVirtCdDriveTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("New-VirtCdDrive")
+            _ = psShell.AddCommand("New-VirtCdDrive")
                 .AddParameter("Domain", dom)
                 .AddParameter("DeviceFile", "vda");
 
-            this.Invoke<object>(psShell).First();
+            _ = this.Invoke<object>(psShell).First();
         }
     }
 }

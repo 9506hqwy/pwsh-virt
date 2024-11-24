@@ -16,15 +16,15 @@ public class NewVirtStoragePoolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            this.Invoke<object>(psShell).First();
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = this.Invoke<object>(psShell).First();
         }
 
         using (var psShell = this.CreateShell())
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("New-VirtStoragePool")
+            _ = psShell.AddCommand("New-VirtStoragePool")
                 .AddParameter("Name", "dir")
                 .AddParameter("Path", "/mnt/images");
 
@@ -43,15 +43,15 @@ public class NewVirtStoragePoolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            this.Invoke<object>(psShell).First();
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = this.Invoke<object>(psShell).First();
         }
 
         using (var psShell = this.CreateShell())
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("New-VirtStoragePool")
+            _ = psShell.AddCommand("New-VirtStoragePool")
                 .AddParameter("DeviceFormat", "Gpt")
                 .AddParameter("DevicePath", "/dev/nvme0n1")
                 .AddParameter("Name", "physical")
@@ -72,15 +72,15 @@ public class NewVirtStoragePoolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            this.Invoke<object>(psShell).First();
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = this.Invoke<object>(psShell).First();
         }
 
         using (var psShell = this.CreateShell())
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("New-VirtStoragePool")
+            _ = psShell.AddCommand("New-VirtStoragePool")
                 .AddParameter("Name", "lvm")
                 .AddParameter("VgName", "vgpool");
 
@@ -99,15 +99,15 @@ public class NewVirtStoragePoolTest : TestCase
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            this.Invoke<object>(psShell).First();
+            _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
+            _ = this.Invoke<object>(psShell).First();
         }
 
         using (var psShell = this.CreateShell())
         {
             psShell.Runspace = rs;
 
-            psShell.AddCommand("New-VirtStoragePool")
+            _ = psShell.AddCommand("New-VirtStoragePool")
                 .AddParameter("Address", "127.0.0.1")
                 .AddParameter("ExportPath", "/mnt/exports")
                 .AddParameter("ExportType", "Auto")
