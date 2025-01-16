@@ -19,6 +19,11 @@ jobs:
         Set-PSRepository PSGallery -InstallationPolicy Trusted
         Install-Module -Name platyPS -Scope CurrentUser
 
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install mono-complete
+
     - name: Prepare Dependencies
       run: |
         LOCALPKG=`mktemp -d`
