@@ -22,7 +22,13 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install mono-complete
+        sudo apt-get install \
+            curl \
+            mono-complete \
+            wget
+
+        curl -sSL https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh | \
+            bash -s -- --install-dir /usr/lib/dotnet --version 8.0.405
 
     - name: Prepare Dependencies
       run: |
