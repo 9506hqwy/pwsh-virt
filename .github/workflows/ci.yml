@@ -8,35 +8,24 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
 
     - name: Install platyPS
-      shell: pwsh
       run: |
         Set-PSRepository PSGallery -InstallationPolicy Trusted
         Install-Module -Name platyPS -Scope CurrentUser
 
-    - name: Install Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install \
-            curl \
-            mono-complete \
-            wget
-
-        curl -sSL https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh | \
-            sudo bash -s -- --install-dir /usr/lib/dotnet --version 8.0.405
-
     - name: Prepare Dependencies
       run: |
-        LOCALPKG=`mktemp -d`
-        wget -P "${LOCALPKG}" https://github.com/9506hqwy/xdr-net/releases/download/0.4.0/Xdr.0.4.0.nupkg
-        wget -P "${LOCALPKG}" https://github.com/9506hqwy/libvirt-schema-net/releases/download/11.1.0/LibvirtModel.11.1.0.nupkg
-        wget -P "${LOCALPKG}" https://github.com/9506hqwy/libvirt-remote-net/releases/download/11.1.0/LibvirtRemote.11.1.0.nupkg
-        wget -P "${LOCALPKG}" https://github.com/9506hqwy/libvirt-header-net/releases/download/11.1.0/LibvirtHeader.11.1.0.nupkg
+        $LOCALPKG = $(Join-Path ${env:TEMP} $(New-Guid))
+        mkdir "${LOCALPKG}"
+        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/xdr-net/releases/download/0.4.0/Xdr.0.4.0.nupkg
+        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-schema-net/releases/download/11.1.0/LibvirtModel.11.1.0.nupkg
+        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-remote-net/releases/download/11.1.0/LibvirtRemote.11.1.0.nupkg
+        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-header-net/releases/download/11.1.0/LibvirtHeader.11.1.0.nupkg
         dotnet nuget add source --name local "${LOCALPKG}"
 
     - name: Restore Dependencies
@@ -49,36 +38,34 @@ jobs:
       run: dotnet format pwsh-virt.sln --no-restore --verify-no-changes
 
     - name: Run Tests
-      run: dotnet test pwsh-virt.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+      run: dotnet test pwsh-virt.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory .\coverage
 
     - name: Generate Coverage Report
       run: |
         dotnet tool install -g dotnet-reportgenerator-globaltool
-        reportgenerator -reports:"./coverage/*/coverage.cobertura.xml" -targetdir:"./artifacts" -reporttypes:"MarkdownSummaryGithub;TextSummary"
+        reportgenerator -reports:".\coverage\*\coverage.cobertura.xml" -targetdir:".\artifacts" -reporttypes:"MarkdownSummaryGithub;TextSummary"
 
-        reportgenerator -reports:"./coverage/*/coverage.cobertura.xml" -targetdir:"./coverage_html" -reporttypes:"Html"
-        tar -C coverage_html -zcf ./artifacts/coverage.tar.gz .
+        reportgenerator -reports:".\coverage\*\coverage.cobertura.xml" -targetdir:".\coverage_html" -reporttypes:"Html"
+        Compress-Archive -Path '.\coverage_html\*' -DestinationPath ".\artifacts\coverage.zip"
 
     - name: Report Coverage
       run: |
-        cat "./artifacts/Summary.txt"
-        cat "./artifacts/SummaryGithub.md" > $GITHUB_STEP_SUMMARY
+        cat ".\artifacts\Summary.txt"
+        cat ".\artifacts\SummaryGithub.md" > "${env:GITHUB_STEP_SUMMARY}"
 
     - name: Build Release
-      run: dotnet build PwshVirt/PwshVirt.csproj --no-restore -c Release
+      run: dotnet build PwshVirt\PwshVirt.csproj --no-restore -c Release
 
     - name: Publish Artifacts
       run: |
         dotnet publish pwsh-virt.sln --no-build
 
         dotnet tool install -g docfx
-        docfx doc/docfx.json
+        docfx doc\docfx.json
 
-        CUR_DIR=$(pwd)
-        REPOSITORY_NAME=${GITHUB_REPOSITORY#${GITHUB_REPOSITORY_OWNER}/}
-        pushd "./doc/_site"
-        tar -zcf "${CUR_DIR}/artifacts/help-${REPOSITORY_NAME}.tar.gz" *
-        popd
+        $CUR_DIR = $(pwd)
+        $REPOSITORY_NAME = ${env:GITHUB_REPOSITORY}.replace("${env:GITHUB_REPOSITORY_OWNER}/", "")
+        Compress-Archive -Path '.\doc\_site\*' -DestinationPath "${CUR_DIR}\artifacts\help-${REPOSITORY_NAME}.zip"
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4

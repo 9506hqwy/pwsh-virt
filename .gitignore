@@ -400,3 +400,6 @@ FodyWeavers.xsd
 # docfx
 doc/_site/
 doc/api/
+
+# test coverage
+coverage_html/
