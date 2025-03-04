@@ -13,7 +13,8 @@ Start up network.
 ## SYNTAX
 
 ```
-Start-VirtNetwork -Network <Network> [-Server <Connection>] [<CommonParameters>]
+Start-VirtNetwork -Network <Network> [-Server <Connection>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -52,6 +53,21 @@ If omitted, use $DefaultVirtServer.
 Type: Connection
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

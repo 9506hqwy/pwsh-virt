@@ -15,13 +15,13 @@ schema: 2.0.0
 ### Network (Default)
 ```
 New-VirtNetworkAdapter -Domain <Domain> [-MacAddress <PhysicalAddress>] [-Model <String>] -NetworkName <String>
- [-Server <Connection>] [<CommonParameters>]
+ [-Server <Connection>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### Bridge
 ```
 New-VirtNetworkAdapter -BridgeName <String> -Domain <Domain> [-MacAddress <PhysicalAddress>] [-Model <String>]
- [-Server <Connection>] [<CommonParameters>]
+ [-Server <Connection>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -120,6 +120,21 @@ Accept wildcard characters: False
 Type: Connection
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

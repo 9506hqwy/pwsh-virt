@@ -14,7 +14,7 @@ schema: 2.0.0
 
 ```
 Save-VirtDomainScreenShot -Destination <FileInfo> -Domain <Domain> [-Screen <UInt32>] [-Server <Connection>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -83,6 +83,21 @@ Accept wildcard characters: False
 Type: Connection
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

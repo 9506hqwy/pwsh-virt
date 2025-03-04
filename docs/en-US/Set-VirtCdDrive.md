@@ -14,12 +14,14 @@ Set optical drive of domain.
 
 ### Insert (Default)
 ```
-Set-VirtCdDrive -Drive <CdDrive> [-IsoPath <String>] [-Server <Connection>] [<CommonParameters>]
+Set-VirtCdDrive -Drive <CdDrive> [-IsoPath <String>] [-Server <Connection>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### Eject
 ```
-Set-VirtCdDrive -Drive <CdDrive> [-Eject] [-Server <Connection>] [<CommonParameters>]
+Set-VirtCdDrive -Drive <CdDrive> [-Eject] [-Server <Connection>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -94,6 +96,21 @@ If omitted, use $DefaultVirtServer.
 Type: Connection
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

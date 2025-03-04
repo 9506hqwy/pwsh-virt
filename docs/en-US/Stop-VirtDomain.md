@@ -14,18 +14,20 @@ Stop domain.
 
 ### PowerOff (Default)
 ```
-Stop-VirtDomain -Domain <Domain> [-Server <Connection>] [<CommonParameters>]
+Stop-VirtDomain -Domain <Domain> [-Server <Connection>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ### Hibernate
 ```
 Stop-VirtDomain [-BypassCache] -Domain <Domain> [-Hibernate] [-Paused] [-Running] [-Server <Connection>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### Shutdown
 ```
-Stop-VirtDomain -Domain <Domain> [-Server <Connection>] [-Shutdown] [<CommonParameters>]
+Stop-VirtDomain -Domain <Domain> [-Server <Connection>] [-Shutdown] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -147,6 +149,21 @@ Parameter Sets: Shutdown
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

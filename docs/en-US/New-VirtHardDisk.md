@@ -14,7 +14,7 @@ Add hard disk to domain.
 
 ```
 New-VirtHardDisk -DeviceFile <String> -Domain <Domain> [-Driver <String>] [-DriverType <DomainDiskDriverType>]
- -Vol <StorageVol> [-Server <Connection>] [<CommonParameters>]
+ -Vol <StorageVol> [-Server <Connection>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -116,6 +116,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

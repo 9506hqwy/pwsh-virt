@@ -14,17 +14,19 @@ schema: 2.0.0
 
 ### All (Default)
 ```
-Get-VirtStoragePool [-Server <Connection>] [<CommonParameters>]
+Get-VirtStoragePool [-Server <Connection>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### Name
 ```
-Get-VirtStoragePool -Name <String> [-Server <Connection>] [<CommonParameters>]
+Get-VirtStoragePool -Name <String> [-Server <Connection>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ### Vol
 ```
-Get-VirtStoragePool [-Server <Connection>] -Vol <StorageVol> [<CommonParameters>]
+Get-VirtStoragePool [-Server <Connection>] -Vol <StorageVol> [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -86,6 +88,21 @@ Parameter Sets: Vol
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

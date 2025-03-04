@@ -13,7 +13,8 @@ Copy domain.
 ## SYNTAX
 
 ```
-Copy-VirtDomain -Name <String> [-Server <Connection>] -Source <Domain> [<CommonParameters>]
+Copy-VirtDomain -Name <String> [-Server <Connection>] -Source <Domain> [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -72,6 +73,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

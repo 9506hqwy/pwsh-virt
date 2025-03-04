@@ -15,7 +15,7 @@ schema: 2.0.0
 ```
 New-VirtStorageVol [-Allocation <String>] [-BackingVol <StorageVol>] [-BackingVolFormat <VolTargetFormatType>]
  -Capacity <String> [-Format <VolTargetFormatType>] -Name <String> -Pool <StoragePool> [-PreallocMetadata]
- [-Server <Connection>] [<CommonParameters>]
+ [-Server <Connection>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -161,6 +161,21 @@ Accept wildcard characters: False
 Type: Connection
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

@@ -14,24 +14,26 @@ schema: 2.0.0
 
 ### Dir (Default)
 ```
-New-VirtStoragePool -Name <String> -Path <String> [-Server <Connection>] [<CommonParameters>]
+New-VirtStoragePool -Name <String> -Path <String> [-Server <Connection>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ### Netfs
 ```
 New-VirtStoragePool -Address <String> [-ExportType <PoolSourceFormatType>] -ExportPath <String> -Name <String>
- -Path <String> [-Server <Connection>] [<CommonParameters>]
+ -Path <String> [-Server <Connection>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### Disk
 ```
 New-VirtStoragePool [-DeviceFormat <PoolSourceFormatType>] -DevicePath <String> -Name <String> -Path <String>
- [-Server <Connection>] [<CommonParameters>]
+ [-Server <Connection>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### Logical
 ```
-New-VirtStoragePool -Name <String> [-Server <Connection>] -VgName <String> [<CommonParameters>]
+New-VirtStoragePool -Name <String> [-Server <Connection>] -VgName <String> [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -179,6 +181,21 @@ Parameter Sets: Logical
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

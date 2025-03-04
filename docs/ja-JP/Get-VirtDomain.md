@@ -14,12 +14,12 @@ schema: 2.0.0
 
 ### All (Default)
 ```
-Get-VirtDomain [-Server <Connection>] [<CommonParameters>]
+Get-VirtDomain [-Server <Connection>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### Name
 ```
-Get-VirtDomain -Name <String> [-Server <Connection>] [<CommonParameters>]
+Get-VirtDomain -Name <String> [-Server <Connection>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -64,6 +64,21 @@ Accept wildcard characters: False
 Type: Connection
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

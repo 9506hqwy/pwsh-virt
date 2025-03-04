@@ -14,7 +14,7 @@ Get XML descriptor of domain.
 
 ```
 Get-VirtDomainDescriptor -Domain <Domain> [-Inactive] [-Migratable] [-Secure] [-UpdateCpu]
- [-Server <Connection>] [<CommonParameters>]
+ [-Server <Connection>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -113,6 +113,21 @@ Update guest CPU information by host CPU information.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

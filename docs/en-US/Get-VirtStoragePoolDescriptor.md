@@ -13,7 +13,8 @@ Get XML descriptor of storage pool.
 ## SYNTAX
 
 ```
-Get-VirtStoragePoolDescriptor -Pool <StoragePool> [-Server <Connection>] [<CommonParameters>]
+Get-VirtStoragePoolDescriptor -Pool <StoragePool> [-Server <Connection>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -52,6 +53,21 @@ If omitted, use $DefaultVirtServer.
 Type: Connection
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

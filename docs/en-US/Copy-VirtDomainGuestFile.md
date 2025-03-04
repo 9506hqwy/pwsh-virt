@@ -14,7 +14,7 @@ Copy file to guest OS from local, or copy file to local from guest OS.
 
 ```
 Copy-VirtDomainGuestFile -Destination <String> -Domain <Domain> [-GuestToLocal] [-Server <Connection>]
- -Source <String> [<CommonParameters>]
+ -Source <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -106,6 +106,21 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
