@@ -77,7 +77,7 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
                 break;
             }
 
-            var output = await this.WriteFile(conn, handle, buffer.Take(n).ToArray());
+            var output = await this.WriteFile(conn, handle, [.. buffer.Take(n)]);
 
             eof = output.Eof;
         }

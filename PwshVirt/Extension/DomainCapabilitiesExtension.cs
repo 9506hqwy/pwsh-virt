@@ -227,7 +227,7 @@ internal static class DomainCapabilitiesExtension
             ? null
             : !self.SupportSpice()
             ? null
-            : (
+            :
         [
             new DomainRedirdev
             {
@@ -239,7 +239,7 @@ internal static class DomainCapabilitiesExtension
                 Bus = DomainRedirdevBus.Usb,
                 Type = QemucdevSrcTypeChoice.Spicevmc,
             },
-        ]);
+        ];
     }
 
     internal static DomainRng[] GetRngDefualt(this DomainCapabilities _)
