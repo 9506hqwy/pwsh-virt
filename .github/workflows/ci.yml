@@ -43,6 +43,9 @@ jobs:
     - name: Run Tests
       run: dotnet test pwsh-virt.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory .\coverage
 
+    - name: Create Artifacts
+      run: dotnet msbuild release.proj
+
     - name: Generate Coverage Report
       run: |
         dotnet tool install -g dotnet-reportgenerator-globaltool
@@ -56,13 +59,8 @@ jobs:
         cat ".\artifacts\Summary.txt"
         cat ".\artifacts\SummaryGithub.md" > "${env:GITHUB_STEP_SUMMARY}"
 
-    - name: Build Release
-      run: dotnet build PwshVirt\PwshVirt.csproj --no-restore -c Release
-
     - name: Publish Artifacts
       run: |
-        dotnet publish pwsh-virt.sln --no-build
-
         dotnet tool install -g docfx
         docfx doc\docfx.json
 
