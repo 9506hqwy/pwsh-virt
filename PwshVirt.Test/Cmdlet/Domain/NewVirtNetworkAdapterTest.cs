@@ -14,18 +14,18 @@ public class NewVirtNetworkAdapterTest : TestCase
         rs.Open();
 
         Domain? dom = null;
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
             _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
             _ = psShell.AddStatement().AddCommand("Get-VirtDomain").AddParameter("Name", Name);
 
-            dom = this.Invoke<Domain>(psShell).First();
+            dom = TestCase.Invoke<Domain>(psShell).First();
             Assert.IsNotNull(dom);
         }
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
@@ -34,7 +34,7 @@ public class NewVirtNetworkAdapterTest : TestCase
                 .AddParameter("Type", "Bridge")
                 .AddParameter("NetworkName", "virbr0");
 
-            _ = this.Invoke<object>(psShell).First();
+            _ = TestCase.Invoke<object>(psShell).First();
         }
     }
 }

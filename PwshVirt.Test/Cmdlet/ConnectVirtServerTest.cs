@@ -13,26 +13,26 @@ public class ConnectVirtServerTest : TestCase
         using var rs = RunspaceFactory.CreateRunspace();
         rs.Open();
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
             _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
 
-            var conn = this.Invoke<Connection>(psShell).First();
+            var conn = TestCase.Invoke<Connection>(psShell).First();
             Assert.IsNotNull(conn);
 
             conn = (Connection)psShell.Runspace.SessionStateProxy.PSVariable.GetValue("DefaultVirtServer");
             Assert.IsNotNull(conn);
         }
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
             _ = psShell.AddCommand("Disconnect-VirtServer");
 
-            _ = this.Invoke<object>(psShell);
+            _ = TestCase.Invoke<object>(psShell);
 
             var conn = (Connection)psShell.Runspace.SessionStateProxy.PSVariable.GetValue("DefaultVirtServer");
             Assert.IsNull(conn);
@@ -46,26 +46,26 @@ public class ConnectVirtServerTest : TestCase
         using var rs = RunspaceFactory.CreateRunspace();
         rs.Open();
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
             _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTls);
 
-            var conn = this.Invoke<Connection>(psShell).First();
+            var conn = TestCase.Invoke<Connection>(psShell).First();
             Assert.IsNotNull(conn);
 
             conn = (Connection)psShell.Runspace.SessionStateProxy.PSVariable.GetValue("DefaultVirtServer");
             Assert.IsNotNull(conn);
         }
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
             _ = psShell.AddCommand("Disconnect-VirtServer");
 
-            _ = this.Invoke<object>(psShell);
+            _ = TestCase.Invoke<object>(psShell);
 
             var conn = (Connection)psShell.Runspace.SessionStateProxy.PSVariable.GetValue("DefaultVirtServer");
             Assert.IsNull(conn);

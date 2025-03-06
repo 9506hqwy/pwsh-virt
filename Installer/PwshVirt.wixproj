@@ -16,7 +16,7 @@
     <DefineConstants>
       Manufacturer=$(Authors);
       Name=$(Description);
-      SourcePath=$(OutputPath)Publish\;
+      SourcePath=$(OutputPath)Publish\Desk\;
       Version=$(PackageVersion);
     </DefineConstants>
   </PropertyGroup>

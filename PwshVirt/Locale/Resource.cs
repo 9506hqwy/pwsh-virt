@@ -8,7 +8,13 @@ internal static class Resource
 
     static Resource()
     {
+#if NETSTANDARD2_1
+        Rm = new ResourceManager("PwshVirt.Resource", typeof(Resource).Assembly);
+#elif NETSTANDARD2_0
         Rm = new ResourceManager("PwshVirt.Locale.Resource", typeof(Resource).Assembly);
+#else
+#error Not supported target framework
+#endif
     }
 
     internal static string ERR_AlreadyExistStoragePool => Rm.GetString("ERR_AlreadyExistStoragePool");

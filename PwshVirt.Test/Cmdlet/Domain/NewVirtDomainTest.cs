@@ -13,16 +13,16 @@ public class NewVirtDomainTest : TestCase
         using var rs = RunspaceFactory.CreateRunspace();
         rs.Open();
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
             _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
 
-            _ = this.Invoke<object>(psShell).First();
+            _ = TestCase.Invoke<object>(psShell).First();
         }
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
@@ -31,7 +31,7 @@ public class NewVirtDomainTest : TestCase
                 .AddParameter("NumCpu", 2)
                 .AddParameter("Memory", "2GiB");
 
-            _ = this.Invoke<object>(psShell).First();
+            _ = TestCase.Invoke<object>(psShell).First();
         }
     }
 }

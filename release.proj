@@ -16,13 +16,22 @@
     <InstallerName>Installer\PwshVirt.wixproj</InstallerName>
     <ModulePath>$(MSBuildProjectDirectory)\Release\Publish\</ModulePath>
     <ArtifactsPath>$(MSBuildProjectDirectory)\artifacts\</ArtifactsPath>
-    <PublishParam>
+    <PublishParamCore>
       Configuration=Release;
+      TargetFramework=netstandard2.1;
       SolutionDir=$(MSBuildProjectDirectory)\;
-      PublishDir=$(ModulePath);
-      PsModuleDir=$(ModulePath);
+      PublishDir=$(ModulePath)Core\;
+      PsModuleDir=$(ModulePath)Core\;
       SelfContained=false;
-    </PublishParam>
+    </PublishParamCore>
+    <PublishParamDesk>
+      Configuration=Release;
+      TargetFramework=netstandard2.0;
+      SolutionDir=$(MSBuildProjectDirectory)\;
+      PublishDir=$(ModulePath)Desk\;
+      PsModuleDir=$(ModulePath)Desk\;
+      SelfContained=false;
+    </PublishParamDesk>
     <MsiParam>
       Configuration=Release;
       OutputPath=$(MSBuildProjectDirectory)\Release\;
@@ -36,14 +45,23 @@
 
   <Target Name="BuildBinary">
     <MSBuild Projects="$(ProjectName)" Targets="Restore" />
-    <MSBuild Projects="$(ProjectName)" Targets="Publish" Properties="$(PublishParam)" />
+    <MSBuild Projects="$(ProjectName)" Targets="Publish" Properties="$(PublishParamCore)" />
+    <MSBuild Projects="$(ProjectName)" Targets="Publish" Properties="$(PublishParamDesk)" />
   </Target>
 
-  <Target Name="BuildArtifact">
+  <Target Name="BuildArtifactCore">
     <MakeDir Directories="$(ArtifactsPath)" />
     <ZipDirectory
-      SourceDirectory="$(ModulePath)"
-      DestinationFile="$(ArtifactsPath)PwshVirt.zip"
+      SourceDirectory="$(ModulePath)Core\"
+      DestinationFile="$(ArtifactsPath)PwshVirt-Core.zip"
+      Overwrite="true" />
+  </Target>
+
+  <Target Name="BuildArtifactDesk">
+    <MakeDir Directories="$(ArtifactsPath)" />
+    <ZipDirectory
+      SourceDirectory="$(ModulePath)Desk\"
+      DestinationFile="$(ArtifactsPath)PwshVirt-Desk.zip"
       Overwrite="true" />
   </Target>
 
@@ -53,6 +71,6 @@
     <Copy SourceFiles="$(MSBuildProjectDirectory)\Release\ja-JP\PwshVirt.msi" DestinationFiles="$(ArtifactsPath)\PwshVirt_ja-JP.msi" />
   </Target>
 
-  <Target Name="Build" DependsOnTargets="Prepare;BuildBinary;BuildArtifact;BuildMsi" />
+  <Target Name="Build" DependsOnTargets="Prepare;BuildBinary;BuildArtifactCore;BuildArtifactDesk;BuildMsi" />
 
 </Project>

@@ -12,15 +12,15 @@ public class NewVirtStoragePoolTest : TestCase
         using var rs = RunspaceFactory.CreateRunspace();
         rs.Open();
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
             _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            _ = this.Invoke<object>(psShell).First();
+            _ = TestCase.Invoke<object>(psShell).First();
         }
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
@@ -28,7 +28,7 @@ public class NewVirtStoragePoolTest : TestCase
                 .AddParameter("Name", "dir")
                 .AddParameter("Path", "/mnt/images");
 
-            var pool = this.Invoke<StoragePool>(psShell).First();
+            var pool = TestCase.Invoke<StoragePool>(psShell).First();
             Assert.IsNotNull(pool);
         }
     }
@@ -39,15 +39,15 @@ public class NewVirtStoragePoolTest : TestCase
         using var rs = RunspaceFactory.CreateRunspace();
         rs.Open();
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
             _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            _ = this.Invoke<object>(psShell).First();
+            _ = TestCase.Invoke<object>(psShell).First();
         }
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
@@ -57,7 +57,7 @@ public class NewVirtStoragePoolTest : TestCase
                 .AddParameter("Name", "physical")
                 .AddParameter("Path", "/mnt/nvme0n1");
 
-            var pool = this.Invoke<StoragePool>(psShell).First();
+            var pool = TestCase.Invoke<StoragePool>(psShell).First();
             Assert.IsNotNull(pool);
         }
     }
@@ -68,15 +68,15 @@ public class NewVirtStoragePoolTest : TestCase
         using var rs = RunspaceFactory.CreateRunspace();
         rs.Open();
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
             _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            _ = this.Invoke<object>(psShell).First();
+            _ = TestCase.Invoke<object>(psShell).First();
         }
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
@@ -84,7 +84,7 @@ public class NewVirtStoragePoolTest : TestCase
                 .AddParameter("Name", "lvm")
                 .AddParameter("VgName", "vgpool");
 
-            var pool = this.Invoke<StoragePool>(psShell).First();
+            var pool = TestCase.Invoke<StoragePool>(psShell).First();
             Assert.IsNotNull(pool);
         }
     }
@@ -95,15 +95,15 @@ public class NewVirtStoragePoolTest : TestCase
         using var rs = RunspaceFactory.CreateRunspace();
         rs.Open();
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
             _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
-            _ = this.Invoke<object>(psShell).First();
+            _ = TestCase.Invoke<object>(psShell).First();
         }
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
@@ -114,7 +114,7 @@ public class NewVirtStoragePoolTest : TestCase
                 .AddParameter("Name", "nfs")
                 .AddParameter("Path", "/mnt/exports");
 
-            var pool = this.Invoke<StoragePool>(psShell).First();
+            var pool = TestCase.Invoke<StoragePool>(psShell).First();
             Assert.IsNotNull(pool);
         }
     }

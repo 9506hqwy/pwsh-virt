@@ -61,7 +61,12 @@ public class TlsConnection : Connection
         {
             var cert = new X509Certificate2(pfxPath);
             var certs = new X509CertificateCollection(new X509Certificate[] { cert });
-            ssl.AuthenticateAsClient(hostName, certs, SslProtocols.Default | SslProtocols.Tls12, true);
+#if NETSTANDARD2_1
+            var protocols = SslProtocols.Tls12;
+#else
+            var protocols = SslProtocols.Default | SslProtocols.Tls12;
+#endif
+            ssl.AuthenticateAsClient(hostName, certs, protocols, true);
         }
 
         // https://github.com/libvirt/libvirt/blob/v9.0.0/src/rpc/virnetclient.c#L986

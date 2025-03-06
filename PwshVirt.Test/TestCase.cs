@@ -1,15 +1,16 @@
-﻿namespace PwshVirt.Test;
+﻿#pragma warning disable CA1052
+namespace PwshVirt.Test;
 
 public class TestCase
 {
-    internal PowerShell CreateShell()
+    internal static PowerShell CreateShell()
     {
-        var psShell = PowerShell.Create();
+        using var psShell = PowerShell.Create();
         _ = psShell.AddCommand("Import-Module").AddParameter("Assembly", typeof(VirtObject).Assembly);
         return psShell.AddStatement();
     }
 
-    internal IEnumerable<T> Invoke<T>(PowerShell shell)
+    internal static IEnumerable<T> Invoke<T>(PowerShell shell)
     {
         var ret = shell.Invoke()
             .Where(o => o.BaseObject is not null)
@@ -18,3 +19,4 @@ public class TestCase
         return shell.HadErrors ? throw new Exception(shell.Streams.Error.First().Exception.Message) : ret;
     }
 }
+#pragma warning restore CA1052

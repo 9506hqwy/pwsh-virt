@@ -15,17 +15,17 @@ public class CopyVirtStorageVolTest : TestCase
         rs.Open();
 
         StorageVol? vol = null;
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
             _ = psShell.AddCommand("Connect-VirtServer").AddParameter("Uri", UriTcp);
             _ = psShell.AddStatement().AddCommand("Get-VirtStorageVol").AddParameter("Key", VolKey);
-            vol = this.Invoke<StorageVol>(psShell).First();
+            vol = TestCase.Invoke<StorageVol>(psShell).First();
             Assert.IsNotNull(vol);
         }
 
-        using (var psShell = this.CreateShell())
+        using (var psShell = TestCase.CreateShell())
         {
             psShell.Runspace = rs;
 
@@ -33,7 +33,7 @@ public class CopyVirtStorageVolTest : TestCase
                 .AddParameter("Name", Name)
                 .AddParameter("Source", vol);
 
-            vol = this.Invoke<StorageVol>(psShell).First();
+            vol = TestCase.Invoke<StorageVol>(psShell).First();
             Assert.IsNotNull(vol);
         }
     }
