@@ -25,11 +25,19 @@ Connect to the Libvirt server.
 
 ### Example 1
 ```powershell
-PS C:\> # connect 'qemu+tls://127.0.0.1/system'.
+PS C:\> # connect 'qemu+unix:///system?socket=/var/run/libvirt/libvirt-sock'.
+PS C:\> # (PS Edition: Core)
 PS C:\> Connect-VirtServer
 ```
 
 ### Example 2
+```powershell
+PS C:\> # connect 'qemu+tls://127.0.0.1/system'.
+PS C:\> # (PS Edition: Desktop)
+PS C:\> Connect-VirtServer
+```
+
+### Example 3
 ```powershell
 PS C:\> # connect 'qemu+tcp://192.168.0.1/system'.
 PS C:\> Connect-VirtServer -Server 192.168.0.1 -Transport tcp
@@ -150,13 +158,13 @@ Accept wildcard characters: False
 
 ### -Transport
 Specify transport protocol.
-If omitted, use 'tls'.
+If omitted, use 'tls' or 'unix'.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: tcp, tls
+Accepted values: tcp, tls, unix
 
 Required: False
 Position: Named

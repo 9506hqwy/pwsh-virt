@@ -25,11 +25,19 @@ Libvirt サーバに接続します。
 
 ### Example 1
 ```powershell
-PS C:\> # qemu+tls://127.0.0.1/system に接続します。
+PS C:\> # qemu+unix:///system?socket=/var/run/libvirt/libvirt-sock に接続します。
+PS C:\> # (PS Edition: Core)
 PS C:\> Connect-VirtServer
 ```
 
 ### Example 2
+```powershell
+PS C:\> # qemu+tls://127.0.0.1/system に接続します。
+PS C:\> # (PS Edition: Desktop)
+PS C:\> Connect-VirtServer
+```
+
+### Example 3
 ```powershell
 PS C:\> # qemu+tcp://192.168.0.1/system に接続します。
 PS C:\> Connect-VirtServer -Server 192.168.0.1 -Transport tcp
@@ -150,13 +158,13 @@ Accept wildcard characters: False
 
 ### -Transport
 プロトコルを指定します。
-省略した場合は tls です。
+省略した場合は tls または unix です。
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: tcp, tls
+Accepted values: tcp, tls, unix
 
 Required: False
 Position: Named

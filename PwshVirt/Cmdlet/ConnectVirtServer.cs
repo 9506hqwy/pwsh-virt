@@ -18,7 +18,15 @@ public class ConnectVirtServer : PwshVirtCmdlet
 
     private const int DefaultTlsPort = 16514;
 
+#if NETSTANDARD2_1
+    private const string DefaultTransport = "unix";
+#else
     private const string DefaultTransport = "tls";
+#endif
+
+#if NETSTANDARD2_1
+    private const string DefaultUnixDomain = "/var/run/libvirt/libvirt-sock";
+#endif
 
     [Parameter]
     [ValidateSet("qemu")]
@@ -43,7 +51,11 @@ public class ConnectVirtServer : PwshVirtCmdlet
     public string? Server { get; set; }
 
     [Parameter]
+#if NETSTANDARD2_1
+    [ValidateSet("tcp", "tls", "unix")]
+#else
     [ValidateSet("tcp", "tls")]
+#endif
     public string? Transport { get; set; }
 
     [Parameter]
@@ -69,6 +81,9 @@ public class ConnectVirtServer : PwshVirtCmdlet
         {
             "tcp" => await this.GetTcp(),
             "tls" => await this.GetTls(),
+#if NETSTANDARD2_1
+            "unix" => await this.GetUnix(),
+#endif
             _ => throw new InvalidProgramException(),
         };
     }
@@ -99,8 +114,9 @@ public class ConnectVirtServer : PwshVirtCmdlet
     {
         var transport = this.GetTransport();
 
-        return
-            this.Port != 0 ?
+        return transport == "unix"
+            ? 0
+            : this.Port != 0 ?
             this.Port :
             this.Uri is not null ?
             this.Uri!.Port :
@@ -155,6 +171,22 @@ public class ConnectVirtServer : PwshVirtCmdlet
             this.Uri!.Scheme.Split(['+'], 2).Last() :
             DefaultTransport;
     }
+
+#if NETSTANDARD2_1
+    private async Task<UnixConnection> GetUnix()
+    {
+        var query = this.GetQuery();
+
+        if (!query.TryGetValue("socket", out var socketPath))
+        {
+            socketPath = DefaultUnixDomain;
+        }
+
+        var socket = new Socket(AddressFamily.Unix, SocketType.Stream, ProtocolType.Unspecified);
+        await socket.ConnectAsync(new UnixDomainSocketEndPoint(socketPath));
+        return new UnixConnection(socket);
+    }
+#endif
 
     private IDictionary<string, string> GetQuery()
     {
