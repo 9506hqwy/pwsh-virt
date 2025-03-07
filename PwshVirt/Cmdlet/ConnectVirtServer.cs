@@ -65,6 +65,8 @@ public class ConnectVirtServer : PwshVirtCmdlet
     {
         var conn = await this.GetConnection();
 
+        await this.Authenticate(conn);
+
         await conn.Client.ConnectOpenAsync(new Xdr.XdrOption<string>(this.GetName()), NotUsed, this.Cancellation!.Token);
 
         if (!this.NotDefault)
@@ -73,6 +75,31 @@ public class ConnectVirtServer : PwshVirtCmdlet
         }
 
         this.SetResult(conn);
+    }
+
+    private async Task Authenticate(Connection conn)
+    {
+        var authList = await conn.Client.AuthListAsync(this.Cancellation!.Token);
+        if (authList is null)
+        {
+            return;
+        }
+
+        foreach (var auth in authList)
+        {
+            switch (auth)
+            {
+                case RemoteAuthType.RemoteAuthNone:
+                    break;
+                case RemoteAuthType.RemoteAuthPolkit:
+                    _ = await conn.Client.AuthPolkitAsync(this.Cancellation.Token);
+                    break;
+                case RemoteAuthType.RemoteAuthSasl:
+                    throw new NotSupportedException("Not support authentication method `SASL`");
+                default:
+                    break;
+            }
+        }
     }
 
     private async Task<Connection> GetConnection()

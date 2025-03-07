@@ -25,7 +25,7 @@ This module provides to communicate Libvirt server for PowerShell v5.1 or later.
 
 This module connects to Libvirt server with TCP or TLS or Unix domain socket.
 
-Now, authentication method does not be implemented.
+Now, authentication method `SASL` does not be implemented.
 
 Configure Libvirt server in */etc/libvirt/libvirtd.conf*
 
@@ -38,11 +38,6 @@ Configure Libvirt server in */etc/libvirt/libvirtd.conf*
 * TLS
   ```
   listen_tls = 1
-  ```
-
-* Unix Domain Socket
-  ```
-  auth_unix_rw = "none"
   ```
 
 ## Usage
