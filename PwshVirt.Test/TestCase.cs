@@ -5,7 +5,9 @@ public class TestCase
 {
     internal static PowerShell CreateShell()
     {
-        using var psShell = PowerShell.Create();
+#pragma warning disable CA2000
+        var psShell = PowerShell.Create();
+#pragma warning restore CA2000
         _ = psShell.AddCommand("Import-Module").AddParameter("Assembly", typeof(VirtObject).Assembly);
         return psShell.AddStatement();
     }
