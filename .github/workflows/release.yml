@@ -46,4 +46,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         gh config set prompt disabled
-        gh release create ${env:GITHUB_REF_NAME} .\artifacts\*  -t v${env:GITHUB_REF_NAME} -d
+        gh release create ${env:GITHUB_REF_NAME} (get-item .\artifacts\*) -t v${env:GITHUB_REF_NAME} -d
