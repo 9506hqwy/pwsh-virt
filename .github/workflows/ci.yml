@@ -26,9 +26,9 @@ jobs:
         $LOCALPKG = $(Join-Path ${env:TEMP} $(New-Guid))
         mkdir "${LOCALPKG}"
         curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/xdr-net/releases/download/0.4.0/Xdr.0.4.0.nupkg
-        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-schema-net/releases/download/11.3.0/LibvirtModel.11.3.0.nupkg
-        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-remote-net/releases/download/11.3.0/LibvirtRemote.11.3.0.nupkg
-        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-header-net/releases/download/11.3.0/LibvirtHeader.11.3.0.nupkg
+        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-schema-net/releases/download/11.4.0/LibvirtModel.11.4.0.nupkg
+        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-remote-net/releases/download/11.4.0/LibvirtRemote.11.4.0.nupkg
+        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-header-net/releases/download/11.4.0/LibvirtHeader.11.4.0.nupkg
         dotnet nuget add source --name local "${LOCALPKG}"
 
     - name: Restore Dependencies
