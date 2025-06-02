@@ -218,8 +218,8 @@ public class ConnectVirtServer : PwshVirtCmdlet
     private IDictionary<string, string> GetQuery()
     {
         return this.Uri is null
-            ? new Dictionary<string, string>()
-            : (IDictionary<string, string>)this.Uri.Query
+            ? []
+            : this.Uri.Query
             .TrimStart('?')
             .Split('&')
             .Select(q => q.Split(['='], 2))
