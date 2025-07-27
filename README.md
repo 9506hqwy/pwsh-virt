@@ -58,3 +58,8 @@ Disconnect-VirtServer
 ## Help
 
 see [docs](./docs) directory.
+
+
+## TODO
+
+* Contains markdown format at examples in help file. (see [GetExamples](https://github.com/PowerShell/platyPS/blob/v1.0.0/src/MarkdownReader/CommandHelpMarkdownReader.cs#L1104))

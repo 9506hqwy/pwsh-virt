@@ -1,40 +1,48 @@
----
+﻿---
+document type: cmdlet
 external help file: PwshVirt.dll-Help.xml
-Module Name: PwshVirt
-online version:
-schema: 2.0.0
+HelpUri: 
+ms.date: 07/27/2025
+PlatyPS schema version: 2024-05-01
 ---
 
 # Get-VirtNetworkInterface
 
 ## SYNOPSIS
+
 ネットワークインターフェイスを取得します。
 
 ## SYNTAX
 
 ### All (Default)
+
 ```
-Get-VirtNetworkInterface [-Server <Connection>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-VirtNetworkInterface [-Server <Connection>] [<CommonParameters>]
 ```
 
 ### Name
+
 ```
-Get-VirtNetworkInterface -Name <String> [-Server <Connection>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Get-VirtNetworkInterface -Name <string> [-Server <Connection>] [<CommonParameters>]
 ```
 
+## ALIASES
+
 ## DESCRIPTION
+
 ネットワークインターフェイスを取得します。
 
 ## EXAMPLES
 
 ### Example 1
+
 ```powershell
 PS C:\> # すべてのネットワークインターフェイスを取得します。
 PS C:\> Get-VirtNetworkInterface
 ```
 
 ### Example 2
+
 ```powershell
 PS C:\> # 指定した名前のネットワークインターフェイスを取得します。
 PS C:\> Get-VirtNetworkInterface -Name 'InterfaceName'
@@ -43,53 +51,82 @@ PS C:\> Get-VirtNetworkInterface -Name 'InterfaceName'
 ## PARAMETERS
 
 ### -Name
+
 インターフェイスの名前を指定します。
 
 ```yaml
-Type: String
-Parameter Sets: Name
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Server
-セッションを指定します。
-省略した場合は $DefaultVirtServer を使用します。
-
-```yaml
-Type: Connection
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
+Type: System.String
+DefaultValue: None
+SupportsWildcards: false
+Aliases: []
+ParameterSets:
+- Name: Name
+  Position: Named
+  IsRequired: true
+  ValueFromPipeline: false
+  ValueFromPipelineByPropertyName: false
+  ValueFromRemainingArguments: false
+DontShow: false
+AcceptedValues: []
+HelpMessage: ''
 ```
 
 ### -ProgressAction
+
 {{ Fill ProgressAction Description }}
 
 ```yaml
 Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
+DefaultValue: None
+SupportsWildcards: false
+Aliases:
+- proga
+ParameterSets:
+- Name: (All)
+  Position: Named
+  IsRequired: false
+  ValueFromPipeline: false
+  ValueFromPipelineByPropertyName: false
+  ValueFromRemainingArguments: false
+DontShow: false
+AcceptedValues: []
+HelpMessage: ''
+```
 
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
+### -Server
+
+セッションを指定します。
+省略した場合は $DefaultVirtServer を使用します。
+
+```yaml
+Type: PwshVirt.Connection
+DefaultValue: None
+SupportsWildcards: false
+Aliases: []
+ParameterSets:
+- Name: All
+  Position: Named
+  IsRequired: false
+  ValueFromPipeline: false
+  ValueFromPipelineByPropertyName: false
+  ValueFromRemainingArguments: false
+- Name: Name
+  Position: Named
+  IsRequired: false
+  ValueFromPipeline: false
+  ValueFromPipelineByPropertyName: false
+  ValueFromRemainingArguments: false
+DontShow: false
+AcceptedValues: []
+HelpMessage: ''
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
+-InformationAction, -InformationVariable, -OutBuffer, -OutVariable, -PipelineVariable,
+-ProgressAction, -Verbose, -WarningAction, and -WarningVariable. For more information, see
+[about_CommonParameters](https://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -102,3 +139,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+{{ Fill in the related links here }}
+

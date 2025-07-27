@@ -1,28 +1,42 @@
----
+﻿---
+document type: cmdlet
 external help file: PwshVirt.dll-Help.xml
-Module Name: PwshVirt
-online version:
-schema: 2.0.0
+HelpUri: 
+ms.date: 07/27/2025
+PlatyPS schema version: 2024-05-01
 ---
 
 # Clear-VirtStorageVol
 
 ## SYNOPSIS
+
 Wipe data in storage volume.
 
 ## SYNTAX
+
+### Default (Default)
 
 ```
 Clear-VirtStorageVol -Vol <StorageVol> [-Server <Connection>] [-ProgressAction <ActionPreference>]
  [<CommonParameters>]
 ```
 
+### __AllParameterSets
+
+```
+Clear-VirtStorageVol -Vol <StorageVol> [-Server <Connection>] [<CommonParameters>]
+```
+
+## ALIASES
+
 ## DESCRIPTION
+
 Wipe data in storage volume.
 
 ## EXAMPLES
 
 ### Example 1
+
 ```powershell
 PS C:\> # wipe data in storage volume by specified key.
 PS C:\> Get-VirtStorageVol -Key 'VolumeKey' | Clear-VirtStorageVol
@@ -30,58 +44,85 @@ PS C:\> Get-VirtStorageVol -Key 'VolumeKey' | Clear-VirtStorageVol
 
 ## PARAMETERS
 
-### -Server
-Specify session.
-If omitted, use $DefaultVirtServer.
-
-```yaml
-Type: Connection
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Vol
-Specify storage volume.
-
-```yaml
-Type: StorageVol
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### -ProgressAction
+
 {{ Fill ProgressAction Description }}
 
 ```yaml
 Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
+DefaultValue: None
+SupportsWildcards: false
+Aliases:
+- proga
+ParameterSets:
+- Name: (All)
+  Position: Named
+  IsRequired: false
+  ValueFromPipeline: false
+  ValueFromPipelineByPropertyName: false
+  ValueFromRemainingArguments: false
+DontShow: false
+AcceptedValues: []
+HelpMessage: ''
+```
 
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
+### -Server
+
+Specify session.
+If omitted, use $DefaultVirtServer.
+
+```yaml
+Type: PwshVirt.Connection
+DefaultValue: None
+SupportsWildcards: false
+Aliases: []
+ParameterSets:
+- Name: (All)
+  Position: Named
+  IsRequired: false
+  ValueFromPipeline: false
+  ValueFromPipelineByPropertyName: false
+  ValueFromRemainingArguments: false
+DontShow: false
+AcceptedValues: []
+HelpMessage: ''
+```
+
+### -Vol
+
+Specify storage volume.
+
+```yaml
+Type: PwshVirt.StorageVol
+DefaultValue: None
+SupportsWildcards: false
+Aliases: []
+ParameterSets:
+- Name: (All)
+  Position: Named
+  IsRequired: true
+  ValueFromPipeline: true
+  ValueFromPipelineByPropertyName: false
+  ValueFromRemainingArguments: false
+DontShow: false
+AcceptedValues: []
+HelpMessage: ''
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
+-InformationAction, -InformationVariable, -OutBuffer, -OutVariable, -PipelineVariable,
+-ProgressAction, -Verbose, -WarningAction, and -WarningVariable. For more information, see
+[about_CommonParameters](https://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
 ### None
+
+### PwshVirt.StorageVol
+
+{{ Fill in the Description }}
 
 ## OUTPUTS
 
@@ -90,3 +131,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+
+{{ Fill in the related links here }}
+

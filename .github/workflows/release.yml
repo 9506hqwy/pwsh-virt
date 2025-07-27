@@ -18,7 +18,7 @@ jobs:
     - name: Install platyPS
       run: |
         Set-PSRepository PSGallery -InstallationPolicy Trusted
-        Install-Module -Name platyPS -Scope CurrentUser
+        Install-Module -Name Microsoft.PowerShell.PlatyPS -Scope CurrentUser
 
     - name: Prepare Dependencies
       run: |
