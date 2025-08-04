@@ -1,19 +1,19 @@
 ﻿namespace PwshVirt;
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 public class GuesetFileReadOutput
 {
-    [JsonProperty("count")]
+    [JsonPropertyName("count")]
     public int Count { get; set; }
 
-    [JsonProperty("buf-b64")]
+    [JsonPropertyName("buf-b64")]
     public string? BufB64 { get; set; }
 
     [JsonIgnore]
     public byte[]? BufBytes => GetByte(this.BufB64);
 
-    [JsonProperty("eof")]
+    [JsonPropertyName("eof")]
     public bool Eof { get; set; }
 
     private static byte[]? GetByte(string? base64)

@@ -1,6 +1,6 @@
 ﻿namespace PwshVirt;
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 public class GuestExecInput
 {
@@ -9,15 +9,15 @@ public class GuestExecInput
         this.Path = path;
     }
 
-    [JsonProperty("path")]
+    [JsonPropertyName("path")]
     public string Path { get; set; }
 
-    [JsonProperty("arg")]
+    [JsonPropertyName("arg")]
     public string[]? Arg { get; set; }
 
-    [JsonProperty("input-data")]
+    [JsonPropertyName("input-data")]
     public string? InputData { get; set; }
 
-    [JsonProperty("capture-output")]
+    [JsonPropertyName("capture-output")]
     public bool CaptureOutput { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿namespace PwshVirt;
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 public class GuesetFileCloseInput
 {
@@ -9,6 +9,6 @@ public class GuesetFileCloseInput
         this.Handle = handle;
     }
 
-    [JsonProperty("handle")]
+    [JsonPropertyName("handle")]
     public int Handle { get; set; }
 }

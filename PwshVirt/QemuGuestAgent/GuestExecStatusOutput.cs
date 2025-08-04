@@ -1,35 +1,35 @@
 ﻿namespace PwshVirt;
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System.Text;
 
 public class GuestExecStatusOutput
 {
-    [JsonProperty("exited")]
+    [JsonPropertyName("exited")]
     public bool Exited { get; set; }
 
-    [JsonProperty("exitcode")]
+    [JsonPropertyName("exitcode")]
     public int? Exitcode { get; set; }
 
-    [JsonProperty("signal")]
+    [JsonPropertyName("signal")]
     public int? Signal { get; set; }
 
-    [JsonProperty("out-data")]
+    [JsonPropertyName("out-data")]
     public string? OutData { get; set; }
 
     [JsonIgnore]
     public string? OutString => GetString(this.OutData);
 
-    [JsonProperty("err-data")]
+    [JsonPropertyName("err-data")]
     public string? ErrData { get; set; }
 
     [JsonIgnore]
     public string? ErrString => GetString(this.ErrData);
 
-    [JsonProperty("out-truncated")]
+    [JsonPropertyName("out-truncated")]
     public bool? OutTruncated { get; set; }
 
-    [JsonProperty("err-truncated")]
+    [JsonPropertyName("err-truncated")]
     public bool? ErrTruncated { get; set; }
 
     private static string? GetString(string? base64)

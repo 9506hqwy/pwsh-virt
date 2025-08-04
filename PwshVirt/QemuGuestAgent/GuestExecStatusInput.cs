@@ -1,6 +1,6 @@
 ﻿namespace PwshVirt;
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 public class GuestExecStatusInput
 {
@@ -9,6 +9,6 @@ public class GuestExecStatusInput
         this.Pid = pid;
     }
 
-    [JsonProperty("pid")]
+    [JsonPropertyName("pid")]
     public int Pid { get; set; }
 }

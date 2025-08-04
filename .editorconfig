@@ -48,3 +48,6 @@ indent_style = space
 
 [*.psd1]
 indent_size = 4
+
+[*Desk.psd1]
+end_of_line = crlf

@@ -1,12 +1,12 @@
 ﻿namespace PwshVirt;
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 public class GuesetFileWriteOutput
 {
-    [JsonProperty("count")]
+    [JsonPropertyName("count")]
     public int Count { get; set; }
 
-    [JsonProperty("eof")]
+    [JsonPropertyName("eof")]
     public bool Eof { get; set; }
 }

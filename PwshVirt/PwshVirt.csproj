@@ -30,10 +30,10 @@
     <PackageReference Include="LibvirtHeader" Version="11.6.0" />
     <PackageReference Include="LibvirtModel" Version="11.6.0" />
     <PackageReference Include="LibvirtRemote" Version="11.6.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.1">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="System.Text.Json" Version="8.0.6" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">

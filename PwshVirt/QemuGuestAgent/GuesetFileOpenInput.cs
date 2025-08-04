@@ -1,6 +1,6 @@
 ﻿namespace PwshVirt;
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 public class GuesetFileOpenInput
 {
@@ -9,9 +9,9 @@ public class GuesetFileOpenInput
         this.Path = path;
     }
 
-    [JsonProperty("path")]
+    [JsonPropertyName("path")]
     public string Path { get; set; }
 
-    [JsonProperty("mode")]
+    [JsonPropertyName("mode")]
     public string? Mode { get; set; }
 }

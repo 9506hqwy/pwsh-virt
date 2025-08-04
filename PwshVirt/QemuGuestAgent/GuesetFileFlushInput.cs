@@ -1,6 +1,6 @@
 ﻿namespace PwshVirt;
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 public class GuesetFileFlushInput
 {
@@ -9,6 +9,6 @@ public class GuesetFileFlushInput
         this.Handle = handle;
     }
 
-    [JsonProperty("handle")]
+    [JsonPropertyName("handle")]
     public int Handle { get; set; }
 }

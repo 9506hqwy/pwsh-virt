@@ -1,6 +1,6 @@
 ﻿namespace PwshVirt;
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 public class GuesetFileWriteInput
 {
@@ -10,16 +10,16 @@ public class GuesetFileWriteInput
         this.BufBytes = bufBytes;
     }
 
-    [JsonProperty("handle")]
+    [JsonPropertyName("handle")]
     public int Handle { get; set; }
 
-    [JsonProperty("buf-b64")]
+    [JsonPropertyName("buf-b64")]
     public string BufB64 => Encoding(this.BufBytes);
 
     [JsonIgnore]
     public byte[] BufBytes { get; set; }
 
-    [JsonProperty("count")]
+    [JsonPropertyName("count")]
     public int? Count { get; set; }
 
     private static string Encoding(byte[] bytes)

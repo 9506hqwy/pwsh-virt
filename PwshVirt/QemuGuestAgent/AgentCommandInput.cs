@@ -1,27 +1,28 @@
 ﻿namespace PwshVirt;
 
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 public class AgentCommandInput
 {
+    private static readonly JsonSerializerOptions options = new()
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    };
+
     internal AgentCommandInput(string execute)
     {
         this.Execute = execute;
     }
 
-    [JsonProperty("execute")]
+    [JsonPropertyName("execute")]
     public string Execute { get; set; }
 
-    [JsonProperty("arguments")]
+    [JsonPropertyName("arguments")]
     public object? Arguments { get; set; }
 
     public string ToJson()
     {
-        var settings = new JsonSerializerSettings
-        {
-            NullValueHandling = NullValueHandling.Ignore,
-        };
-
-        return JsonConvert.SerializeObject(this, settings);
+        return JsonSerializer.Serialize(this, options);
     }
 }

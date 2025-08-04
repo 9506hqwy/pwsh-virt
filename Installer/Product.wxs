@@ -52,8 +52,8 @@
       <Component Guid="35261156-4A93-4952-84EC-4D87BECF2B39">
         <File Id="LibvirtRemote.dll" KeyPath="yes" Source="$(var.SourcePath)LibvirtRemote.dll" Vital="yes" />
       </Component>
-      <Component Guid="6D8C27EA-6886-4D94-94D5-3E6464076630">
-        <File Id="Newtonsoft.Json.dll" KeyPath="yes" Source="$(var.SourcePath)Newtonsoft.Json.dll" Vital="yes" />
+      <Component Guid="34049ED0-DB2C-484E-BBDE-1247A92F10D6">
+        <File Id="Microsoft.Bcl.AsyncInterfaces.dll" KeyPath="yes" Source="$(var.SourcePath)Microsoft.Bcl.AsyncInterfaces.dll" Vital="yes" />
       </Component>
       <Component Guid="5C312EFC-9855-4F95-A652-636414DDA284">
         <File Id="PwshVirt.deps.json" KeyPath="yes" Source="$(var.SourcePath)PwshVirt.deps.json" Vital="yes" />
@@ -66,6 +66,27 @@
       </Component>
       <Component Guid="FFD4EBAE-6ABD-4758-B999-DB87B1D4088E">
         <File Id="PwshVirt.psd1" KeyPath="yes" Source="$(var.SourcePath)PwshVirt.psd1" Vital="yes" />
+      </Component>
+      <Component Guid="C1D58857-9D02-4CB8-B5E2-85482C03B116">
+        <File Id="System.Buffers.dll" KeyPath="yes" Source="$(var.SourcePath)System.Buffers.dll" Vital="yes" />
+      </Component>
+      <Component Guid="DD8B2CD7-CB6B-46C8-893E-9C30347F0FD6">
+        <File Id="System.Memory.dll" KeyPath="yes" Source="$(var.SourcePath)System.Memory.dll" Vital="yes" />
+      </Component>
+      <Component Guid="E2624F00-4CA3-4A0A-AA1B-EBFB043AB7E7">
+        <File Id="System.Numerics.Vectors.dll" KeyPath="yes" Source="$(var.SourcePath)System.Numerics.Vectors.dll" Vital="yes" />
+      </Component>
+      <Component Guid="05529255-A8A2-4A5B-A178-C901613C8FE6">
+        <File Id="System.Runtime.CompilerServices.Unsafe.dll" KeyPath="yes" Source="$(var.SourcePath)System.Runtime.CompilerServices.Unsafe.dll" Vital="yes" />
+      </Component>
+      <Component Guid="E3E597DB-6A9C-4F2C-8706-6E0C9A5B670C">
+        <File Id="System.Text.Encodings.Web.dll" KeyPath="yes" Source="$(var.SourcePath)System.Text.Encodings.Web.dll" Vital="yes" />
+      </Component>
+      <Component Guid="EC820D5F-B438-4988-8F58-4088A0CB875D">
+        <File Id="System.Text.Json.dll" KeyPath="yes" Source="$(var.SourcePath)System.Text.Json.dll" Vital="yes" />
+      </Component>
+      <Component Guid="B5CD1E91-46FB-4C06-9BCD-6B666F9AB4A0">
+        <File Id="System.Threading.Tasks.Extensions.dll" KeyPath="yes" Source="$(var.SourcePath)System.Threading.Tasks.Extensions.dll" Vital="yes" />
       </Component>
       <Component Guid="1F40B5C2-AA64-4FD6-9D0B-E72B070DE47D">
         <File Id="Xdr.dll" KeyPath="yes" Source="$(var.SourcePath)Xdr.dll" Vital="yes" />
