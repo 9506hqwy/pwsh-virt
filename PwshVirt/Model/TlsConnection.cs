@@ -50,7 +50,9 @@ public class TlsConnection : Connection
         var stream = client.GetStream();
 
         ssl = noVerify ?
-            new SslStream(stream, false, (a, b, c, d) => true) :
+#pragma warning disable CA5359
+            new SslStream(stream, false, static (a, b, c, d) => true) :
+#pragma warning restore CA5359
             new SslStream(stream);
 
         if (pfxPath is null)
@@ -61,10 +63,10 @@ public class TlsConnection : Connection
         {
             var cert = new X509Certificate2(pfxPath);
             var certs = new X509CertificateCollection(new X509Certificate[] { cert });
-#if NETSTANDARD2_1
-            var protocols = SslProtocols.Tls12;
-#else
+#if NETSTANDARD2_0
             var protocols = SslProtocols.Default | SslProtocols.Tls12;
+#else
+            var protocols = SslProtocols.None;
 #endif
             ssl.AuthenticateAsClient(hostName, certs, protocols, true);
         }

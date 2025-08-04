@@ -16,11 +16,11 @@ public class StopVirtNetworkInterface : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        await conn.Client.InterfaceDestroyAsync(this.Interface!.Self, NotUsed, this.Cancellation!.Token);
+        await conn.Client.InterfaceDestroyAsync(this.Interface!.Self, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var state = await NetworkInterfaceUtility.WaitForState(conn, this.Interface, NetworkInterfaceState.Inactive, this.Cancellation!.Token);
+        var state = await NetworkInterfaceUtility.WaitForState(conn, this.Interface, NetworkInterfaceState.Inactive, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var iface = await conn.Client.InterfaceLookupByNameAsync(this.Interface.Name, this.Cancellation!.Token);
+        var iface = await conn.Client.InterfaceLookupByNameAsync(this.Interface.Name, this.Cancellation!.Token).ConfigureAwait(false);
 
         var model = new NetworkInterface(conn, iface, state);
 

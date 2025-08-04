@@ -329,12 +329,16 @@ internal static class DomainCapabilitiesExtension
 
     internal static bool IsMachineQ35(this DomainCapabilities self)
     {
+#pragma warning disable CA1307 // for .Net Standard 2.0 compatibility
         return self.IsArchX86() && self.Machine.Contains("q35");
+#pragma warning restore CA1307
     }
 
     internal static bool IsMachineVirt(this DomainCapabilities self)
     {
+#pragma warning disable CA1307 // for .Net Standard 2.0 compatibility
         return self.Machine.Contains("virt");
+#pragma warning restore CA1307
     }
 
     internal static bool SupportSpice(this DomainCapabilities self)

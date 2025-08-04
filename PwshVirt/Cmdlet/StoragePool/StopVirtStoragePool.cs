@@ -16,11 +16,11 @@ public class StopVirtStoragePool : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        await conn.Client.StoragePoolDestroyAsync(this.Pool!.Self, this.Cancellation!.Token);
+        await conn.Client.StoragePoolDestroyAsync(this.Pool!.Self, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var state = await StoragePoolUtility.WaitForState(conn, this.Pool, VirStoragePoolInactive, this.Cancellation!.Token);
+        var state = await StoragePoolUtility.WaitForState(conn, this.Pool, VirStoragePoolInactive, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var pool = await conn.Client.StoragePoolLookupByNameAsync(this.Pool.Name, this.Cancellation!.Token);
+        var pool = await conn.Client.StoragePoolLookupByNameAsync(this.Pool.Name, this.Cancellation!.Token).ConfigureAwait(false);
 
         var model = new StoragePool(conn, pool, state);
 

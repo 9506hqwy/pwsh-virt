@@ -31,21 +31,21 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
         var localFile = guestToLocal ? this.Destination! : this.Source!;
         var mode = guestToLocal ? "r" : "w";
 
-        var handle = await this.OpenFile(conn, guestFile, mode);
+        var handle = await this.OpenFile(conn, guestFile, mode).ConfigureAwait(false);
         try
         {
             if (guestToLocal)
             {
-                await this.CopyToLocal(conn, handle, localFile);
+                await this.CopyToLocal(conn, handle, localFile).ConfigureAwait(false);
             }
             else
             {
-                await this.CopyToGuest(conn, handle, localFile);
+                await this.CopyToGuest(conn, handle, localFile).ConfigureAwait(false);
             }
         }
         finally
         {
-            await this.CloseFile(conn, handle);
+            await this.CloseFile(conn, handle).ConfigureAwait(false);
         }
 
         this.SetResult(new FileInfo(localFile));
@@ -60,7 +60,7 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
 
         var cmd = input.ToJson();
 
-        _ = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
+        _ = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
     }
 
     private async Task CopyToGuest(Connection conn, int handle, string path)
@@ -71,18 +71,18 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
         while (!eof)
         {
             var buffer = new byte[4096];
-            var n = await localFile.ReadAsync(buffer, 0, buffer.Length);
+            var n = await localFile.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
             if (n == 0)
             {
                 break;
             }
 
-            var output = await this.WriteFile(conn, handle, [.. buffer.Take(n)]);
+            var output = await this.WriteFile(conn, handle, [.. buffer.Take(n)]).ConfigureAwait(false);
 
             eof = output.Eof;
         }
 
-        await this.FlushFile(conn, handle);
+        await this.FlushFile(conn, handle).ConfigureAwait(false);
     }
 
     private async Task CopyToLocal(Connection conn, int handle, string path)
@@ -92,14 +92,14 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
         var eof = false;
         while (!eof)
         {
-            var output = await this.ReadFile(conn, handle);
+            var output = await this.ReadFile(conn, handle).ConfigureAwait(false);
 
-            await localFile.WriteAsync(output.BufBytes, 0, output.Count, this.Cancellation!.Token);
+            await localFile.WriteAsync(output.BufBytes!, 0, output.Count, this.Cancellation!.Token).ConfigureAwait(false);
 
             eof = output.Eof;
         }
 
-        await localFile.FlushAsync();
+        await localFile.FlushAsync().ConfigureAwait(false);
     }
 
     private async Task FlushFile(Connection conn, int handle)
@@ -111,7 +111,7 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
 
         var cmd = input.ToJson();
 
-        _ = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
+        _ = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
     }
 
     private async Task<int> OpenFile(Connection conn, string path, string mode)
@@ -126,7 +126,7 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
 
         var cmd = input.ToJson();
 
-        var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
+        var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
         var handle = AgentCommandOutput<int>.ConvertFrom(output.Value);
 
@@ -142,7 +142,7 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
 
         var cmd = input.ToJson();
 
-        var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
+        var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
         var readed = AgentCommandOutput<GuesetFileReadOutput>.ConvertFrom(output.Value);
 
@@ -158,7 +158,7 @@ public class CopyVirtDomainGuestFile : PwshVirtCmdlet
 
         var cmd = input.ToJson();
 
-        var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
+        var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
         var wrote = AgentCommandOutput<GuesetFileWriteOutput>.ConvertFrom(output.Value);
 

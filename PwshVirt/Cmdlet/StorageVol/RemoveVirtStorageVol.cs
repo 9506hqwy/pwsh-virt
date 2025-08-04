@@ -25,7 +25,7 @@ public class RemoveVirtStorageVol : PwshVirtCmdlet
             flag |= VirStorageVolDeleteWithSnapshots;
         }
 
-        await conn.Client.StorageVolDeleteAsync(this.Vol!.Self, (uint)flag, this.Cancellation!.Token);
+        await conn.Client.StorageVolDeleteAsync(this.Vol!.Self, (uint)flag, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(this.Vol);
     }

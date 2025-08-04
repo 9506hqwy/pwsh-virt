@@ -1,5 +1,6 @@
 ﻿namespace PwshVirt;
 
+using System.Globalization;
 using Libvirt.Model;
 using System.Net.NetworkInformation;
 
@@ -58,7 +59,7 @@ public class NewVirtNetworkAdapter : PwshVirtCmdlet
 
         if (this.MacAddress is not null)
         {
-            var macHexBytes = this.MacAddress.GetAddressBytes().Select(b => b.ToString("X2"));
+            var macHexBytes = this.MacAddress.GetAddressBytes().Select(b => b.ToString("X2", CultureInfo.InvariantCulture));
             adapter.Mac = new DomainInterfaceMac
             {
                 Address = string.Join(":", macHexBytes),
@@ -75,9 +76,9 @@ public class NewVirtNetworkAdapter : PwshVirtCmdlet
 
         var xml = Serializer.Serialize(adapter);
 
-        await DomainUtility.AttachDevice(conn, this.Domain!, xml, this.Cancellation!.Token);
+        await DomainUtility.AttachDevice(conn, this.Domain!, xml, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, -1, 0, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, -1, 0, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }

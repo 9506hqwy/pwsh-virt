@@ -18,13 +18,13 @@ public class ConnectVirtServer : PwshVirtCmdlet
 
     private const int DefaultTlsPort = 16514;
 
-#if NETSTANDARD2_1
-    private const string DefaultTransport = "unix";
-#else
+#if NETSTANDARD2_0
     private const string DefaultTransport = "tls";
+#else
+    private const string DefaultTransport = "unix";
 #endif
 
-#if NETSTANDARD2_1
+#if ! NETSTANDARD2_0
     private const string DefaultUnixDomain = "/var/run/libvirt/libvirt-sock";
 #endif
 
@@ -51,10 +51,10 @@ public class ConnectVirtServer : PwshVirtCmdlet
     public string? Server { get; set; }
 
     [Parameter]
-#if NETSTANDARD2_1
-    [ValidateSet("tcp", "tls", "unix")]
-#else
+#if NETSTANDARD2_0
     [ValidateSet("tcp", "tls")]
+#else
+    [ValidateSet("tcp", "tls", "unix")]
 #endif
     public string? Transport { get; set; }
 
@@ -63,11 +63,11 @@ public class ConnectVirtServer : PwshVirtCmdlet
 
     internal override async Task Execute()
     {
-        var conn = await this.GetConnection();
+        var conn = await this.GetConnection().ConfigureAwait(false);
 
-        await this.Authenticate(conn);
+        await this.Authenticate(conn).ConfigureAwait(false);
 
-        await conn.Client.ConnectOpenAsync(new Xdr.XdrOption<string>(this.GetName()), NotUsed, this.Cancellation!.Token);
+        await conn.Client.ConnectOpenAsync(new Xdr.XdrOption<string>(this.GetName()), NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
         if (!this.NotDefault)
         {
@@ -79,7 +79,7 @@ public class ConnectVirtServer : PwshVirtCmdlet
 
     private async Task Authenticate(Connection conn)
     {
-        var authList = await conn.Client.AuthListAsync(this.Cancellation!.Token);
+        var authList = await conn.Client.AuthListAsync(this.Cancellation!.Token).ConfigureAwait(false);
         if (authList is null)
         {
             return;
@@ -92,7 +92,7 @@ public class ConnectVirtServer : PwshVirtCmdlet
                 case RemoteAuthType.RemoteAuthNone:
                     break;
                 case RemoteAuthType.RemoteAuthPolkit:
-                    _ = await conn.Client.AuthPolkitAsync(this.Cancellation.Token);
+                    _ = await conn.Client.AuthPolkitAsync(this.Cancellation.Token).ConfigureAwait(false);
                     break;
                 case RemoteAuthType.RemoteAuthSasl:
                     throw new NotSupportedException("Not support authentication method `SASL`");
@@ -106,10 +106,10 @@ public class ConnectVirtServer : PwshVirtCmdlet
     {
         return this.GetTransport() switch
         {
-            "tcp" => await this.GetTcp(),
-            "tls" => await this.GetTls(),
-#if NETSTANDARD2_1
-            "unix" => await this.GetUnix(),
+            "tcp" => await this.GetTcp().ConfigureAwait(false),
+            "tls" => await this.GetTls().ConfigureAwait(false),
+#if ! NETSTANDARD2_0
+            "unix" => await this.GetUnix().ConfigureAwait(false),
 #endif
             _ => throw new InvalidProgramException(),
         };
@@ -167,7 +167,7 @@ public class ConnectVirtServer : PwshVirtCmdlet
         var tcp = new TcpClient();
         tcp.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
 
-        await tcp.ConnectAsync(this.GetServer(), this.GetPort());
+        await tcp.ConnectAsync(this.GetServer(), this.GetPort()).ConfigureAwait(false);
         return new TcpConnection(tcp);
     }
 
@@ -185,7 +185,7 @@ public class ConnectVirtServer : PwshVirtCmdlet
         var tcp = new TcpClient();
         tcp.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
 
-        await tcp.ConnectAsync(this.GetServer(), this.GetPort());
+        await tcp.ConnectAsync(this.GetServer(), this.GetPort()).ConfigureAwait(false);
         return new TlsConnection(tcp, this.GetServer(), noVerify, pfxPath);
     }
 
@@ -199,7 +199,7 @@ public class ConnectVirtServer : PwshVirtCmdlet
             DefaultTransport;
     }
 
-#if NETSTANDARD2_1
+#if ! NETSTANDARD2_0
     private async Task<UnixConnection> GetUnix()
     {
         var query = this.GetQuery();
@@ -210,12 +210,12 @@ public class ConnectVirtServer : PwshVirtCmdlet
         }
 
         var socket = new Socket(AddressFamily.Unix, SocketType.Stream, ProtocolType.Unspecified);
-        await socket.ConnectAsync(new UnixDomainSocketEndPoint(socketPath));
+        await socket.ConnectAsync(new UnixDomainSocketEndPoint(socketPath)).ConfigureAwait(false);
         return new UnixConnection(socket);
     }
 #endif
 
-    private IDictionary<string, string> GetQuery()
+    private Dictionary<string, string> GetQuery()
     {
         return this.Uri is null
             ? []

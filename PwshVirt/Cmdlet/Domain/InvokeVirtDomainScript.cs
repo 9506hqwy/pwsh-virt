@@ -22,9 +22,9 @@ public class InvokeVirtDomainScript : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        var pid = await this.InvokeCmd(conn);
+        var pid = await this.InvokeCmd(conn).ConfigureAwait(false);
 
-        var output = await this.GetResult(conn, pid);
+        var output = await this.GetResult(conn, pid).ConfigureAwait(false);
 
         this.SetResult(output);
     }
@@ -38,7 +38,7 @@ public class InvokeVirtDomainScript : PwshVirtCmdlet
 
         var cmd = input.ToJson();
 
-        var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
+        var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
         var status = AgentCommandOutput<GuestExecStatusOutput>.ConvertFrom(output.Value);
 
@@ -60,7 +60,7 @@ public class InvokeVirtDomainScript : PwshVirtCmdlet
 
         var cmd = input.ToJson();
 
-        var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token);
+        var output = await conn.Client.DomainAgentCommandAsync(this.Domain!.Self, cmd, -2, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
         var pid = AgentCommandOutput<GuestExecOutput>.ConvertFrom(output.Value);
 

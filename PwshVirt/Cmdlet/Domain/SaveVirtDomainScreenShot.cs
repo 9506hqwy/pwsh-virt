@@ -23,13 +23,13 @@ public class SaveVirtDomainScreenShot : PwshVirtCmdlet
         var conn = this.GetConnection(this.Server, out var _);
 
         uint screen = this.Screen ?? 0;
-        (var virStream, var _) = await conn.Client.DomainScreenshotAsync(this.Domain!.Self, screen, NotUsed, this.Cancellation!.Token);
+        (var virStream, var _) = await conn.Client.DomainScreenshotAsync(this.Domain!.Self, screen, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
         using (virStream)
         {
             using var file = File.Open(this.Destination!.FullName, FileMode.Create, FileAccess.Write);
-            await virStream.CopyToAsync(file, 1 * 1024 * 1024, this.Cancellation!.Token);
-            await file.FlushAsync(this.Cancellation!.Token);
+            await virStream.CopyToAsync(file, 1 * 1024 * 1024, this.Cancellation!.Token).ConfigureAwait(false);
+            await file.FlushAsync(this.Cancellation!.Token).ConfigureAwait(false);
         }
 
         this.SetResult(this.Destination);

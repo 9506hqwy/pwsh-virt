@@ -24,10 +24,10 @@ public class GetVirtNetworkInterface : PwshVirtCmdlet
         switch (this.ParameterSetName)
         {
             case KeyAll:
-                await this.GetAll(conn);
+                await this.GetAll(conn).ConfigureAwait(false);
                 break;
             case KeyName:
-                await this.GetByName(conn, this.Name!);
+                await this.GetByName(conn, this.Name!).ConfigureAwait(false);
                 break;
             default:
                 throw new InvalidProgramException();
@@ -37,7 +37,7 @@ public class GetVirtNetworkInterface : PwshVirtCmdlet
     private async Task GetAll(Connection conn)
     {
         var flags = VirConnectListInterfacesInactive | VirConnectListInterfacesActive;
-        (var ifaces, var num) = await conn.Client.ConnectListAllInterfacesAsync(1, (uint)flags, this.Cancellation!.Token);
+        (var ifaces, var num) = await conn.Client.ConnectListAllInterfacesAsync(1, (uint)flags, this.Cancellation!.Token).ConfigureAwait(false);
 
         var models = new List<NetworkInterface>();
 
@@ -45,7 +45,7 @@ public class GetVirtNetworkInterface : PwshVirtCmdlet
         {
             foreach (var iface in ifaces)
             {
-                var active = await conn.Client.InterfaceIsActiveAsync(iface, this.Cancellation!.Token);
+                var active = await conn.Client.InterfaceIsActiveAsync(iface, this.Cancellation!.Token).ConfigureAwait(false);
                 var model = new NetworkInterface(conn, iface, active);
                 models.Add(model);
             }
@@ -56,9 +56,9 @@ public class GetVirtNetworkInterface : PwshVirtCmdlet
 
     private async Task GetByName(Connection conn, string name)
     {
-        var iface = await conn.Client.InterfaceLookupByNameAsync(name, this.Cancellation!.Token);
+        var iface = await conn.Client.InterfaceLookupByNameAsync(name, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var active = await conn.Client.InterfaceIsActiveAsync(iface, this.Cancellation!.Token);
+        var active = await conn.Client.InterfaceIsActiveAsync(iface, this.Cancellation!.Token).ConfigureAwait(false);
 
         var model = new NetworkInterface(conn, iface, active);
 

@@ -59,9 +59,9 @@ public class NewVirtHardDisk : PwshVirtCmdlet
 
         var xml = Serializer.Serialize(disk);
 
-        await DomainUtility.AttachDevice(conn, this.Domain!, xml, this.Cancellation!.Token);
+        await DomainUtility.AttachDevice(conn, this.Domain!, xml, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, -1, 0, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, -1, 0, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }

@@ -16,7 +16,7 @@ public class ClearVirtStorageVol : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        await conn.Client.StorageVolWipeAsync(this.Vol!.Self, NotUsed, this.Cancellation!.Token);
+        await conn.Client.StorageVolWipeAsync(this.Vol!.Self, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(this.Vol);
     }

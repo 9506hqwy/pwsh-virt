@@ -18,7 +18,7 @@
     <ArtifactsPath>$(MSBuildProjectDirectory)\artifacts\</ArtifactsPath>
     <PublishParamCore>
       Configuration=Release;
-      TargetFramework=netstandard2.1;
+      TargetFramework=net8.0;
       SolutionDir=$(MSBuildProjectDirectory)\;
       PublishDir=$(ModulePath)Core\;
       PsModuleDir=$(ModulePath)Core\;

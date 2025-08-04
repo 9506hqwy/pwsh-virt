@@ -1,5 +1,6 @@
 ﻿namespace PwshVirt;
 
+using System.Globalization;
 using Libvirt.Model;
 using static Libvirt.Header.VirDomainDefineFlags;
 
@@ -25,9 +26,9 @@ public class NewVirtDomain : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        var guestCaps = await this.GetGuestCaps(conn);
+        var guestCaps = await this.GetGuestCaps(conn).ConfigureAwait(false);
 
-        var domCaps = await this.GetDomainCaps(conn, guestCaps);
+        var domCaps = await this.GetDomainCaps(conn, guestCaps).ConfigureAwait(false);
 
         var domain = guestCaps.GetDomainDefault(domCaps);
 
@@ -35,9 +36,9 @@ public class NewVirtDomain : PwshVirtCmdlet
 
         var domainXml = Serializer.Serialize(domain);
 
-        var dom = await conn.Client.DomainDefineXmlFlagsAsync(domainXml, (uint)VirDomainDefineValidate, this.Cancellation!.Token);
+        var dom = await conn.Client.DomainDefineXmlFlagsAsync(domainXml, (uint)VirDomainDefineValidate, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var model = await DomainUtility.GetDomain(conn, dom.Name, -1, 0, this.Cancellation.Token);
+        var model = await DomainUtility.GetDomain(conn, dom.Name, -1, 0, this.Cancellation.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }
@@ -55,14 +56,14 @@ public class NewVirtDomain : PwshVirtCmdlet
             new Xdr.XdrOption<string>(machine),
             new Xdr.XdrOption<string>(virtType),
             NotUsed,
-            this.Cancellation!.Token);
+            this.Cancellation!.Token).ConfigureAwait(false);
 
         return Serializer.Deserialize<DomainCapabilities>(domCapsXml);
     }
 
     private async Task<CapabilitiesGuestcaps> GetGuestCaps(Connection conn)
     {
-        var capsXml = await conn.Client.ConnectGetCapabilitiesAsync(this.Cancellation!.Token);
+        var capsXml = await conn.Client.ConnectGetCapabilitiesAsync(this.Cancellation!.Token).ConfigureAwait(false);
         var caps = Serializer.Deserialize<Capabilities>(capsXml);
         return caps.GetRecommendedGuest();
     }
@@ -73,14 +74,14 @@ public class NewVirtDomain : PwshVirtCmdlet
 
         domain.Uuid = Guid.NewGuid().ToString();
 
-        this.SetDomainDisk(domain, domCaps);
+        SetDomainDisk(domain, domCaps);
 
         this.SetDomainMemory(domain);
 
         this.SetDomainVcpu(domain);
     }
 
-    private void SetDomainDisk(Libvirt.Model.Domain domain, DomainCapabilities domCaps)
+    private static void SetDomainDisk(Libvirt.Model.Domain domain, DomainCapabilities domCaps)
     {
         domain.Devices.Disk =
         [
@@ -97,7 +98,7 @@ public class NewVirtDomain : PwshVirtCmdlet
         domain.Memory = new DomainMemory
         {
             Unit = "KiB",
-            Value = capacityKB.ToString(),
+            Value = capacityKB.ToString(CultureInfo.InvariantCulture),
         };
     }
 
@@ -107,7 +108,7 @@ public class NewVirtDomain : PwshVirtCmdlet
 
         domain.Vcpu = new DomainVcpu
         {
-            Value = vcpu.ToString(),
+            Value = vcpu?.ToString(CultureInfo.InvariantCulture),
         };
     }
 }

@@ -10,7 +10,7 @@ public class DisconnectVirtServer : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var isDefault);
 
-        await conn.Client.ConnectCloseAsync(this.Cancellation!.Token);
+        await conn.Client.ConnectCloseAsync(this.Cancellation!.Token).ConfigureAwait(false);
 
         conn.Dispose();
 

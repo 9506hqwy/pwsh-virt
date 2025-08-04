@@ -14,13 +14,13 @@ internal static class DomainUtility
         CancellationToken cancellationToken)
     {
         // config
-        await conn.Client.DomainAttachDeviceFlagsAsync(dom.Self, device, (uint)VirDomainDeviceModifyConfig, cancellationToken);
+        await conn.Client.DomainAttachDeviceFlagsAsync(dom.Self, device, (uint)VirDomainDeviceModifyConfig, cancellationToken).ConfigureAwait(false);
 
-        var isActive = await conn.Client.DomainIsActiveAsync(dom.Self, cancellationToken);
+        var isActive = await conn.Client.DomainIsActiveAsync(dom.Self, cancellationToken).ConfigureAwait(false);
         if (isActive != 0)
         {
             // active
-            await conn.Client.DomainAttachDeviceFlagsAsync(dom.Self, device, (uint)VirDomainDeviceModifyLive, cancellationToken);
+            await conn.Client.DomainAttachDeviceFlagsAsync(dom.Self, device, (uint)VirDomainDeviceModifyLive, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -31,15 +31,15 @@ internal static class DomainUtility
         int _,
         CancellationToken cancellationToken)
     {
-        var dom = await conn.Client.DomainLookupByNameAsync(name, cancellationToken);
+        var dom = await conn.Client.DomainLookupByNameAsync(name, cancellationToken).ConfigureAwait(false);
 
         if (state < 0)
         {
-            (state, _) = await conn.Client.DomainGetStateAsync(dom, NotUsed, cancellationToken);
+            (state, _) = await conn.Client.DomainGetStateAsync(dom, NotUsed, cancellationToken).ConfigureAwait(false);
         }
 
         var hasManagedSave = (state == (int)VirDomainState.VirDomainShutoff) ?
-            await conn.Client.DomainHasManagedSaveImageAsync(dom, NotUsed, cancellationToken) :
+            await conn.Client.DomainHasManagedSaveImageAsync(dom, NotUsed, cancellationToken).ConfigureAwait(false) :
             0;
 
         return new Domain(conn, dom, state, hasManagedSave == 1);
@@ -52,13 +52,13 @@ internal static class DomainUtility
         CancellationToken cancellationToken)
     {
         // config
-        await conn.Client.DomainUpdateDeviceFlagsAsync(dom.Self, device, (uint)VirDomainDeviceModifyConfig, cancellationToken);
+        await conn.Client.DomainUpdateDeviceFlagsAsync(dom.Self, device, (uint)VirDomainDeviceModifyConfig, cancellationToken).ConfigureAwait(false);
 
-        var isActive = await conn.Client.DomainIsActiveAsync(dom.Self, cancellationToken);
+        var isActive = await conn.Client.DomainIsActiveAsync(dom.Self, cancellationToken).ConfigureAwait(false);
         if (isActive != 0)
         {
             // active
-            await conn.Client.DomainUpdateDeviceFlagsAsync(dom.Self, device, (uint)VirDomainDeviceModifyLive, cancellationToken);
+            await conn.Client.DomainUpdateDeviceFlagsAsync(dom.Self, device, (uint)VirDomainDeviceModifyLive, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -73,9 +73,9 @@ internal static class DomainUtility
 
         do
         {
-            await Task.Delay(1000, cancellationToken);
+            await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
 
-            (var tmp, stateReason) = await conn.Client.DomainGetStateAsync(dom.Self, NotUsed, cancellationToken);
+            (var tmp, stateReason) = await conn.Client.DomainGetStateAsync(dom.Self, NotUsed, cancellationToken).ConfigureAwait(false);
             state = (VirDomainState)Enum.ToObject(typeof(VirDomainState), tmp);
         }
         while (state != desired);

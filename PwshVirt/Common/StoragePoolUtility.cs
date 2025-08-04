@@ -9,7 +9,7 @@ internal static class StoragePoolUtility
         RemoteNonnullStoragePool pool,
         CancellationToken cancellationToken)
     {
-        (var state, var _, var _, var _) = await conn.Client.StoragePoolGetInfoAsync(pool, cancellationToken);
+        (var state, var _, var _, var _) = await conn.Client.StoragePoolGetInfoAsync(pool, cancellationToken).ConfigureAwait(false);
 
         return new StoragePool(conn, pool, state);
     }
@@ -24,9 +24,9 @@ internal static class StoragePoolUtility
 
         do
         {
-            await Task.Delay(1000, cancellationToken);
+            await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
 
-            (var tmp, var _, var _, var _) = await conn.Client.StoragePoolGetInfoAsync(pool.Self, cancellationToken);
+            (var tmp, var _, var _, var _) = await conn.Client.StoragePoolGetInfoAsync(pool.Self, cancellationToken).ConfigureAwait(false);
             state = (VirStoragePoolState)Enum.ToObject(typeof(VirStoragePoolState), tmp);
         }
         while (state != desired);

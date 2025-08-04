@@ -1,5 +1,6 @@
 ﻿namespace PwshVirt;
 
+using System.Globalization;
 using static Libvirt.Header.VirDomainXmlflags;
 
 [OutputType(typeof(Domain))]
@@ -28,7 +29,7 @@ public class SetVirtCdDrive : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        var xml = await conn.Client.DomainGetXmlDescAsync(this.Drive!.Domain, (uint)VirDomainXmlInactive, this.Cancellation!.Token);
+        var xml = await conn.Client.DomainGetXmlDescAsync(this.Drive!.Domain, (uint)VirDomainXmlInactive, this.Cancellation!.Token).ConfigureAwait(false);
 
         var model = Serializer.Deserialize<Libvirt.Model.Domain>(xml);
 
@@ -37,7 +38,7 @@ public class SetVirtCdDrive : PwshVirtCmdlet
             .Disk?
             .Where(d => d.Device == Libvirt.Model.DomainDiskDevice.Cdrom)
             .FirstOrDefault(d => d.Target.Dev == this.Drive.TargetDev)) ?? throw new PwshVirtException(
-                string.Format(Resource.ERR_NotFoundDomainDevice, this.Drive.TargetDev),
+                string.Format(CultureInfo.CurrentCulture, Resource.ERR_NotFoundDomainDevice, this.Drive.TargetDev),
                 ErrorCategory.InvalidOperation);
         switch (this.ParameterSetName)
         {
@@ -61,9 +62,9 @@ public class SetVirtCdDrive : PwshVirtCmdlet
         var newXml = Serializer.Serialize(drive);
 
         var domain = new Domain(conn, this.Drive.Domain, 0, false);
-        await DomainUtility.UpdateDevice(conn, domain, newXml, this.Cancellation.Token);
+        await DomainUtility.UpdateDevice(conn, domain, newXml, this.Cancellation.Token).ConfigureAwait(false);
 
-        var newModel = await DomainUtility.GetDomain(conn, this.Drive.Domain.Name, -1, 0, this.Cancellation.Token);
+        var newModel = await DomainUtility.GetDomain(conn, this.Drive.Domain.Name, -1, 0, this.Cancellation.Token).ConfigureAwait(false);
 
         this.SetResult(newModel);
     }

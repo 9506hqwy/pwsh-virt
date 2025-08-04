@@ -19,9 +19,9 @@ public class ImportVirtStorageVol : PwshVirtCmdlet
 
         using (var file = File.Open(this.Path!.FullName, FileMode.Open, FileAccess.Read))
         {
-            using var virStream = await conn.Client.StorageVolUploadAsync(this.Destination!.Self, 0, 0, 0, this.Cancellation!.Token);
-            await file.CopyToAsync(virStream, 1 * 1024 * 1024, this.Cancellation!.Token);
-            await virStream.WriteCompletedAsync(this.Cancellation!.Token);
+            using var virStream = await conn.Client.StorageVolUploadAsync(this.Destination!.Self, 0, 0, 0, this.Cancellation!.Token).ConfigureAwait(false);
+            await file.CopyToAsync(virStream, 1 * 1024 * 1024, this.Cancellation!.Token).ConfigureAwait(false);
+            await virStream.WriteCompletedAsync(this.Cancellation!.Token).ConfigureAwait(false);
         }
 
         this.SetResult(this.Destination);

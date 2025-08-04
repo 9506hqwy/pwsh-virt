@@ -12,9 +12,9 @@ internal static class NetworkInterfaceUtility
 
         do
         {
-            await Task.Delay(1000, cancellationToken);
+            await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
 
-            var tmp = await conn.Client.InterfaceIsActiveAsync(iface.Self, cancellationToken);
+            var tmp = await conn.Client.InterfaceIsActiveAsync(iface.Self, cancellationToken).ConfigureAwait(false);
             state = (NetworkInterfaceState)Enum.ToObject(typeof(NetworkInterfaceState), tmp);
         }
         while (state != desired);

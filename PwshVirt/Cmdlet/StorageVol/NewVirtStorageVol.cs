@@ -2,6 +2,7 @@
 
 using Libvirt.Model;
 using static Libvirt.Header.VirStorageVolCreateFlags;
+using System.Globalization;
 
 [OutputType(typeof(StorageVol))]
 [Cmdlet(VerbsCommon.New, VerbsVirt.StorageVol)]
@@ -40,9 +41,9 @@ public class NewVirtStorageVol : PwshVirtCmdlet
 
         try
         {
-            _ = await conn.Client.StorageVolLookupByNameAsync(this.Pool!.Self, this.Name, this.Cancellation!.Token);
+            _ = await conn.Client.StorageVolLookupByNameAsync(this.Pool!.Self, this.Name, this.Cancellation!.Token).ConfigureAwait(false);
             throw new PwshVirtException(
-                string.Format(Resource.ERR_AlreadyExistStorageVol, this.Name),
+                string.Format(CultureInfo.CurrentCulture, Resource.ERR_AlreadyExistStorageVol, this.Name),
                 ErrorCategory.InvalidArgument);
         }
         catch (VirtException e) when (e.Error.Code == 50)
@@ -100,9 +101,9 @@ public class NewVirtStorageVol : PwshVirtCmdlet
             flgas |= (uint)VirStorageVolCreatePreallocMetadata;
         }
 
-        var vol = await conn.Client.StorageVolCreateXmlAsync(this.Pool!.Self, xml, flgas, this.Cancellation!.Token);
+        var vol = await conn.Client.StorageVolCreateXmlAsync(this.Pool!.Self, xml, flgas, this.Cancellation!.Token).ConfigureAwait(false);
 
-        (var type, _, _) = await conn.Client.StorageVolGetInfoAsync(vol, this.Cancellation!.Token);
+        (var type, _, _) = await conn.Client.StorageVolGetInfoAsync(vol, this.Cancellation!.Token).ConfigureAwait(false);
 
         var model = new StorageVol(conn, vol, type);
 
@@ -111,11 +112,11 @@ public class NewVirtStorageVol : PwshVirtCmdlet
 
     private string GetAllocation()
     {
-        return Utility.GetScaledSizeToBytes(this.Allocation!).ToString();
+        return Utility.GetScaledSizeToBytes(this.Allocation!).ToString(CultureInfo.InvariantCulture);
     }
 
     private string GetCapacity()
     {
-        return Utility.GetScaledSizeToBytes(this.Capacity!).ToString();
+        return Utility.GetScaledSizeToBytes(this.Capacity!).ToString(CultureInfo.InvariantCulture);
     }
 }

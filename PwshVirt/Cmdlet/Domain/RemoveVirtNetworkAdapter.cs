@@ -1,6 +1,7 @@
 ﻿namespace PwshVirt;
 
 using Libvirt.Header;
+using System.Globalization;
 using System.Net.NetworkInformation;
 using static Libvirt.Header.VirDomainDeviceModifyFlags;
 using static Libvirt.Header.VirDomainXmlflags;
@@ -22,20 +23,20 @@ public class RemoveVirtNetworkAdapter : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        var macHexBytes = this.MacAddress!.GetAddressBytes().Select(b => b.ToString("X2"));
+        var macHexBytes = this.MacAddress!.GetAddressBytes().Select(b => b.ToString("X2", CultureInfo.InvariantCulture));
         var macAddress = string.Join(":", macHexBytes).ToLowerInvariant();
 
         // config
-        await this.RemoveInterface(conn, VirDomainDeviceModifyConfig, macAddress);
+        await this.RemoveInterface(conn, VirDomainDeviceModifyConfig, macAddress).ConfigureAwait(false);
 
-        var isActive = await conn.Client.DomainIsActiveAsync(this.Domain!.Self, this.Cancellation!.Token);
+        var isActive = await conn.Client.DomainIsActiveAsync(this.Domain!.Self, this.Cancellation!.Token).ConfigureAwait(false);
         if (isActive != 0)
         {
             // active
-            await this.RemoveInterface(conn, VirDomainDeviceModifyLive, macAddress);
+            await this.RemoveInterface(conn, VirDomainDeviceModifyLive, macAddress).ConfigureAwait(false);
         }
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, -1, 0, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, -1, 0, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }
@@ -44,15 +45,15 @@ public class RemoveVirtNetworkAdapter : PwshVirtCmdlet
     {
         uint xflags = (flags == VirDomainDeviceModifyLive) ? 0 : (uint)VirDomainXmlInactive;
 
-        var xml = await conn.Client.DomainGetXmlDescAsync(this.Domain!.Self, xflags, this.Cancellation!.Token);
+        var xml = await conn.Client.DomainGetXmlDescAsync(this.Domain!.Self, xflags, this.Cancellation!.Token).ConfigureAwait(false);
         return Serializer.Deserialize<Libvirt.Model.Domain>(xml);
     }
 
     private async Task RemoveInterface(Connection conn, VirDomainDeviceModifyFlags flags, string macAddress)
     {
-        var dom = await this.GetDomainModel(conn, flags);
+        var dom = await this.GetDomainModel(conn, flags).ConfigureAwait(false);
 
-        var adapter = dom.Devices.Interface.FirstOrDefault(i => i.Mac.Address.ToLowerInvariant() == macAddress);
+        var adapter = dom.Devices.Interface.FirstOrDefault(i => string.Equals(i.Mac.Address, macAddress, StringComparison.OrdinalIgnoreCase));
         if (adapter is null)
         {
             return;
@@ -60,6 +61,6 @@ public class RemoveVirtNetworkAdapter : PwshVirtCmdlet
 
         var xml = Serializer.Serialize(adapter);
 
-        await conn.Client.DomainDetachDeviceFlagsAsync(this.Domain!.Self, xml, (uint)flags, this.Cancellation!.Token);
+        await conn.Client.DomainDetachDeviceFlagsAsync(this.Domain!.Self, xml, (uint)flags, this.Cancellation!.Token).ConfigureAwait(false);
     }
 }

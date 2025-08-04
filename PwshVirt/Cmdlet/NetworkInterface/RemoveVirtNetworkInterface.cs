@@ -14,7 +14,7 @@ public class RemoveVirtNetworkInterface : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        await conn.Client.InterfaceUndefineAsync(this.Interface!.Self, this.Cancellation!.Token);
+        await conn.Client.InterfaceUndefineAsync(this.Interface!.Self, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(this.Interface);
     }

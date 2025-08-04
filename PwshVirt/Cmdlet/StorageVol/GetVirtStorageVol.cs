@@ -27,10 +27,10 @@ public class GetVirtStorageVol : PwshVirtCmdlet
         switch (this.ParameterSetName)
         {
             case KeyKey:
-                await this.GetByKey(conn, this.Key!);
+                await this.GetByKey(conn, this.Key!).ConfigureAwait(false);
                 break;
             case KeyPool:
-                await this.GetByPool(conn, this.Pool!);
+                await this.GetByPool(conn, this.Pool!).ConfigureAwait(false);
                 break;
             default:
                 throw new InvalidProgramException();
@@ -39,9 +39,9 @@ public class GetVirtStorageVol : PwshVirtCmdlet
 
     private async Task GetByKey(Connection conn, string key)
     {
-        var vol = await conn.Client.StorageVolLookupByKeyAsync(key, this.Cancellation!.Token);
+        var vol = await conn.Client.StorageVolLookupByKeyAsync(key, this.Cancellation!.Token).ConfigureAwait(false);
 
-        (var type, var _, var _) = await conn.Client.StorageVolGetInfoAsync(vol, this.Cancellation!.Token);
+        (var type, var _, var _) = await conn.Client.StorageVolGetInfoAsync(vol, this.Cancellation!.Token).ConfigureAwait(false);
 
         var model = new StorageVol(conn, vol, type);
 
@@ -50,7 +50,7 @@ public class GetVirtStorageVol : PwshVirtCmdlet
 
     private async Task GetByPool(Connection conn, StoragePool pool)
     {
-        (var vols, var num) = await conn.Client.StoragePoolListAllVolumesAsync(pool.Self, 1, NotUsed, this.Cancellation!.Token);
+        (var vols, var num) = await conn.Client.StoragePoolListAllVolumesAsync(pool.Self, 1, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
         var models = new List<StorageVol>();
 
@@ -58,7 +58,7 @@ public class GetVirtStorageVol : PwshVirtCmdlet
         {
             foreach (var vol in vols)
             {
-                (var type, var _, var _) = await conn.Client.StorageVolGetInfoAsync(vol, this.Cancellation!.Token);
+                (var type, var _, var _) = await conn.Client.StorageVolGetInfoAsync(vol, this.Cancellation!.Token).ConfigureAwait(false);
                 var model = new StorageVol(conn, vol, type);
                 models.Add(model);
             }

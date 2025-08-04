@@ -18,13 +18,13 @@ public class GuestExecStatusOutput
     public string? OutData { get; set; }
 
     [JsonIgnore]
-    public string? OutString => this.GetString(this.OutData);
+    public string? OutString => GetString(this.OutData);
 
     [JsonProperty("err-data")]
     public string? ErrData { get; set; }
 
     [JsonIgnore]
-    public string? ErrString => this.GetString(this.ErrData);
+    public string? ErrString => GetString(this.ErrData);
 
     [JsonProperty("out-truncated")]
     public bool? OutTruncated { get; set; }
@@ -32,7 +32,7 @@ public class GuestExecStatusOutput
     [JsonProperty("err-truncated")]
     public bool? ErrTruncated { get; set; }
 
-    private string? GetString(string? base64)
+    private static string? GetString(string? base64)
     {
         if (base64 == null)
         {

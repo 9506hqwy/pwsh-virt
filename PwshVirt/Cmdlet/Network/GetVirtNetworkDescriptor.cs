@@ -14,7 +14,7 @@ public class GetVirtNetworkDescriptor : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        var xml = await conn.Client.NetworkGetXmlDescAsync(this.Network!.Self, 0, this.Cancellation!.Token);
+        var xml = await conn.Client.NetworkGetXmlDescAsync(this.Network!.Self, 0, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(xml);
     }

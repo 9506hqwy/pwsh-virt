@@ -16,7 +16,7 @@ public class GetVirtCdDrive : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        var xml = await conn.Client.DomainGetXmlDescAsync(this.Domain!.Self, (uint)VirDomainXmlInactive, this.Cancellation!.Token);
+        var xml = await conn.Client.DomainGetXmlDescAsync(this.Domain!.Self, (uint)VirDomainXmlInactive, this.Cancellation!.Token).ConfigureAwait(false);
 
         var model = Serializer.Deserialize<Libvirt.Model.Domain>(xml);
 

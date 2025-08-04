@@ -14,7 +14,7 @@ public class RemoveVirtStoragePool : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        await conn.Client.StoragePoolUndefineAsync(this.Pool!.Self, this.Cancellation!.Token);
+        await conn.Client.StoragePoolUndefineAsync(this.Pool!.Self, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(this.Pool);
     }

@@ -50,7 +50,7 @@ public class GetVirtDomainDescriptor : PwshVirtCmdlet
             flag |= (uint)VirDomainXmlMigratable;
         }
 
-        var xml = await conn.Client.DomainGetXmlDescAsync(this.Domain!.Self, flag, this.Cancellation!.Token);
+        var xml = await conn.Client.DomainGetXmlDescAsync(this.Domain!.Self, flag, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(xml);
     }

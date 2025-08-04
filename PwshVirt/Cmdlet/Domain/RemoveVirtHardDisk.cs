@@ -22,16 +22,16 @@ public class RemoveVirtHardDisk : PwshVirtCmdlet
         var conn = this.GetConnection(this.Server, out var _);
 
         // config
-        await this.RemoveDisk(conn, VirDomainDeviceModifyConfig, this.DeviceFile!);
+        await this.RemoveDisk(conn, VirDomainDeviceModifyConfig, this.DeviceFile!).ConfigureAwait(false);
 
-        var isActive = await conn.Client.DomainIsActiveAsync(this.Domain!.Self, this.Cancellation!.Token);
+        var isActive = await conn.Client.DomainIsActiveAsync(this.Domain!.Self, this.Cancellation!.Token).ConfigureAwait(false);
         if (isActive != 0)
         {
             // active
-            await this.RemoveDisk(conn, VirDomainDeviceModifyLive, this.DeviceFile!);
+            await this.RemoveDisk(conn, VirDomainDeviceModifyLive, this.DeviceFile!).ConfigureAwait(false);
         }
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, -1, 0, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, -1, 0, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }
@@ -40,13 +40,13 @@ public class RemoveVirtHardDisk : PwshVirtCmdlet
     {
         uint xflags = (flags == VirDomainDeviceModifyLive) ? 0 : (uint)VirDomainXmlInactive;
 
-        var xml = await conn.Client.DomainGetXmlDescAsync(this.Domain!.Self, xflags, this.Cancellation!.Token);
+        var xml = await conn.Client.DomainGetXmlDescAsync(this.Domain!.Self, xflags, this.Cancellation!.Token).ConfigureAwait(false);
         return Serializer.Deserialize<Libvirt.Model.Domain>(xml);
     }
 
     private async Task RemoveDisk(Connection conn, VirDomainDeviceModifyFlags flags, string targetDev)
     {
-        var dom = await this.GetDomainModel(conn, flags);
+        var dom = await this.GetDomainModel(conn, flags).ConfigureAwait(false);
 
         var disk = dom.Devices.Disk.FirstOrDefault(i => i.Target.Dev == targetDev);
         if (disk is null)
@@ -56,6 +56,6 @@ public class RemoveVirtHardDisk : PwshVirtCmdlet
 
         var xml = Serializer.Serialize(disk);
 
-        await conn.Client.DomainDetachDeviceFlagsAsync(this.Domain!.Self, xml, (uint)flags, this.Cancellation!.Token);
+        await conn.Client.DomainDetachDeviceFlagsAsync(this.Domain!.Self, xml, (uint)flags, this.Cancellation!.Token).ConfigureAwait(false);
     }
 }

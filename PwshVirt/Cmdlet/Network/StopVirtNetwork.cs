@@ -14,13 +14,13 @@ public class StopVirtNetwork : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        await conn.Client.NetworkDestroyAsync(this.Network!.Self, this.Cancellation!.Token);
+        await conn.Client.NetworkDestroyAsync(this.Network!.Self, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var active = await NetworkUtility.WaitForState(conn, this.Network, 0, this.Cancellation!.Token);
+        var active = await NetworkUtility.WaitForState(conn, this.Network, 0, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var net = await conn.Client.NetworkLookupByNameAsync(this.Network.Name, this.Cancellation!.Token);
+        var net = await conn.Client.NetworkLookupByNameAsync(this.Network.Name, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var persistent = await conn.Client.NetworkIsPersistentAsync(net, this.Cancellation!.Token);
+        var persistent = await conn.Client.NetworkIsPersistentAsync(net, this.Cancellation!.Token).ConfigureAwait(false);
 
         var model = new Network(conn, net, active, persistent);
 

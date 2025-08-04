@@ -19,9 +19,9 @@ public class ExportVirtStorageVol : PwshVirtCmdlet
 
         using (var file = File.Open(this.Destination!.FullName, FileMode.Create, FileAccess.Write))
         {
-            using var virStream = await conn.Client.StorageVolDownloadAsync(this.Vol!.Self, 0, 0, 0, this.Cancellation!.Token);
-            await virStream.CopyToAsync(file, 1 * 1024 * 1024, this.Cancellation!.Token);
-            await file.FlushAsync(this.Cancellation!.Token);
+            using var virStream = await conn.Client.StorageVolDownloadAsync(this.Vol!.Self, 0, 0, 0, this.Cancellation!.Token).ConfigureAwait(false);
+            await virStream.CopyToAsync(file, 1 * 1024 * 1024, this.Cancellation!.Token).ConfigureAwait(false);
+            await file.FlushAsync(this.Cancellation!.Token).ConfigureAwait(false);
         }
 
         this.SetResult(this.Destination);

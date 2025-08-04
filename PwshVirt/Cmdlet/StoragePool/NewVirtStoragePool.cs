@@ -1,6 +1,7 @@
 ﻿namespace PwshVirt;
 
 using Libvirt.Model;
+using System.Globalization;
 
 [OutputType(typeof(StoragePool))]
 [Cmdlet(VerbsCommon.New, VerbsVirt.StoragePool, DefaultParameterSetName = KeyDir)]
@@ -57,9 +58,9 @@ public class NewVirtStoragePool : PwshVirtCmdlet
 
         try
         {
-            _ = await conn.Client.StoragePoolLookupByNameAsync(this.Name, this.Cancellation!.Token);
+            _ = await conn.Client.StoragePoolLookupByNameAsync(this.Name, this.Cancellation!.Token).ConfigureAwait(false);
             throw new PwshVirtException(
-                string.Format(Resource.ERR_AlreadyExistStoragePool, this.Name),
+                string.Format(CultureInfo.CurrentCulture, Resource.ERR_AlreadyExistStoragePool, this.Name),
                 ErrorCategory.InvalidArgument);
         }
         catch (VirtException e) when (e.Error.Code == 49)
@@ -76,9 +77,9 @@ public class NewVirtStoragePool : PwshVirtCmdlet
             _ => throw new InvalidProgramException(),
         };
 
-        var pool = await conn.Client.StoragePoolDefineXmlAsync(xml, NotUsed, this.Cancellation!.Token);
+        var pool = await conn.Client.StoragePoolDefineXmlAsync(xml, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var model = await StoragePoolUtility.GetPool(conn, pool, this.Cancellation!.Token);
+        var model = await StoragePoolUtility.GetPool(conn, pool, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }

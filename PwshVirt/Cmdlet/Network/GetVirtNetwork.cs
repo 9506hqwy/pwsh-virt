@@ -24,10 +24,10 @@ public class GetVirtNetwork : PwshVirtCmdlet
         switch (this.ParameterSetName)
         {
             case KeyAll:
-                await this.GetAll(conn);
+                await this.GetAll(conn).ConfigureAwait(false);
                 break;
             case KeyName:
-                await this.GetByName(conn, this.Name!);
+                await this.GetByName(conn, this.Name!).ConfigureAwait(false);
                 break;
             default:
                 throw new InvalidProgramException();
@@ -37,7 +37,7 @@ public class GetVirtNetwork : PwshVirtCmdlet
     private async Task GetAll(Connection conn)
     {
         var flags = VirConnectListNetworksInactive | VirConnectListNetworksActive;
-        (var ifaces, var num) = await conn.Client.ConnectListAllNetworksAsync(1, (uint)flags, this.Cancellation!.Token);
+        (var ifaces, var num) = await conn.Client.ConnectListAllNetworksAsync(1, (uint)flags, this.Cancellation!.Token).ConfigureAwait(false);
 
         var models = new List<Network>();
 
@@ -45,8 +45,8 @@ public class GetVirtNetwork : PwshVirtCmdlet
         {
             foreach (var net in ifaces)
             {
-                var active = await conn.Client.NetworkIsActiveAsync(net, this.Cancellation!.Token);
-                var persistent = await conn.Client.NetworkIsPersistentAsync(net, this.Cancellation!.Token);
+                var active = await conn.Client.NetworkIsActiveAsync(net, this.Cancellation!.Token).ConfigureAwait(false);
+                var persistent = await conn.Client.NetworkIsPersistentAsync(net, this.Cancellation!.Token).ConfigureAwait(false);
                 var model = new Network(conn, net, active, persistent);
                 models.Add(model);
             }
@@ -57,11 +57,11 @@ public class GetVirtNetwork : PwshVirtCmdlet
 
     private async Task GetByName(Connection conn, string name)
     {
-        var net = await conn.Client.NetworkLookupByNameAsync(name, this.Cancellation!.Token);
+        var net = await conn.Client.NetworkLookupByNameAsync(name, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var active = await conn.Client.NetworkIsActiveAsync(net, this.Cancellation!.Token);
+        var active = await conn.Client.NetworkIsActiveAsync(net, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var persistent = await conn.Client.NetworkIsPersistentAsync(net, this.Cancellation!.Token);
+        var persistent = await conn.Client.NetworkIsPersistentAsync(net, this.Cancellation!.Token).ConfigureAwait(false);
 
         var model = new Network(conn, net, active, persistent);
 

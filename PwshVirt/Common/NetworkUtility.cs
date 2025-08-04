@@ -12,9 +12,9 @@ internal static class NetworkUtility
 
         do
         {
-            await Task.Delay(1000, cancellationToken);
+            await Task.Delay(1000, cancellationToken).ConfigureAwait(false);
 
-            state = await conn.Client.NetworkIsActiveAsync(net.Self, cancellationToken);
+            state = await conn.Client.NetworkIsActiveAsync(net.Self, cancellationToken).ConfigureAwait(false);
         }
         while (state != desired);
 

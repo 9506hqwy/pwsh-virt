@@ -31,10 +31,10 @@ public class RestartVirtDomain : PwshVirtCmdlet
         switch (this.ParameterSetName)
         {
             case KeyReboot:
-                await this.RebootGuest(conn);
+                await this.RebootGuest(conn).ConfigureAwait(false);
                 break;
             case KeyReset:
-                await this.Reset(conn);
+                await this.Reset(conn).ConfigureAwait(false);
                 break;
             default:
                 throw new InvalidProgramException();
@@ -43,22 +43,22 @@ public class RestartVirtDomain : PwshVirtCmdlet
 
     private async Task RebootGuest(Connection conn)
     {
-        await conn.Client.DomainRebootAsync(this.Domain!.Self, (uint)VirDomainRebootDefault, this.Cancellation!.Token);
+        await conn.Client.DomainRebootAsync(this.Domain!.Self, (uint)VirDomainRebootDefault, this.Cancellation!.Token).ConfigureAwait(false);
 
-        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainRunning, this.Cancellation!.Token);
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainRunning, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }
 
     private async Task Reset(Connection conn)
     {
-        await conn.Client.DomainResetAsync(this.Domain!.Self, NotUsed, this.Cancellation!.Token);
+        await conn.Client.DomainResetAsync(this.Domain!.Self, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
-        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainRunning, this.Cancellation!.Token);
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainRunning, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }

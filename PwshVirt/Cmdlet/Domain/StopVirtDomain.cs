@@ -45,13 +45,13 @@ public class StopVirtDomain : PwshVirtCmdlet
         switch (this.ParameterSetName)
         {
             case KeyHibernate:
-                await this.Save(conn);
+                await this.Save(conn).ConfigureAwait(false);
                 break;
             case KeyPowerOff:
-                await this.Destroy(conn);
+                await this.Destroy(conn).ConfigureAwait(false);
                 break;
             case KeyShutdown:
-                await this.ShutdownGuest(conn);
+                await this.ShutdownGuest(conn).ConfigureAwait(false);
                 break;
             default:
                 throw new InvalidProgramException();
@@ -60,11 +60,11 @@ public class StopVirtDomain : PwshVirtCmdlet
 
     private async Task Destroy(Connection conn)
     {
-        await conn.Client.DomainDestroyAsync(this.Domain!.Self, this.Cancellation!.Token);
+        await conn.Client.DomainDestroyAsync(this.Domain!.Self, this.Cancellation!.Token).ConfigureAwait(false);
 
-        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainShutoff, this.Cancellation!.Token);
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainShutoff, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }
@@ -90,20 +90,20 @@ public class StopVirtDomain : PwshVirtCmdlet
 
         var task = conn.Client.DomainManagedSaveAsync(this.Domain!.Self, flags, this.Cancellation!.Token);
 
-        await this.WaitForTaskCompleted(conn, task, KeyHibernate);
+        await this.WaitForTaskCompleted(conn, task, KeyHibernate).ConfigureAwait(false);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, -1, 0, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, -1, 0, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }
 
     private async Task ShutdownGuest(Connection conn)
     {
-        await conn.Client.DomainShutdownAsync(this.Domain!.Self, this.Cancellation!.Token);
+        await conn.Client.DomainShutdownAsync(this.Domain!.Self, this.Cancellation!.Token).ConfigureAwait(false);
 
-        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainShutoff, this.Cancellation!.Token);
+        (var state, var stateReason) = await DomainUtility.WaitForState(conn, this.Domain, VirDomainShutoff, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain.Name, state, stateReason, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }
@@ -116,7 +116,7 @@ public class StopVirtDomain : PwshVirtCmdlet
         {
             while (!task.IsCompleted)
             {
-                var info = await conn.Client.DomainGetJobInfoAsync(this.Domain!.Self, this.Cancellation!.Token);
+                var info = await conn.Client.DomainGetJobInfoAsync(this.Domain!.Self, this.Cancellation!.Token).ConfigureAwait(false);
 
                 var percentRemain = info.DataTotal == 0 ? 100 : (int)(info.DataRemaining * 100 / info.DataTotal);
                 percentRemain =
@@ -128,7 +128,7 @@ public class StopVirtDomain : PwshVirtCmdlet
 
                 this.SetProgress(taskName, 100 - percentRemain);
 
-                await Task.Delay(500);
+                await Task.Delay(500).ConfigureAwait(false);
             }
         }
         catch (VirtException e) when (e.Error.Code == 55)
@@ -138,6 +138,6 @@ public class StopVirtDomain : PwshVirtCmdlet
 
         this.SetProgress(taskName, 100);
 
-        await task;
+        await task.ConfigureAwait(false);
     }
 }

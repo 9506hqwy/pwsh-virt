@@ -40,15 +40,15 @@ public class NewVirtCdDrive : PwshVirtCmdlet
 
         var xml = Serializer.Serialize(drive);
 
-        await DomainUtility.AttachDevice(conn, this.Domain!, xml, this.Cancellation!.Token);
+        await DomainUtility.AttachDevice(conn, this.Domain!, xml, this.Cancellation!.Token).ConfigureAwait(false);
 
-        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, -1, 0, this.Cancellation.Token);
+        var model = await DomainUtility.GetDomain(conn, this.Domain!.Name, -1, 0, this.Cancellation.Token).ConfigureAwait(false);
 
-        var domainXml = await conn.Client.DomainGetXmlDescAsync(this.Domain.Self, (uint)VirDomainXmlInactive, this.Cancellation.Token);
+        var domainXml = await conn.Client.DomainGetXmlDescAsync(this.Domain.Self, (uint)VirDomainXmlInactive, this.Cancellation.Token).ConfigureAwait(false);
 
         var domainModel = Serializer.Deserialize<Libvirt.Model.Domain>(domainXml);
 
-        var newDrive = domainModel.Devices.Disk.FirstOrDefault(d => d.Target.Dev == this.DeviceFile);
+        var newDrive = domainModel.Devices.Disk.First(d => d.Target.Dev == this.DeviceFile);
         var newModel = new CdDrive(conn, this.Domain.Self, newDrive);
 
         this.SetResult(newModel);

@@ -24,10 +24,10 @@ public class GetVirtDomain : PwshVirtCmdlet
         switch (this.ParameterSetName)
         {
             case KeyAll:
-                await this.GetAll(conn);
+                await this.GetAll(conn).ConfigureAwait(false);
                 break;
             case KeyName:
-                await this.GetByName(conn, this.Name!);
+                await this.GetByName(conn, this.Name!).ConfigureAwait(false);
                 break;
             default:
                 throw new InvalidProgramException();
@@ -37,7 +37,7 @@ public class GetVirtDomain : PwshVirtCmdlet
     private async Task GetAll(Connection conn)
     {
         var flags = VirConnectListDomainsActive | VirConnectListDomainsInactive;
-        (var doms, var num) = await conn.Client.ConnectListAllDomainsAsync(1, (uint)flags, this.Cancellation!.Token);
+        (var doms, var num) = await conn.Client.ConnectListAllDomainsAsync(1, (uint)flags, this.Cancellation!.Token).ConfigureAwait(false);
 
         var models = new List<Domain>();
 
@@ -45,7 +45,7 @@ public class GetVirtDomain : PwshVirtCmdlet
         {
             foreach (var dom in doms)
             {
-                var model = await DomainUtility.GetDomain(conn, dom.Name, -1, 0, this.Cancellation!.Token);
+                var model = await DomainUtility.GetDomain(conn, dom.Name, -1, 0, this.Cancellation!.Token).ConfigureAwait(false);
                 models.Add(model);
             }
         }
@@ -55,7 +55,7 @@ public class GetVirtDomain : PwshVirtCmdlet
 
     private async Task GetByName(Connection conn, string name)
     {
-        var model = await DomainUtility.GetDomain(conn, name, -1, 0, this.Cancellation!.Token);
+        var model = await DomainUtility.GetDomain(conn, name, -1, 0, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(model);
     }

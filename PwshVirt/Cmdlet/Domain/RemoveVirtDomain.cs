@@ -58,7 +58,7 @@ public class RemoveVirtDomain : PwshVirtCmdlet
             flags |= (uint)VirDomainUndefineTpm;
         }
 
-        await conn.Client.DomainUndefineFlagsAsync(this.Domain!.Self, flags, this.Cancellation!.Token);
+        await conn.Client.DomainUndefineFlagsAsync(this.Domain!.Self, flags, this.Cancellation!.Token).ConfigureAwait(false);
 
         this.SetResult(this.Domain);
     }

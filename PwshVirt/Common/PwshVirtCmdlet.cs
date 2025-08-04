@@ -1,9 +1,12 @@
 ﻿namespace PwshVirt;
 
 using System.Collections.Concurrent;
+using System.Globalization;
 
-public abstract class PwshVirtCmdlet : PSCmdlet
+public abstract class PwshVirtCmdlet : PSCmdlet, IDisposable
 {
+    private bool disposed;
+
     private ConcurrentQueue<Message?>? messages;
 
     private ManualResetEventSlim? hasMessage;
@@ -16,6 +19,29 @@ public abstract class PwshVirtCmdlet : PSCmdlet
         // その後に追加したコールバックが呼び出されなくなるため、
         // ダミーで 1 つ登録しておく。
         Console.CancelKeyPress += (a, b) => { };
+    }
+
+    public void Dispose()
+    {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (this.disposed)
+        {
+            return;
+        }
+
+        if (disposing)
+        {
+            this.messages = null;
+            this.hasMessage?.Dispose();
+            this.hasMessage = null;
+        }
+
+        this.disposed = true;
     }
 
     internal CancellationTokenSource? Cancellation
@@ -76,7 +102,7 @@ public abstract class PwshVirtCmdlet : PSCmdlet
     {
         try
         {
-            await this.Execute();
+            await this.Execute().ConfigureAwait(false);
             this.SetWorkCompleted();
         }
         catch
@@ -94,9 +120,7 @@ public abstract class PwshVirtCmdlet : PSCmdlet
 
     protected override void EndProcessing()
     {
-        this.messages = null;
-        this.hasMessage!.Dispose();
-        this.hasMessage = null;
+        this.Dispose();
     }
 
     protected sealed override void ProcessRecord()
@@ -137,14 +161,14 @@ public abstract class PwshVirtCmdlet : PSCmdlet
         }
         catch (AggregateException ae) when (ae.InnerException is PwshVirtException e)
         {
-            this.WriteVerbose(string.Format("{0}", e));
+            this.WriteVerbose(string.Format(CultureInfo.CurrentCulture, "{0}", e));
 
             var error = new ErrorRecord(e, e.GetType().FullName, e.Category, this);
             this.ThrowTerminatingError(error);
         }
         catch (AggregateException ae)
         {
-            this.WriteVerbose(string.Format("{0}", ae.InnerException));
+            this.WriteVerbose(string.Format(CultureInfo.CurrentCulture, "{0}", ae.InnerException));
 
             var e = ae.InnerException!;
             var error = new ErrorRecord(e, e.GetType().FullName, ErrorCategory.NotSpecified, this);
@@ -152,7 +176,7 @@ public abstract class PwshVirtCmdlet : PSCmdlet
         }
         catch (Exception e)
         {
-            this.WriteVerbose(string.Format("{0}", e));
+            this.WriteVerbose(string.Format(CultureInfo.CurrentCulture, "{0}", e));
 
             var error = new ErrorRecord(e, e.GetType().FullName, ErrorCategory.NotSpecified, this);
             this.ThrowTerminatingError(error);

@@ -29,18 +29,18 @@ public class CopyVirtStorageVol : PwshVirtCmdlet
     {
         var conn = this.GetConnection(this.Server, out var _);
 
-        var xml = await conn.Client.StorageVolGetXmlDescAsync(this.Source!.Self, NotUsed, this.Cancellation!.Token);
+        var xml = await conn.Client.StorageVolGetXmlDescAsync(this.Source!.Self, NotUsed, this.Cancellation!.Token).ConfigureAwait(false);
 
         using var reader = new StringReader(xml);
 
         var elem = XElement.Load(reader);
 
         var name = elem.XPathSelectElements("./name").FirstOrDefault() ?? throw new PwshVirtException(ErrorCategory.InvalidOperation);
-        name.Value = this.Name;
+        name.Value = this.Name!;
 
         var newXml = elem.ToString();
 
-        var pool = await conn.Client.StoragePoolLookupByVolumeAsync(this.Source.Self, this.Cancellation.Token);
+        var pool = await conn.Client.StoragePoolLookupByVolumeAsync(this.Source.Self, this.Cancellation.Token).ConfigureAwait(false);
 
         uint flags = 0;
 
@@ -54,9 +54,9 @@ public class CopyVirtStorageVol : PwshVirtCmdlet
             flags |= (uint)VirStorageVolCreateReflink;
         }
 
-        var newVol = await conn.Client.StorageVolCreateXmlFromAsync(pool, newXml, this.Source.Self, flags, this.Cancellation.Token);
+        var newVol = await conn.Client.StorageVolCreateXmlFromAsync(pool, newXml, this.Source.Self, flags, this.Cancellation.Token).ConfigureAwait(false);
 
-        (var type, var _, var _) = await conn.Client.StorageVolGetInfoAsync(newVol, this.Cancellation!.Token);
+        (var type, var _, var _) = await conn.Client.StorageVolGetInfoAsync(newVol, this.Cancellation!.Token).ConfigureAwait(false);
 
         var model = new StorageVol(conn, newVol, type);
 
