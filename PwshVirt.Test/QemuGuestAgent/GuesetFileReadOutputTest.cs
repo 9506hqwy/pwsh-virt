@@ -11,6 +11,6 @@ public class GuesetFileReadOutputTest
         Assert.IsNotNull(m.Return);
         Assert.AreEqual(1, m.Return.Count);
         Assert.AreEqual("YQ==", m.Return.BufB64);
-        Assert.AreEqual(true, m.Return.Eof);
+        Assert.IsTrue(m.Return.Eof);
     }
 }

@@ -23,23 +23,20 @@ public class UtilityTest
     }
 
     [TestMethod]
-    [ExpectedException(typeof(PwshVirtException))]
     public void GetScaledSizeToBytesInvalidScale()
     {
-        _ = Utility.GetScaledSizeToBytes("1a");
+        _ = Assert.ThrowsExactly<PwshVirtException>(() => Utility.GetScaledSizeToBytes("1a"));
     }
 
     [TestMethod]
-    [ExpectedException(typeof(PwshVirtException))]
     public void GetScaledSizeToBytesInvalidUnit()
     {
-        _ = Utility.GetScaledSizeToBytes("1ik");
+        _ = Assert.ThrowsExactly<PwshVirtException>(() => Utility.GetScaledSizeToBytes("1ik"));
     }
 
     [TestMethod]
-    [ExpectedException(typeof(PwshVirtException))]
     public void GetScaledSizeToBytesNoNumber()
     {
-        _ = Utility.GetScaledSizeToBytes("a");
+        _ = Assert.ThrowsExactly<PwshVirtException>(() => Utility.GetScaledSizeToBytes("a"));
     }
 }

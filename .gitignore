@@ -403,3 +403,6 @@ doc/api/
 
 # test coverage
 coverage_html/
+
+# NuGet lock file
+packages.lock.json
