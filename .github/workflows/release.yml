@@ -13,7 +13,7 @@ jobs:
     - name: Setup Git
       run: git config --global core.autocrlf false
 
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
 
     - name: Install platyPS
       run: |
