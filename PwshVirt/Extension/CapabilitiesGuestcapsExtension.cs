@@ -25,7 +25,7 @@ internal static class CapabilitiesGuestcapsExtension
 
         return new Libvirt.Model.Domain
         {
-            Type = Utility.ConvertStringToXmlEnum<DomainHvs>(domCaps.Domain),
+            Type = Utility.ConvertStringToXmlEnum<Virttype>(domCaps.Domain),
             Os = new DomainOs
             {
                 Type = new DomainOsType
@@ -108,9 +108,9 @@ internal static class CapabilitiesGuestcapsExtension
             };
     }
 
-    internal static CapabilitiesDomainType GetRecommendedDomainType(this CapabilitiesGuestcaps self)
+    internal static Virttype GetRecommendedDomainType(this CapabilitiesGuestcaps self)
     {
-        return self.Arch.Domain.Any(d => d.Type == CapabilitiesDomainType.Kvm) ? CapabilitiesDomainType.Kvm : self.Arch.Domain.First().Type;
+        return self.Arch.Domain.Any(d => d.Type == Virttype.Kvm) ? Virttype.Kvm : self.Arch.Domain.First().Type;
     }
 
     internal static string GetRecommendedMachine(this CapabilitiesGuestcaps self)

@@ -48,7 +48,7 @@ public class NewVirtDomain : PwshVirtCmdlet
         var emulatorbin = guestCaps.Arch.Emulator;
         var arch = Utility.ConvertXmlEnumToString<Archnames>(guestCaps.Arch.Name);
         var machine = guestCaps.GetRecommendedMachine();
-        var virtType = Utility.ConvertXmlEnumToString<CapabilitiesDomainType>(guestCaps.GetRecommendedDomainType());
+        var virtType = Utility.ConvertXmlEnumToString<Virttype>(guestCaps.GetRecommendedDomainType());
 
         var domCapsXml = await conn.Client.ConnectGetDomainCapabilitiesAsync(
             new Xdr.XdrOption<string>(emulatorbin),

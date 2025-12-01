@@ -28,9 +28,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LibvirtHeader" Version="11.9.0" />
-    <PackageReference Include="LibvirtModel" Version="11.9.0" />
-    <PackageReference Include="LibvirtRemote" Version="11.9.0" />
+    <PackageReference Include="LibvirtHeader" Version="11.10.0" />
+    <PackageReference Include="LibvirtModel" Version="11.10.0" />
+    <PackageReference Include="LibvirtRemote" Version="11.10.0" />
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.1">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
