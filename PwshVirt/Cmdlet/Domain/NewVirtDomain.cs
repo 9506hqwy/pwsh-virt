@@ -92,7 +92,7 @@ public class NewVirtDomain : PwshVirtCmdlet
     private void SetDomainMemory(Libvirt.Model.Domain domain)
     {
         var capacityKB = this.Memory is not null ?
-            Utility.GetScaledSizeToBytes(this.Memory!) / 1024 :
+            Utility.GetScaledSizeToBytes(this.Memory) / 1024 :
             128 * 1024;
 
         domain.Memory = new DomainMemory

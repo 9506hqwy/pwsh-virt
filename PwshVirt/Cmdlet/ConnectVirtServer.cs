@@ -146,7 +146,7 @@ public class ConnectVirtServer : PwshVirtCmdlet
             : this.Port != 0 ?
             this.Port :
             this.Uri is not null ?
-            this.Uri!.Port :
+            this.Uri.Port :
             transport == "tls" ?
             DefaultTlsPort :
             DefaultTcpPort;

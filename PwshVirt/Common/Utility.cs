@@ -9,19 +9,19 @@ internal static class Utility
 {
     internal static string ConvertXmlEnumToString<T>(object obj)
     {
-        var field = typeof(T).GetField(obj.ToString()!);
-        var attr = field!.GetCustomAttribute<XmlEnumAttribute>();
-        return attr!.Name!;
+        var field = typeof(T).GetField(obj.ToString());
+        var attr = field.GetCustomAttribute<XmlEnumAttribute>();
+        return attr.Name;
     }
 
     internal static T ConvertStringToXmlEnum<T>(string value)
     {
         foreach (var field in typeof(T).GetFields())
         {
-            var attr = field!.GetCustomAttribute<XmlEnumAttribute>();
+            var attr = field.GetCustomAttribute<XmlEnumAttribute>();
             if (attr is not null && attr.Name == value)
             {
-                return (T)field.GetValue(null)!;
+                return (T)field.GetValue(null);
             }
         }
 

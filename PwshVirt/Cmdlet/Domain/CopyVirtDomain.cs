@@ -144,7 +144,7 @@ public class CopyVirtDomain : PwshVirtCmdlet
     private void InitDomain(Libvirt.Model.Domain model)
     {
         model.Id = 0;
-        model.Name = this.Name!;
+        model.Name = this.Name;
         model.Title = null;
         model.Uuid = null;
 

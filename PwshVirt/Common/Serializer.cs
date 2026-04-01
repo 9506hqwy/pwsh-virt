@@ -13,7 +13,7 @@ internal static class Serializer
         _ = mem.Seek(0, SeekOrigin.Begin);
 
 #pragma warning disable CA5369
-        return (T)ser.Deserialize(mem)!;
+        return (T)ser.Deserialize(mem);
 #pragma warning restore CA5369
     }
 

@@ -46,7 +46,7 @@ public class PwshVirtException : Exception
     {
         this.Category = (ErrorCategory)info.GetValue(
             nameof(this.Category),
-            typeof(ErrorCategory))!;
+            typeof(ErrorCategory));
     }
 #endif
 
