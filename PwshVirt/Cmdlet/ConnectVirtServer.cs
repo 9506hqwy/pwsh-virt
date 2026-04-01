@@ -119,9 +119,11 @@ public class ConnectVirtServer : PwshVirtCmdlet
     {
         return
             !string.IsNullOrWhiteSpace(this.Driver) ?
+#pragma warning disable IDE0370 // for .Net Standard 2.0 compatibility
             this.Driver! :
+#pragma warning restore IDE0370
             this.Uri is not null ?
-            this.Uri!.Scheme.Split('+').First() :
+            this.Uri.Scheme.Split('+').First() :
             DefaultDriver;
     }
 
@@ -131,7 +133,9 @@ public class ConnectVirtServer : PwshVirtCmdlet
 
         return
             !string.IsNullOrWhiteSpace(this.Name) ?
+#pragma warning disable IDE0370 // for .Net Standard 2.0 compatibility
             this.Name! :
+#pragma warning restore IDE0370
             this.Uri is not null ?
             $"{driver}://{this.Uri.AbsolutePath}" :
             $"{DefaultDriver}://{DefaultPath}";
@@ -156,9 +160,11 @@ public class ConnectVirtServer : PwshVirtCmdlet
     {
         return
             !string.IsNullOrWhiteSpace(this.Server) ?
+#pragma warning disable IDE0370 // for .Net Standard 2.0 compatibility
             this.Server! :
+#pragma warning restore IDE0370
             this.Uri is not null ?
-            this.Uri!.Host :
+            this.Uri.Host :
             DefaultServer;
     }
 
@@ -193,9 +199,11 @@ public class ConnectVirtServer : PwshVirtCmdlet
     {
         return
             !string.IsNullOrWhiteSpace(this.Transport) ?
+#pragma warning disable IDE0370 // for .Net Standard 2.0 compatibility
             this.Transport! :
+#pragma warning restore IDE0370
             this.Uri is not null ?
-            this.Uri!.Scheme.Split(['+'], 2).Last() :
+            this.Uri.Scheme.Split(['+'], 2).Last() :
             DefaultTransport;
     }
 

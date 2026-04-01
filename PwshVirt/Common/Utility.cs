@@ -9,9 +9,11 @@ internal static class Utility
 {
     internal static string ConvertXmlEnumToString<T>(object obj)
     {
-        var field = typeof(T).GetField(obj.ToString());
-        var attr = field.GetCustomAttribute<XmlEnumAttribute>();
-        return attr.Name;
+#pragma warning disable IDE0370 // for .Net Standard 2.0 compatibility
+        var field = typeof(T).GetField(obj.ToString()!);
+        var attr = field!.GetCustomAttribute<XmlEnumAttribute>();
+        return attr!.Name!;
+#pragma warning restore IDE0370
     }
 
     internal static T ConvertStringToXmlEnum<T>(string value)
@@ -21,7 +23,9 @@ internal static class Utility
             var attr = field.GetCustomAttribute<XmlEnumAttribute>();
             if (attr is not null && attr.Name == value)
             {
-                return (T)field.GetValue(null);
+#pragma warning disable IDE0370 // for .Net Standard 2.0 compatibility
+                return (T)field.GetValue(null)!;
+#pragma warning restore IDE0370
             }
         }
 

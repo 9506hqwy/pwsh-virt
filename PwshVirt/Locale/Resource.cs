@@ -11,17 +11,19 @@ internal static class Resource
     private static readonly ResourceManager Rm = new("PwshVirt.Resource", typeof(Resource).Assembly);
 #endif
 
-    internal static string ERR_AlreadyExistStoragePool => Rm.GetString("ERR_AlreadyExistStoragePool", CultureInfo.CurrentCulture);
+#pragma warning disable IDE0370 // for .Net Standard 2.0 compatibility
+    internal static string ERR_AlreadyExistStoragePool => Rm.GetString("ERR_AlreadyExistStoragePool", CultureInfo.CurrentCulture)!;
 
-    internal static string ERR_AlreadyExistStorageVol => Rm.GetString("ERR_AlreadyExistStorageVol", CultureInfo.CurrentCulture);
+    internal static string ERR_AlreadyExistStorageVol => Rm.GetString("ERR_AlreadyExistStorageVol", CultureInfo.CurrentCulture)!;
 
-    internal static string ERR_CopyVirtDomain_ShouldContainDomainNameInDisk => Rm.GetString("ERR_CopyVirtDomain_ShouldContainDomainNameInDisk", CultureInfo.CurrentCulture);
+    internal static string ERR_CopyVirtDomain_ShouldContainDomainNameInDisk => Rm.GetString("ERR_CopyVirtDomain_ShouldContainDomainNameInDisk", CultureInfo.CurrentCulture)!;
 
-    internal static string ERR_InvalidFormat => Rm.GetString("ERR_InvalidFormat", CultureInfo.CurrentCulture);
+    internal static string ERR_InvalidFormat => Rm.GetString("ERR_InvalidFormat", CultureInfo.CurrentCulture)!;
 
-    internal static string ERR_NotFoundDomainDevice => Rm.GetString("ERR_NotFoundDomainDevice", CultureInfo.CurrentCulture);
+    internal static string ERR_NotFoundDomainDevice => Rm.GetString("ERR_NotFoundDomainDevice", CultureInfo.CurrentCulture)!;
 
-    internal static string ERR_ShouldConnectVirtServer => Rm.GetString("ERR_ShouldConnectVirtServer", CultureInfo.CurrentCulture);
+    internal static string ERR_ShouldConnectVirtServer => Rm.GetString("ERR_ShouldConnectVirtServer", CultureInfo.CurrentCulture)!;
 
-    internal static string ERR_ShouldPowerOffDomain => Rm.GetString("ERR_ShouldPowerOffDomain", CultureInfo.CurrentCulture);
+    internal static string ERR_ShouldPowerOffDomain => Rm.GetString("ERR_ShouldPowerOffDomain", CultureInfo.CurrentCulture)!;
+#pragma warning restore IDE0370
 }

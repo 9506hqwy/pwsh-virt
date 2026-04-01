@@ -12,9 +12,11 @@ internal static class Serializer
         using var mem = new MemoryStream(Encoding.UTF8.GetBytes(value));
         _ = mem.Seek(0, SeekOrigin.Begin);
 
+#pragma warning disable IDE0370 // for .Net Standard 2.0 compatibility
 #pragma warning disable CA5369
-        return (T)ser.Deserialize(mem);
+        return (T)ser.Deserialize(mem)!;
 #pragma warning restore CA5369
+#pragma warning restore IDE0370
     }
 
     internal static string Serialize<T>(T obj)
