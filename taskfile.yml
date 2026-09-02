@@ -1,0 +1,26 @@
+version: '3'
+
+tasks:
+  format:
+    cmds:
+      - dotnet format pwsh-virt.sln
+
+  debug-build:
+    cmds:
+      - dotnet build pwsh-virt.sln
+
+  release-build:
+    cmds:
+      - dotnet build -c Release pwsh-virt.sln
+
+  test:
+    cmds:
+      - dotnet test pwsh-virt.sln
+
+  doc-gen:
+    cmds:
+      - docfx doc/docfx.json
+
+  pkg-gen:
+    cmds:
+      - dotnet pack -o ./artifacts
