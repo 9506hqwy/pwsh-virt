@@ -1,5 +1,5 @@
 {
-    "dotnet.defaultSolution": "pwsh-virt.sln",
+    "dotnet.defaultSolution": "pwsh-virt.slnx",
     "editor.codeLens": false,
     "editor.formatOnPaste": false,
     "editor.formatOnSave": true,

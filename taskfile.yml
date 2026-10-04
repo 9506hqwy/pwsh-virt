@@ -3,19 +3,19 @@ version: '3'
 tasks:
   format:
     cmds:
-      - dotnet format pwsh-virt.sln
+      - dotnet format pwsh-virt.slnx
 
   debug-build:
     cmds:
-      - dotnet build pwsh-virt.sln
+      - dotnet build pwsh-virt.slnx
 
   release-build:
     cmds:
-      - dotnet build -c Release pwsh-virt.sln
+      - dotnet build -c Release pwsh-virt.slnx
 
   test:
     cmds:
-      - dotnet test pwsh-virt.sln
+      - dotnet test pwsh-virt.slnx
 
   doc-gen:
     cmds:
@@ -24,3 +24,9 @@ tasks:
   pkg-gen:
     cmds:
       - dotnet pack -o ./artifacts
+
+  sbom-gen:
+    cmds:
+      - mkdir -p artifacts
+      - find ./artifacts -name "*.sbom.json" -delete
+      - ./Tools/gen-sbom.sh -o ./artifacts

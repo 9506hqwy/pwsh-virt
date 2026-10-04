@@ -9,7 +9,7 @@ pre-commit:
         - ".editorconfig"
         - "global.json"
         - "packages.lock.json"
-      run: dotnet format pwsh-virt.sln --verify-no-changes
+      run: dotnet format pwsh-virt.slnx --verify-no-changes
 
     - name: dotnet Test
       glob:
@@ -20,7 +20,7 @@ pre-commit:
         - ".editorconfig"
         - "global.json"
         - "packages.lock.json"
-      run: dotnet test pwsh-virt.sln
+      run: dotnet test pwsh-virt.slnx
 
     - name: Actions Lint
       glob: ".github/workflows/*.yml"

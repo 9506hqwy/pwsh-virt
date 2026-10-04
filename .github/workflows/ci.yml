@@ -44,16 +44,16 @@ jobs:
         dotnet nuget add source --name local "${LOCALPKG}"
 
     - name: Restore Dependencies
-      run: dotnet restore pwsh-virt.sln
+      run: dotnet restore pwsh-virt.slnx
 
     - name: Build Debug
-      run: dotnet build pwsh-virt.sln --no-restore
+      run: dotnet build pwsh-virt.slnx --no-restore
 
     - name: Check Format
-      run: dotnet format pwsh-virt.sln --no-restore --verify-no-changes
+      run: dotnet format pwsh-virt.slnx --no-restore --verify-no-changes
 
     - name: Run Tests
-      run: dotnet test pwsh-virt.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory .\coverage
+      run: dotnet test pwsh-virt.slnx --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory .\coverage
 
     - name: Create Artifacts
       run: dotnet msbuild release.proj

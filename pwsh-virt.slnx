@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="PwshVirt.Test/PwshVirt.Test.csproj" />
+  <Project Path="PwshVirt/PwshVirt.csproj" />
+</Solution>
