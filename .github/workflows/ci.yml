@@ -33,16 +33,6 @@ jobs:
         Set-PSRepository PSGallery -InstallationPolicy Trusted
         Install-Module -Name Microsoft.PowerShell.PlatyPS -Scope CurrentUser
 
-    - name: Prepare Dependencies
-      run: |
-        $LOCALPKG = $(Join-Path ${env:TEMP} $(New-Guid))
-        mkdir "${LOCALPKG}"
-        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/xdr-net/releases/download/0.4.0/Xdr.0.4.0.nupkg
-        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-schema-net/releases/download/12.8.0/LibvirtModel.12.8.0.nupkg
-        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-remote-net/releases/download/12.8.0/LibvirtRemote.12.8.0.nupkg
-        curl.exe -sSLO --output-dir "${LOCALPKG}" https://github.com/9506hqwy/libvirt-header-net/releases/download/12.8.0/LibvirtHeader.12.8.0.nupkg
-        dotnet nuget add source --name local "${LOCALPKG}"
-
     - name: Restore Dependencies
       run: dotnet restore pwsh-virt.slnx
 

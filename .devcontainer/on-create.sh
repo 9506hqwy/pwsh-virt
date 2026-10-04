@@ -74,11 +74,6 @@ dotnet tool install -g dotnet-trace
 # Install CycloneDX
 dotnet tool install -g CycloneDX
 
-# Add local package registry.
-export LOCALPKG=/packages
-./.github/workflows/resolve-extra-dependencies.sh
-dotnet nuget add source /packages --name local
-
 # Install PowerShell
 PWSH_VERSION="7.6.1"
 curl -fsSLO --output-dir /tmp "https://github.com/PowerShell/PowerShell/releases/download/v${PWSH_VERSION}/powershell_${PWSH_VERSION}-1.deb_amd64.deb"
